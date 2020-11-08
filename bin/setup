@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "\n=> docker-compose build"
+docker-compose build
+
+echo "\n=> start"
+docker-compose up 

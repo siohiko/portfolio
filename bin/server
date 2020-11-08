@@ -1,0 +1,27 @@
+#!/bin/sh
+
+start () {
+  echo "\n=> start services"
+  docker-compose up --force-recreate -d $1
+}
+
+restart () {
+  echo "\n=> restart services"
+  docker-compose restart $1
+}
+
+stop () {
+  echo "\n=> stop services"
+  docker-compose stop $1
+}
+
+
+if [ "$1" = 'start' ]; then
+  start $2
+elif [ "$1" = 'restart' ]; then
+  restart $2
+elif [ "$1" = 'stop' ]; then
+  stop $2
+else
+  echo "\n=> [INVALID COMMAND ERROR] commands: start, restart, stop, log"
+fi

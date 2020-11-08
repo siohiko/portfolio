@@ -1,0 +1,39 @@
+version: '3'
+services:
+  proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile.px
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.be
+    working_dir: /rails_app
+    volumes:
+      - ./rails_app/:/rails_app
+      - data-bundle:/bundle
+    depends_on:
+      - db
+    environment:
+      BUNDLE_PATH: /bundle
+    ports:
+      - 8080:8080
+    command: bash -c "rm -f tmp/pids/server.pid && bundle install && bundle exec rails s -p 8080 -b '0.0.0.0'"
+    tty: true
+    stdin_open: true
+
+  db:
+    image: postgres:11
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+
+volumes:
+  data-bundle:
+    driver: local
+
