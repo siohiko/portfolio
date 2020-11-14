@@ -18,6 +18,10 @@ services:
     volumes:
       - ./rails_app/:/rails_app
       - data-bundle:/bundle
+      # exclude volumes
+      - /rails_app/tmp
+      - /rails_app/log
+      - /rails_app/.git
     depends_on:
       - db
     environment:

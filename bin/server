@@ -2,7 +2,7 @@
 
 start () {
   echo "\n=> start services"
-  docker-compose up --force-recreate -d $1
+  docker-compose up --force-recreate $1
 }
 
 restart () {
