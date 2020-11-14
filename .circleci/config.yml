@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build:
+    machine:
+      image: circleci/classic:edge
+    steps:
+      - checkout
+      - run:
+        name: Dockerコンテナのビルド
+        command: docker-compose build
+      - run:
+        name: Dockerコンテナの起動
+        command: docker-compose up -d
+      - run:
+        name: データベースのセットアップ
+        command: docker-compose exec backend rails db:migrate RAILS_ENV=test
+      - run:
+        name: Run rspec
+        command: docker-compose exec bundle exec rspec
+      - run:
+        name: Dockerコンテナの停止
+        command: docker-compose down
