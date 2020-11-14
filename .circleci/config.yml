@@ -6,17 +6,25 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Dockerコンテナのビルド
-        command: docker-compose build
+          name: Dockerコンテナのビルド
+          command: docker-compose build
       - run:
-        name: Dockerコンテナの起動
-        command: docker-compose up -d
+          name: bundle install
+          command: docker-compose run backend bundle install
       - run:
-        name: データベースのセットアップ
-        command: docker-compose exec backend rails db:migrate RAILS_ENV=test
+          name: db:create and migrate
+          command: |
+            docker-compose run backend bundle exec rails db:create RAILS_ENV=test
+            docker-compose run backend bundle exec rails db:migrate RAILS_ENV=test
       - run:
-        name: Run rspec
-        command: docker-compose exec bundle exec rspec
+          name: webpacker
+          command: |
+            docker-compose run backend yarn install --check-files
+            docker-compose run backend sh -c "yes | bundle exec rails webpacker:install"
+            docker-compose run backend sh -c "yes | bundle exec rails webpacker:install:vue"
       - run:
-        name: Dockerコンテナの停止
-        command: docker-compose down
+          name: Run rspec
+          command: docker-compose run backend bundle exec rspec
+      - run:
+          name: Dockerコンテナの停止
+          command: docker-compose down
