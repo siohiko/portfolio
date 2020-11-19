@@ -8,16 +8,4 @@ FactoryBot.define do
     password { valid_password }
   end
 
-  #ユーザーIDが不適切なユーザー
-  factory :invalid_user_id_user, class: User do
-    user_id { "" }
-    password { valid_password }
-  end
-
-  #passwordが不適切なユーザー
-  factory :invalid_password_user, class: User do
-    user_id { "invalid_password_user" }
-    password { "" }
-  end
-
 end

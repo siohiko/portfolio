@@ -4,21 +4,37 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :authentication_keys => [:user_id]
 
+  devise :validatable, password_length: 8..128
   validates :user_id, presence: true
 
 
 
-  #deviseにてemailを使用しないようにメソッドをオーバーライド
+  #Don't use email. on divise
   def email_required?
     false
   end
 
+  #Don't use email. on divise
   def email_changed?
     false
   end
   
-  #deviseでemailを使わない時に下記メソッドでエラーが起きる。その修正がされるまでのモンキーパッチ
+  #monkey patch. Don't use email. on divise
   def will_save_change_to_email?
     false
+  end
+
+  # Do not require current password for update
+  def update_without_current_password(params, *options)
+    params.delete(:current_password)
+
+    if params[:password].blank? && params[:password_confirmation].blank?
+      params.delete(:password)
+      params.delete(:password_confirmation)
+    end
+
+    result = update_attributes(params, *options)
+    clean_up_passwords
+    result
   end
 end

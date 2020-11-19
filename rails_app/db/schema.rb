@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2020_11_16_114921) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
     t.integer "sex", default: 0, null: false
     t.integer "age"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

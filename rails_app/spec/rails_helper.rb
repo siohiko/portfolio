@@ -61,6 +61,11 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+  
+  #add devise helpers
   config.include Devise::Test::IntegrationHelpers, type: :request
+  #add FactoryBot helpers
   config.include FactoryBot::Syntax::Methods
+  #add url helpers
+  config.include Rails.application.routes.url_helpers
 end

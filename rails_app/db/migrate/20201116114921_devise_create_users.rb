@@ -15,6 +15,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
       t.datetime :remember_created_at
       t.timestamps null: false
 
+      t.string :name
       t.integer :sex,         null: false, default: 0
       t.integer :age
     end
