@@ -30,6 +30,9 @@ RSpec.describe "DeviseUsersController", type: :request do
     it { subject; expect(response).to redirect_to new_user_session_path }
   end
 
+  shared_examples_for "redirect to user_path" do
+    it { subject; expect(response).to redirect_to user_path(registered_user.user_id) }
+  end
 
   # ================== #
   # examples_for model #
@@ -131,7 +134,7 @@ RSpec.describe "DeviseUsersController", type: :request do
         let(:params) { attributes_for(:valid_user, name: "valid_user_name", sex: 1, age: 25) }
 
         it_behaves_like "return http", 302
-
+        it_behaves_like "redirect to user_path"
         it 'updates user' do
           subject
           registered_user.reload

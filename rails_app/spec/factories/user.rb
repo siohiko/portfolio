@@ -2,9 +2,9 @@ FactoryBot.define do
 
   valid_password = "valid_password"
   
-  #正当なユーザー
+  #valid_user
   factory :valid_user, class: User do
-    sequence(:user_id) { |n| "valid_user_id_#{n}" }
+    user_id { "valid_user_id" }
     password { valid_password }
   end
 
