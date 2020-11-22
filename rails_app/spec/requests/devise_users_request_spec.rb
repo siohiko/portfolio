@@ -172,4 +172,28 @@ RSpec.describe "DeviseUsersController", type: :request do
   end
 
 
+
+  # ============= #
+  # destroy action #
+  # ============= #
+  describe 'DELETE devise/registrations#destroy' do
+    subject { delete user_registration_path }
+    let(:registered_user) { create(:valid_user) }
+
+    context 'case of Logged in' do
+      before { sign_in registered_user }
+
+      it "delete user" do
+         expect{subject}.to change(User, :count).by(-1) 
+      end
+
+    end
+
+    context 'case of being not Logged in' do
+      it_behaves_like "return http", 302
+      it_behaves_like "redirect to login_path"
+    end
+
+  end
+
 end
