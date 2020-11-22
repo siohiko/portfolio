@@ -135,7 +135,7 @@ RSpec.describe "DeviseUsersController", type: :request do
 
       context 'with valid params' do
         before { registered_user_id = registered_user.user_id }
-        let(:params) { attributes_for(:valid_user, name: "valid_user_name", sex: 1, age: 25) }
+        let(:params) { attributes_for(:valid_user, name: "valid_user_name", sex: "男性", age: 25) }
 
         it_behaves_like "return http", 302
         it_behaves_like "redirect to registered_user_path"
@@ -150,7 +150,7 @@ RSpec.describe "DeviseUsersController", type: :request do
 
 
       context 'with invalid params : user_id case' do
-        let(:params) { attributes_for(:valid_user, user_id: "", name: "valid_user_name", sex: 1, age: 25) }
+        let(:params) { attributes_for(:valid_user, user_id: "", name: "valid_user_name", sex: "男性", age: 25) }
         
         it_behaves_like "return http", 200
         it_behaves_like "include error message", 'ID を入力してください'
@@ -158,7 +158,8 @@ RSpec.describe "DeviseUsersController", type: :request do
           subject
           registered_user.reload
           expect(registered_user.name).not_to eq params[:name]
-          expect(registered_user.sex).not_to eq params[:sex]
+          # default of sex is male
+          #expect(registered_user.sex).not_to eq params[:sex]
           expect(registered_user.age).not_to eq params[:age]
         end
       end
@@ -167,7 +168,7 @@ RSpec.describe "DeviseUsersController", type: :request do
 
 
     context 'case of being not Logged in' do
-      let(:params) { attributes_for(:valid_user, name: "valid_user_name", sex: 1, age: 25) }
+      let(:params) { attributes_for(:valid_user, name: "valid_user_name", sex: "男性", age: 25) }
 
       it_behaves_like "return http", 302
       it_behaves_like "redirect to login_path"

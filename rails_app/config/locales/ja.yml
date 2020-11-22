@@ -15,6 +15,7 @@ ja:
         user:
           attributes:
             user_id:
+              taken: "この%{attribute}は既に使われています"
               blank: "を入力してください"
             password:
               blank: "は8文字以上で入力してください"

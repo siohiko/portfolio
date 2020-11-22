@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :rememberable, :authentication_keys => [:user_id]
 
   devise :validatable, password_length: 8..128
-  validates :user_id, presence: true
+  validates :user_id, presence: true, uniqueness: true
 
 
   enum sex: { "男性": 0, "女性": 1}
