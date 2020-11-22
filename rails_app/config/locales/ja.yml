@@ -19,6 +19,12 @@ ja:
             password:
               blank: "は8文字以上で入力してください"
               too_short: "は8文字以上で入力してください"
+            current_password:
+              blank: "を入力してください"
+              invalid: "が間違っています"
+            password_confirmation:
+               confirmation: "が一致しません"
+               blank: "を入力してください"
   attributes:
     created_at: 作成日
     updated_at: 更新日
