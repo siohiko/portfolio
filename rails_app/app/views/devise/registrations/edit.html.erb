@@ -13,6 +13,16 @@
     <%= f.text_field :name %>
   </div>
 
+  <div class="field">
+    <%= f.label :sex %><br />
+    <%= f.select :sex, [["男性", "男性"], ["女性", "女性"]], selected: @user.sex %>
+  </div>
+
+  <div class="field">
+    <%= f.label :age %><br />
+    <%= f.telephone_field :age %>
+  </div>
+
   <div class="actions">
     <%= f.submit "Update" %>
   </div>

@@ -8,6 +8,8 @@ class User < ApplicationRecord
   validates :user_id, presence: true
 
 
+  enum sex: { "男性": 0, "女性": 1}
+
 
   #Don't use email. on divise
   def email_required?
