@@ -1,5 +1,7 @@
 class ApexProfile < ApplicationRecord
   belongs_to :user
+  has_many :favorite_legends
+  has_many :legends, through: :favorite_legends
 
   enum rank: { 
     "ブロンズ": 0,

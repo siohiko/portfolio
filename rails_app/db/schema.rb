@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_23_232515) do
+ActiveRecord::Schema.define(version: 2020_11_24_052642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,22 @@ ActiveRecord::Schema.define(version: 2020_11_23_232515) do
     t.integer "level"
     t.integer "platform"
     t.index ["user_id"], name: "index_apex_profiles_on_user_id"
+  end
+
+  create_table "favorite_legends", force: :cascade do |t|
+    t.integer "apex_profile_id"
+    t.integer "legend_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["apex_profile_id"], name: "index_favorite_legends_on_apex_profile_id"
+    t.index ["legend_id"], name: "index_favorite_legends_on_legend_id"
+  end
+
+  create_table "legends", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "icon_path", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", primary_key: "user_id", id: :string, force: :cascade do |t|

@@ -12,11 +12,13 @@ RSpec.describe ApexProfile, type: :model do
     it { model_valid; expect(verified_apex_profile).to be_valid}
   end
 
+
+
   # ============= #
   #    validate   #
   # ============= #
 
-  describe 'validate' do
+  describe 'about validate' do
     before { create(:valid_user) }
     
     context 'with valid params ' do
@@ -32,15 +34,26 @@ RSpec.describe ApexProfile, type: :model do
   #    relation   #
   # ============= #
 
-  describe 'relation' do
+  describe 'about relation' do
     
-    
+    #Legent models are not tested because they do not manipulate data.
+    context 'edit favorite legends' do
+      let(:verified_apex_profile) { create(:valid_apex_profile) }
+      let(:valid_legend) { create(:valid_legend) }
+      before { 
+        verified_apex_profile
+        valid_legend
+      } 
+
+      it 'add favorite legends' do 
+        expect{ verified_apex_profile.legends << valid_legend }.to change{ FavoriteLegend.all.count }.from(0).to(1)
+      end
+    end
+
+
     context 'delete user' do
       let(:verified_apex_profile) { create(:valid_apex_profile) }
-
-      before {
-        verified_apex_profile
-      }
+      before { verified_apex_profile }
 
       it 'delete apex_profile too' do 
         count = ApexProfile.all.count
