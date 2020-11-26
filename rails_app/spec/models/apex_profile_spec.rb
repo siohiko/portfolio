@@ -45,8 +45,22 @@ RSpec.describe ApexProfile, type: :model do
         valid_legend
       } 
 
-      it 'add favorite legends' do 
+      it 'add favorite legend model' do 
         expect{ verified_apex_profile.legends << valid_legend }.to change{ FavoriteLegend.all.count }.from(0).to(1)
+      end
+    end
+
+
+    context 'edit favorite weapons' do
+      let(:verified_apex_profile) { create(:valid_apex_profile) }
+      let(:valid_weapon) { create(:valid_weapon) }
+      before { 
+        verified_apex_profile
+        valid_weapon
+      } 
+
+      it 'add favorite weapon model' do 
+        expect{ verified_apex_profile.weapons << valid_weapon }.to change{ FavoriteWeapon.all.count }.from(0).to(1)
       end
     end
 

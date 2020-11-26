@@ -3,6 +3,9 @@ class ApexProfile < ApplicationRecord
   has_many :favorite_legends
   has_many :legends, through: :favorite_legends
 
+  has_many :favorite_weapons
+  has_many :weapons, through: :favorite_weapons
+
   enum rank: { 
     "ブロンズ": 0,
     "シルバー": 1,

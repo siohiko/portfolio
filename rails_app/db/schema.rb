@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_24_052642) do
+ActiveRecord::Schema.define(version: 2020_11_26_222149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,15 @@ ActiveRecord::Schema.define(version: 2020_11_24_052642) do
     t.index ["legend_id"], name: "index_favorite_legends_on_legend_id"
   end
 
+  create_table "favorite_weapons", force: :cascade do |t|
+    t.integer "apex_profile_id"
+    t.integer "weapon_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["apex_profile_id"], name: "index_favorite_weapons_on_apex_profile_id"
+    t.index ["weapon_id"], name: "index_favorite_weapons_on_weapon_id"
+  end
+
   create_table "legends", force: :cascade do |t|
     t.string "name", null: false
     t.string "icon_path", null: false
@@ -54,6 +63,13 @@ ActiveRecord::Schema.define(version: 2020_11_24_052642) do
     t.integer "age"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["user_id"], name: "index_users_on_user_id", unique: true
+  end
+
+  create_table "weapons", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "category", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "apex_profiles", "users", primary_key: "user_id"
