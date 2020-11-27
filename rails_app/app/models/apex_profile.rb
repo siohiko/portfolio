@@ -6,6 +6,8 @@ class ApexProfile < ApplicationRecord
   has_many :favorite_weapons
   has_many :weapons, through: :favorite_weapons
 
+  validates :user_id, presence: true, uniqueness: true
+
   enum rank: { 
     "ブロンズ": 0,
     "シルバー": 1,

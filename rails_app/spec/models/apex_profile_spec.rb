@@ -12,19 +12,39 @@ RSpec.describe ApexProfile, type: :model do
     it { model_valid; expect(verified_apex_profile).to be_valid}
   end
 
+  shared_examples_for "is invalid" do
+    it { model_valid; expect(verified_apex_profile).to be_invalid}
+  end
 
 
   # ============= #
   #    validate   #
   # ============= #
+  # notice: no test for enum.
 
   describe 'about validate' do
-    before { create(:valid_user) }
     
     context 'with valid params ' do
       let(:verified_apex_profile) { build(:valid_apex_profile) }
       it_behaves_like "is valid"
     end
+
+    context 'already been created' do
+      let(:created_apex_profile) { create(:valid_apex_profile) }
+      let(:verified_apex_profile) { build(:valid_apex_profile) }
+      before { 
+        created_apex_profile
+        verified_apex_profile
+      }
+      
+      it_behaves_like "is invalid"
+    end
+
+    context 'without user_id' do
+      let(:verified_apex_profile) { build(:valid_apex_profile, user_id: nil) }
+      it_behaves_like "is invalid"
+    end
+
 
   end
 
