@@ -1,0 +1,43 @@
+<h2>Edit Apex Profile</h2>
+
+<%= form_for(@apex_profile) do |f| %>
+  <div class="field">
+    <%= f.label :apex_id %><br />
+    <%= f.text_field :apex_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :rank %><br />
+    <%= f.select :rank, options_for_select_from_enum(ApexProfile, 'rank'), { include_blank: true } %>
+  </div>
+
+  <div class="field">
+    <%= f.label :level %><br />
+    <%= f.telephone_field :level %>
+  </div>
+
+  <div class="field">
+    <%= f.label :platform %><br />
+    <%= f.select :platform, options_for_select_from_enum(ApexProfile, 'platform'), { include_blank: true } %>
+  </div>
+
+   <div class="field">
+    <%= f.label :favorite_legends %><br />
+    <%= collection_check_boxes(:apex_profile, :legend_ids, Legend.all, :id, :name) do |b| %>
+      <%= b.label { b.check_box + b.text } %>
+      <br>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= f.label :favorite_weapons %><br />
+    <%= collection_check_boxes(:apex_profile, :weapon_ids, Weapon.all, :id, :name) do |b| %>
+      <%= b.label { b.check_box + b.text } %>
+      <br>
+    <% end %>
+  </div>
+
+  <%= f.submit %> 
+<% end %>
+
+<p>Dlete <%= button_to "delete apex_profile", apex_profile_path, data: { confirm: "Are you sure?" }, method: :delete %></p>

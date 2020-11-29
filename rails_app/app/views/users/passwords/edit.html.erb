@@ -1,0 +1,20 @@
+<% if @user.errors.any? %>
+  <div>
+    <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<%= form_with(local: true, scope: :user_password, url: users_password_path, method: :put) do |f| %>
+  <%= f.label :password %><br>
+  <%= f.password_field :password %><br>
+
+  <%= f.label :password_confirmation %><br>
+  <%= f.password_field :password_confirmation %><br>
+
+  <%= f.label :current_password %><br>
+  <%= f.password_field :current_password %><br>
+  <%= f.submit %>
+<% end %>
