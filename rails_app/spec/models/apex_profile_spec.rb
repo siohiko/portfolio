@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ApexProfile, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
 
   # ===================== #
   #      examples_for     #
@@ -59,7 +58,7 @@ RSpec.describe ApexProfile, type: :model do
     #Legent models are not tested because they do not manipulate data.
     context 'edit favorite legends' do
       let(:verified_apex_profile) { create(:valid_apex_profile) }
-      let(:valid_legend) { create(:valid_legend) }
+      let(:valid_legend) { create(:wraith) }
       before { 
         verified_apex_profile
         valid_legend
@@ -73,7 +72,7 @@ RSpec.describe ApexProfile, type: :model do
 
     context 'edit favorite weapons' do
       let(:verified_apex_profile) { create(:valid_apex_profile) }
-      let(:valid_weapon) { create(:valid_weapon) }
+      let(:valid_weapon) { create(:g7) }
       before { 
         verified_apex_profile
         valid_weapon

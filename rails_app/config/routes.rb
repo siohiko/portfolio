@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   namespace :users do
     resource :password, only: [:edit, :update]
   end
+  
+  resource :apex_profile,  except: [:show]
+  
 
   root "top#show"
 end

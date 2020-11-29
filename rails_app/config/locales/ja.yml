@@ -2,6 +2,7 @@ ja:
   activerecord:
     models:
       user: ユーザー 
+      apex_profile: Apexプロフィール
     attributes:
         user:
           user_id: ID
@@ -10,6 +11,11 @@ ja:
           age: 年齢
           password: パスワード
           password_confirmation: パスワード（確認用）
+        apex_profile:
+          apex_id: APEX_ID
+          level: レベル
+          rank: ランク
+          platform: プラットフォーム
     errors:
       models:
         user:

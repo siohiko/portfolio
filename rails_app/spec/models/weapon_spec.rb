@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Weapon, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
 
 
   # ============= #
@@ -9,7 +8,7 @@ RSpec.describe Weapon, type: :model do
   # ============= #
 
   describe 'category(enum)' do
-    let(:valid_weapon) { build(:valid_weapon, category: category) }
+    let(:valid_weapon) { build(:flatline, category: category) }
     where(:category, :return_value) do
       [
         [nil, nil],
