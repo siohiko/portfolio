@@ -1,0 +1,49 @@
+<h2>Create Recruiting</h2>
+<% if @recruiting %>
+  <div id="error_explanation">
+    <ul>
+      <% @recruiting.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: @recruiting, url: recruitings_path, local: true do |f| %>
+  <div class="field">
+    <%= f.label :type %><br />
+    <%= f.select :type, {'Apex Legends': 'ApexRecruiting'},  selected: 'ApexRecruiting'%>
+  </div>
+
+  <div class="field">
+    <%= f.label :vc %><br />
+    <%= f.select :vc, options_for_select_from_enum(Recruiting, 'vc'), { include_blank: true } %>
+  </div>
+
+  <div class="field">
+    <%= f.label :recruitment_numbers %><br />
+    <%= f.select :recruitment_numbers, {'1人': 1, '2人': 2, '3人': 3}, { include_blank: '選択してください'} %>
+  </div>
+
+  <div class="field">
+    <%= f.label :play_style %><br />
+    <%= f.text_field :play_style %>
+  </div>
+
+  <div class="field">
+    <%= f.label :comment %><br />
+    <%= f.text_area :comment %>
+  </div>
+
+  <div class="field">
+    <%= f.label :rank %><br />
+    <%= f.select :rank, options_for_select_from_enum(ApexRecruiting, 'rank'), { include_blank: true } %>
+  </div>
+
+  <div class="field">
+    <%= f.label :game_mode %><br />
+    <%= f.select :game_mode, options_for_select_from_enum(ApexRecruiting, 'game_mode'), { include_blank: true } %>
+  </div>
+
+  <%= f.submit %>
+<% end %>

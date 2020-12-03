@@ -3,15 +3,15 @@ FactoryBot.define do
   factory :valid_recruiting, class: Recruiting do
     association :user, factory: :valid_user
     type {'ApexRecruiting'}
-    vc { 0 }
+    vc { 'on' }
     recruitment_numbers { 2 }
     play_style { 'pro' }
-    status { 0 }
+    status { 'open' }
     comment { 'hello' }
 
     #for apex
-    rank { 1 }
-    game_mode { 0 }
+    rank { 'シルバー' }
+    game_mode { 'ランク' }
   end
 
 end

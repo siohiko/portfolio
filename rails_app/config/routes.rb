@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   
   resource :apex_profile,  except: [:show]
   
+  resources :recruitings
 
   root "top#show"
 end

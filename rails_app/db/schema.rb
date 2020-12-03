@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 2020_11_29_022913) do
 
   create_table "recruitings", force: :cascade do |t|
     t.string "type", null: false
-    t.integer "user_id", null: false
+    t.string "user_id", null: false
     t.integer "vc"
     t.integer "recruitment_numbers"
     t.text "play_style"

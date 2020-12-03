@@ -3,7 +3,7 @@ class CreateRecruitings < ActiveRecord::Migration[6.0]
     create_table :recruitings do |t|
 
       t.string :type, null: false
-      t.integer :user_id, null: false
+      t.string :user_id, null: false
       t.integer :vc
       t.integer :recruitment_numbers
       t.text :play_style
