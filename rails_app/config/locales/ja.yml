@@ -3,6 +3,7 @@ ja:
     models:
       user: ユーザー 
       apex_profile: Apexプロフィール
+      apex_recruiting: Apexの野良募集
     attributes:
         user:
           user_id: ID
@@ -16,6 +17,22 @@ ja:
           level: レベル
           rank: ランク
           platform: プラットフォーム
+        recruiting:
+          type: 募集するゲーム
+          vc: VC
+          recruitment_numbers: 募集人数
+          play_style: プレイスタイル
+          comment: ひとこと
+          rank: ランク
+          game_mode: ゲームモード
+        apex_recruiting:
+          type: 募集するゲーム
+          vc: VC
+          recruitment_numbers: 募集人数
+          play_style: プレイスタイル
+          comment: ひとこと
+          rank: ランク
+          game_mode: ゲームモード
     errors:
       models:
         user:
@@ -32,6 +49,10 @@ ja:
             password_confirmation:
                confirmation: "が一致しません"
                blank: "を入力してください"
+        apex_recruiting:
+          attributes:
+            recruitment_numbers:
+              blank: "を入力してください"
   attributes:
     created_at: 作成日
     updated_at: 更新日

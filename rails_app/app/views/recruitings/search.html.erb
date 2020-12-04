@@ -1,0 +1,28 @@
+<h2>search Recruiting</h2>
+
+<%= form_with method: :get, url: search_recruitings_path, scope: :search, local: true do |f| %>
+  <div class="field">
+    <%= f.label :type %><br />
+    <%= f.select :type, {'Apex Legends': 'ApexRecruiting'},  selected: 'ApexRecruiting'%>
+  </div>
+
+  <div class="field">
+    <%= f.label :rank %><br />
+    <%= f.select :rank, options_for_select_from_enum(ApexRecruiting, 'rank'), { include_blank: true } %>
+  </div>
+
+  <div class="field">
+    <%= f.label :game_mode %><br />
+    <%= f.select :game_mode, options_for_select_from_enum(ApexRecruiting, 'game_mode'), { include_blank: true } %>
+  </div>
+
+  <%= f.submit %>
+<% end %>
+
+<% if @recruitings %>
+  <% @recruitings.each do |recruiting| %>
+    <p><%= recruiting.user.name %></p>
+    <p><%= recruiting.rank %></p>
+    <p><%= recruiting.game_mode %></p>
+  <% end %>
+<% end %>
