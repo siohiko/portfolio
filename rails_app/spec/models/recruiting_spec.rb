@@ -84,6 +84,30 @@ RSpec.describe Recruiting, type: :model do
 
 
   # ============= #
+  #    scope      #
+  # ============= #
+  describe 'status_open' do
+    let(:created_valid_recruiting) { create(:valid_recruiting) }
+    before { created_valid_recruiting }
+
+    it 'return valid value' do 
+      expect(Recruiting.status_open[0].status).to eq created_valid_recruiting.status
+    end
+  end
+
+
+  describe 'apex_type' do
+    let(:created_valid_recruiting) { create(:valid_recruiting) }
+    before { created_valid_recruiting }
+
+    it 'return valid value' do 
+      expect(Recruiting.apex_type[0].type).to eq created_valid_recruiting.type
+    end
+  end
+
+  
+
+  # ============= #
   #    method   #
   # ============= #
 

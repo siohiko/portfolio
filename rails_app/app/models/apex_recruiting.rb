@@ -1,5 +1,7 @@
 class ApexRecruiting < Recruiting
 
+  scope :rank_is,       -> (rank){ where(rank: rank) if rank.present? }
+  scope :game_mode_is,       -> (game_mode){ where(game_mode: game_mode) if game_mode.present? }
 
   enum rank: { 
     "ブロンズ": 0,

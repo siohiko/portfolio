@@ -318,4 +318,40 @@ RSpec.describe "Recruitings", type: :request do
 
   end
 
+
+
+
+  #FIXEME!!!!!!!!!!!!!!
+  # ============== #
+  # search action #
+  # ============== #
+  describe 'GET recruiting#search' do
+    subject { get search_recruitings_path, params: { search: params } }
+    let(:registered_user) { create(:valid_user) }
+    
+    before {
+      users_arr = Array.new
+      create_list(:valid_users, 8) do |user|
+        users_arr.push(user)
+      end
+
+      users_arr[0].create_recruiting(attributes_for(:valid_recruiting, rank: 'ブロンズ'))
+      users_arr[1].create_recruiting(attributes_for(:valid_recruiting, rank: 'ブロンズ'))
+      users_arr[2].create_recruiting(attributes_for(:valid_recruiting, rank: 'シルバー'))
+      users_arr[3].create_recruiting(attributes_for(:valid_recruiting, game_mode: 'カジュアル'))
+      users_arr[4].create_recruiting(attributes_for(:valid_recruiting, game_mode: 'ランク'))
+    }
+
+    context 'case of Logged in' do
+      before { sign_in registered_user }
+
+      context 'Search terms are rank = ブロンズ' do
+        let(:params) { { type: "ApexRecruiting", rank: "ブロンズ" }  }
+
+        it_behaves_like "return http", 200
+      end
+    end
+  end
+
+
 end

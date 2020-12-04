@@ -26,6 +26,29 @@ RSpec.describe ApexRecruiting, type: :model do
 
 
   # ============= #
+  #    scope   #
+  # ============= #
+  describe 'rank_is' do
+    let(:created_valid_apex_recruiting) { create(:valid_apex_recruiting) }
+    before { created_valid_apex_recruiting }
+
+    it 'return valid value' do 
+      expect(ApexRecruiting.rank_is(created_valid_apex_recruiting.rank)[0].rank).to eq created_valid_apex_recruiting.rank
+    end
+  end
+
+
+  describe 'game_mode_is' do
+    let(:created_valid_apex_recruiting) { create(:valid_apex_recruiting) }
+    before { created_valid_apex_recruiting }
+
+    it 'return valid value' do 
+      expect(ApexRecruiting.game_mode_is(created_valid_apex_recruiting.game_mode)[0].game_mode).to eq created_valid_apex_recruiting.game_mode
+    end
+  end
+
+
+  # ============= #
   #    method   #
   # ============= #
   describe 'rank(enum)' do

@@ -12,7 +12,11 @@ Rails.application.routes.draw do
   
   resource :apex_profile,  except: [:show]
   
-  resources :recruitings
+  resources :recruitings,  except: [:index] do
+    collection do
+      get :search, to: "recruitings#search"
+    end
+  end
 
   root "top#show"
 end

@@ -1,6 +1,6 @@
 class RecruitingsController < ApplicationController
   before_action :authenticate_user!, :set_user
-  before_action :set_users_recruiting, except: [:create, :show]
+  before_action :set_users_recruiting, except: [:create, :show, :search]
 
   def new
     if @recruiting
@@ -66,6 +66,19 @@ class RecruitingsController < ApplicationController
   end
 
 
+  # ApexRecruiting only for now.
+  def search
+    if search_params[:search].nil?
+      @recruitings = ApexRecruiting.all
+      return
+    end
+    
+    if search_params[:search][:type] == 'ApexRecruiting'
+      @recruitings = ApexRecruiting.status_open.apex_type.rank_is(search_params[:search][:rank]).game_mode_is(search_params[:search][:game_mode])
+    end  
+  end
+
+
 
 
 
@@ -75,15 +88,24 @@ class RecruitingsController < ApplicationController
     params.require(:recruiting).permit(:type, :vc, :recruitment_numbers, :play_style, :comment, :rank, :game_mode)
   end
 
+
   def apex_recruiting_params
     params.require(:recruiting).permit(:type, :vc, :recruitment_numbers, :play_style, :comment, :rank, :game_mode)
   end
+
+
+  def search_params
+    params.permit(:commit, search: [:type, :rank, :game_mode])
+  end
+
 
   def set_user
     @user = current_user
   end
 
+
   def set_users_recruiting
     @recruiting = @user.recruiting
   end
+
 end

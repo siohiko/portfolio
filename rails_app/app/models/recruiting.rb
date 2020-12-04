@@ -8,6 +8,10 @@ class Recruiting < ApplicationRecord
   validate :type_include_game_name?
 
 
+  scope :status_open,   -> { where(status: 'open') }
+  scope :apex_type,     -> { where(type: 'ApexRecruiting') }
+
+
   enum vc: { 
     "off": 0,
     "on": 1
@@ -18,6 +22,7 @@ class Recruiting < ApplicationRecord
     "open": 0,
     "close": 1
   }
+
 
 
   #list of game type.
