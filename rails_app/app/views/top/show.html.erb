@@ -1,4 +1,23 @@
-<div>
-<h1>NOLABO</h1>
-<%= javascript_pack_tag 'hello_vue' %>
-</div>
+<section class="top">
+  <h1 class="top_main_ttl">NOLABO</h1>
+  <div class="top_main_visual">
+    <%= image_tag 'top/main_img.png', alt: '', class: 'top_main_visual_img' %>
+  </div>
+  <p class="top_desc">
+    てきすとてきすとてきすとてきすとてきすとてきすと<br>
+    てきすとてきすとてきすとてきすと<br>
+    てきすとてきすとてきすとてきすと
+  </p>
+  <div class="top_cta">
+    <div class="top_cta_register_btn">
+      <%= link_to new_user_registration_path do %>
+        <span>登録</span>
+      <% end %>
+    </div>
+    <div class="top_cta_login_btn">
+      <%= link_to new_user_session_path do %>
+        <span>ログイン</span>
+      <% end %>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+html { height: 100%; }
+body {
+  background-color: $base_color;
+  height: 100%;
+  margin: 0;
+}
+
+h1,h2,h3,h4,h5,h6,p,a,span,table,dt,dd,dl {
+  color: $base_font_color;
+}
+h1,h2,h3,h4,h5,h6 {
+  @extend .roundish_font_family;
+}
+p,a,span {
+  @extend .angular_font_family;
+  line-height: 1.2em;
+}
+img {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+}
