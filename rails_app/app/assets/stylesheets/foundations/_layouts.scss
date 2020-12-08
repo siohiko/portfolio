@@ -7,6 +7,11 @@
   flex-direction: column;
   justify-content: center;
 }
+.flex_column_space_ar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
 .flex_row {
   display: flex;
   flex-direction: row;
@@ -15,4 +20,18 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+.right_content_box {
+  width: calc(100% - 180px);
+  float: right;
+  @include sp {
+    margin-top: $sp_header_height;
+    width: 100%;
+    float: none;
+  }
+}
+.right_content_box::after {
+  content: "";
+  display: block;
+  clear: both;
 }

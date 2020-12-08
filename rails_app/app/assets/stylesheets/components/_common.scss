@@ -4,6 +4,13 @@ body {
   height: 100%;
   margin: 0;
 }
+.wrap {
+  height: 100%;
+}
+main {
+  height: 100%;
+  margin: 0;
+}
 
 h1,h2,h3,h4,h5,h6,p,a,span,table,dt,dd,dl {
   color: $base_font_color;
@@ -13,7 +20,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 p,a,span {
   @extend .angular_font_family;
-  line-height: 1.2em;
+  line-height: 1.5em;
 }
 img {
   display: block;

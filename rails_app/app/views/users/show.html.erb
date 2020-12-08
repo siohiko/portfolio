@@ -1,2 +1,64 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<% content_for :side_menu do %>
+  <%= javascript_pack_tag 'side_menu' %>
+<% end %>
+<section class="user">
+  <div  class="user_profile">
+    <div class="user_profile_header">
+      <div class="user_profile_header_icon">
+        <%= image_tag 'users/show/user_ico.png', alt: '' %>
+      </div>
+      <h1 class="user_profile_header_name"><%= @user.name %></h1>
+      <span class="user_profile_header_id"><%= @user.user_id %></span>
+      <div class="user_profile_header_other">
+        <span>性別：<%= @user.sex %></span>
+        <span>年齢：<%= @user.age %></span>
+      </div>
+    </div>
+    <div class="user_profile_body">
+      <section class="user_profile_body_description">
+        <h2 class="user_profile_body_ttl">プロフィール<%= edit_icon_link(edit_user_registration_path) %></h2>
+        <p class="user_profile_body_description_text">
+          A340は長距離路線向けの大型機として開発され、エアバスA300由来の胴体を延長したワイドボディ機で、低翼に配置された主翼下に4発のターボファンエンジンを装備する。
+          A340シリーズには4つのモデルが存在し、機体寸法や性能は各形式によるが、巡航速度はマッハ0.82から0.83で、全長は59.40から75.36メートル、全幅は60.30から63.45メートル、最大離陸重量は253.5から380トン、
+        </p>
+      </section>
+      <% if @user.apex_profile %>
+        <section class="user_profile_body_apex_profile">
+          <h2 class="user_profile_body_ttl">APEXプロフィール<%= edit_icon_link(edit_apex_profile_path) %></h2>
+          <table class="user_profile_body_apex_profile_table">
+            <tr>
+              <th>ID</th>
+              <td><%= @user.apex_profile.apex_id %></td>
+            </tr>
+            <tr>
+              <th>ランク</th>
+              <td><%= @user.apex_profile.rank %></td>
+            </tr>
+
+            <tr>
+              <th>プラットフォーム</th>
+              <td><%= @user.apex_profile.platform %></td>
+            </tr>
+            <tr>
+              <th>よく使うレジェンド</th>
+              <td>
+                <% @user.apex_profile.legends.each do |legend| %>
+                  <%= legend.name %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <th>よく使う武器</th>
+              <td>
+                <% @user.apex_profile.weapons.each do |legend| %>
+                  <%= legend.name %>
+                <% end %>
+              </td>
+            </tr>
+          </table>
+        </section>
+      <% end %>
+    </div>
+  </div>
+</section>
+

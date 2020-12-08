@@ -12,11 +12,14 @@ $sidebar_color: $indigo;
 
 $profile_header_color: $azure_blue;
 $profile_body_color: $prussian_blue;
+$profile_table_color: $midnight;
 
 $login_btn_color: $maldives_blues;
 $register_btn_color: $orange;
 
 $base_font_color: $white;
+
+$sp_header_height: calc(60px + 4vw);
 
 /*font size*/
 $f_size_sp_2xl: 30px;
@@ -36,6 +39,14 @@ $f_size_pc_xs: 12px;
 
 
 /*margin size*/
+$box_pc_mb_l: 60px;
+$box_pc_mb_m: 40px;
+$box_pc_mb_s: 20px;
+
+$box_sp_mb_l: 30px;
+$box_sp_mb_m: 20px;
+$box_sp_mb_s: 10px;
+
 $paragraph_pc_mb_l: 50px;
 $paragraph_pc_mb_m: 30px;
 $paragraph_pc_mb_s: 10px;
@@ -43,6 +54,3 @@ $paragraph_pc_mb_s: 10px;
 $paragraph_sp_mb_l: 30px;
 $paragraph_sp_mb_m: 20px;
 $paragraph_sp_mb_s: 10px;
-
-
-/*padding size*/

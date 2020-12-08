@@ -3,8 +3,14 @@
   <%= render partial: 'layouts/head' %>
   <body>
     <% if content_for? :side_menu %>
-      <%= yield :side_menu %>
+      <div id="side_mounted">
+        <%= yield :side_menu %>
+      </div>
     <% end %>
-    <%= yield %>
+    <div class="wrap">
+      <main>
+        <%= yield %>
+      </main>
+    </div>
   </body>
 </html>
