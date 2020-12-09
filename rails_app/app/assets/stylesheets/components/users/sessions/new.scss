@@ -16,11 +16,11 @@
     #{&}_field {
       @extend .base_form_field;
     }
-    #{&}_required_input {
-      @extend .base_form_required_input;
+    #{&}_text_input {
+      @extend .base_form_text_input;
     }
-    #{&}_required_label {
-      @extend .base_form_required_label;
+    #{&}_text_input_label {
+      @extend .base_form_text_input_label;
     }
     #{&}_actions {
       @extend .base_form_actions;

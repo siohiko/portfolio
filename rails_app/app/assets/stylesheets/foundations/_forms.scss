@@ -45,26 +45,26 @@
     }
     #{&}_field {
       position: relative;
-      margin-bottom: $box_pc_mb_s;
+      margin-bottom: $box_pc_mb_m;
       @extend .angular_font_family;
       font-size: $f_size_pc_m;
       @include sp {
         font-size: $f_size_sp_m;
       }
     }
-    #{&}_required_label {
+    #{&}_text_input_label {
       position: absolute;
-      top: 10px;
       left: 0px;
-      font-size: $f_size_pc_s;
       color: $light_gray;
       cursor: text;
       transition: .2s;
+      top: -14px;
+      font-size: $f_size_pc_s;
       @include sp {
         font-size: $f_size_sp_s;
       }
     }
-    #{&}_required_input {
+    #{&}_text_input {
       border: none;
       border-bottom: 2px solid $emerald;
       width: 100%;
@@ -73,12 +73,60 @@
       @include sp {
         font-size: $f_size_sp_m;
       }
-      &:focus, &:valid {
+      &:placeholder-shown {
         ~ label{
-          top: -12px;
-          font-size: $f_size_pc_xs;
+          top: 10px;
+          font-size: $f_size_pc_s;
           @include sp {
-            font-size: $f_size_sp_xs;
+            font-size: $f_size_sp_s;
+          }
+        }
+      }
+      &:focus {
+        ~ label {
+          top: -12px;
+          font-size: $f_size_pc_s;
+          @include sp {
+            font-size: $f_size_sp_s;
+          }
+        }
+      }
+    }
+    #{&}_select {
+      position: relative;
+      width: 100px;
+      border: 3px solid $emerald;
+      border-radius: 5px;
+      background: $white;
+      margin-top: 10px;
+      padding: 5px;
+      font-size: $f_size_pc_s;
+      @include sp {
+        font-size: $f_size_sp_s;
+      }
+      @at-root {
+        & select {
+          width: 100%;
+          height: 100%;
+        }
+        &:before {
+          position: absolute;
+          top: 0.8em;
+          right: 0.8em;
+          width: 0;
+          height: 0;
+          padding: 0;
+          content: '';
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 6px solid $emerald;
+          pointer-events: none;
+        }
+        #{&}_label {
+          color: $light_gray;
+          font-size: $f_size_pc_s;
+          @include sp {
+            font-size: $f_size_sp_s;
           }
         }
       }

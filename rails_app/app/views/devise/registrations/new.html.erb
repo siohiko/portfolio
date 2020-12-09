@@ -8,18 +8,18 @@
         </div>
 
         <div class="registar_form_field">
-          <%= f.text_field :user_id, autocomplete: "user_id", class: 'registar_form_required_input', required: "required" %>
-          <%= f.label :user_id, class: 'registar_form_required_label' %>
+          <%= f.text_field :user_id, autocomplete: "user_id", class: 'registar_form_text_input', required: "required", placeholder: " " %>
+          <%= f.label :user_id, class: 'registar_form_text_input_label' %>
         </div>
 
         <div class="registar_form_field">
-          <%= f.password_field :password, autocomplete: "new-password", class: 'registar_form_required_input', required: "required" %>
-          <%= f.label :password, "パスワード（8文字以上）", class: 'registar_form_required_label' %>
+          <%= f.password_field :password, autocomplete: "new-password", class: 'registar_form_text_input', required: "required", placeholder: " " %>
+          <%= f.label :password, "パスワード（8文字以上）", class: 'registar_form_text_input_label' %>
         </div>
 
         <div class="registar_form_field">
-          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'registar_form_required_input', required: "required" %>
-          <%= f.label :password_confirmation, class: 'registar_form_required_label' %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'registar_form_text_input', required: "required", placeholder: " " %>
+          <%= f.label :password_confirmation, class: 'registar_form_text_input_label' %>
         </div>
 
         <div class="registar_form_actions">

@@ -1,7 +1,7 @@
-.registar_form_wrap {
+.edit_form_wrap {
   @extend .base_form_wrap;
 }
-.registar_form {
+.edit_form {
   @extend .base_form;
   @at-root {
     #{&}_ttl {
@@ -21,6 +21,12 @@
     }
     #{&}_text_input_label {
       @extend .base_form_text_input_label;
+    }
+    #{&}_select {
+      @extend .base_form_select;
+    }
+    #{&}_select_label {
+      @extend .base_form_select_label;
     }
     #{&}_actions {
       @extend .base_form_actions;

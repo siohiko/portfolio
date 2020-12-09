@@ -9,13 +9,13 @@
           </div>
         <% end %>
         <div class="login_form_field">
-          <%= f.text_field :user_id, autocomplete: "user_id", required: "required", class: 'login_form_required_input' %>
-          <%= f.label :user_id, class: 'login_form_required_label' %>
+          <%= f.text_field :user_id, autocomplete: "user_id", required: "required", class: 'login_form_text_input', placeholder: " " %>
+          <%= f.label :user_id, class: 'login_form_text_input_label' %>
         </div>
 
         <div class="login_form_field">
-          <%= f.password_field :password, autocomplete: "current-password", required: "required", class: 'login_form_required_input'%>
-          <%= f.label :password, class: 'login_form_required_label'%>
+          <%= f.password_field :password, autocomplete: "current-password", required: "required", class: 'login_form_text_input', placeholder: " " %>
+          <%= f.label :password, class: 'login_form_text_input_label'%>
         </div>
 
         <% if devise_mapping.rememberable? %>
