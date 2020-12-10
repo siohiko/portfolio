@@ -126,11 +126,10 @@
               margin-bottom: $box_pc_mb_l;
               @at-root {
                 #{&}_table {
-                  display: block;
+                  display: table;
                   margin: auto;
                   width: calc(100% - 40px);
                   background: $profile_table_color;
-                  padding: 10px;
                   @include sp {
                     width: 100%;
                     padding: 5px;

@@ -1,0 +1,52 @@
+.apex_profile_new_form_wrap {
+  @extend .base_form_wrap;
+}
+.apex_profile_new_form {
+  @extend .base_form;
+  @include pc {
+    width: 750px;
+  }
+  @at-root {
+    #{&}_ttl {
+      @extend .base_form_ttl;
+    }
+    #{&}_body {
+      @extend .base_form_body;
+      padding-top: 50px;
+    }
+    #{&}_error {
+      @extend .base_form_error;
+    }
+    #{&}_field {
+      @extend .base_form_field;
+    }
+    #{&}_text_input {
+      @extend .base_form_text_input;
+    }
+    #{&}_text_input_label {
+      @extend .base_form_text_input_label;
+    }
+    #{&}_select {
+      @extend .base_form_select;
+    }
+    #{&}_select_label {
+      @extend .base_form_select_label;
+    }
+    #{&}_checkbox {
+      @extend .base_form_checkbox;
+    }
+    #{&}_checkbox_label {
+      @extend .base_form_checkbox_label;
+    }
+    #{&}_actions {
+      @extend .base_form_actions;
+    }
+    #{&}_remember_me_label {
+      font-size: $f_size_pc_s; 
+    }
+  }
+}
+.mimum_password {
+  font-size: $f_size_pc_s; 
+  color: $light_gray;
+}
