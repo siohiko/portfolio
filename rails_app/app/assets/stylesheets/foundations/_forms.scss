@@ -93,9 +93,50 @@
         }
       }
     }
+    #{&}_text_area_label {
+      position: absolute;
+      left: 2px;
+      color: $light_gray;
+      cursor: text;
+      transition: .2s;
+      top: -18px;
+      font-size: $f_size_pc_s;
+      @include sp {
+        font-size: $f_size_sp_s;
+      }
+    }
+    #{&}_text_area {
+      border: 2px solid $emerald;
+      width: 100%;
+      padding: 5px 0;
+      font-size: $f_size_pc_s;
+      @include sp {
+        font-size: $f_size_sp_s;
+      }
+      &:placeholder-shown {
+        ~ label{
+          top: 5px;
+          left: 2px;
+          font-size: $f_size_pc_s;
+          @include sp {
+            font-size: $f_size_sp_s;
+          }
+        }
+      }
+      &:focus {
+        ~ label {
+          top: -18px;
+          left: 2px;
+          font-size: $f_size_pc_s;
+          @include sp {
+            font-size: $f_size_sp_s;
+          }
+        }
+      }
+    }
     #{&}_select {
       position: relative;
-      width: 100px;
+      width: 160px;
       border: 3px solid $emerald;
       border-radius: 5px;
       background: $white;
