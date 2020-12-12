@@ -1,7 +1,7 @@
-.edit_form_wrap {
+.user_edit_form_wrap {
   @extend .base_form_wrap;
 }
-.edit_form {
+.user_edit_form {
   @extend .base_form;
   @at-root {
     #{&}_ttl {
@@ -9,9 +9,6 @@
     }
     #{&}_body {
       @extend .base_form_body;
-    }
-    #{&}_error {
-      @extend .base_form_error;
     }
     #{&}_field {
       @extend .base_form_field;
@@ -21,6 +18,12 @@
     }
     #{&}_text_input_label {
       @extend .base_form_text_input_label;
+    }
+    #{&}_text_area {
+      @extend .base_form_text_area;
+    }
+    #{&}_text_area_label {
+      @extend .base_form_text_area_label;
     }
     #{&}_select {
       @extend .base_form_select;
@@ -35,6 +38,9 @@
       font-size: $f_size_pc_s; 
     }
   }
+}
+.form_error {
+  @extend .base_form_error;
 }
 .mimum_password {
   font-size: $f_size_pc_s; 

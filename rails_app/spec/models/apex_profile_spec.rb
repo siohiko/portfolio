@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: apex_profiles
+#
+#  id         :bigint           not null, primary key
+#  level      :integer
+#  platform   :integer
+#  rank       :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  apex_id    :string(32)
+#  user_id    :string(32)
+#
+# Indexes
+#
+#  index_apex_profiles_on_user_id  (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => users.user_id)
+#
 require 'rails_helper'
 
 RSpec.describe ApexProfile, type: :model do
@@ -15,6 +36,9 @@ RSpec.describe ApexProfile, type: :model do
     it { model_valid; expect(verified_apex_profile).to be_invalid}
   end
 
+  shared_examples_for "include error message" do |msg, symbol|
+    it { model_valid; expect(verified_apex_profile.errors[symbol]).to include msg }
+  end
 
   # ============= #
   #    validate   #
@@ -42,6 +66,12 @@ RSpec.describe ApexProfile, type: :model do
     context 'without user_id' do
       let(:verified_apex_profile) { build(:valid_apex_profile, user_id: nil) }
       it_behaves_like "is invalid"
+    end
+
+    context 'with overly long apex_id' do
+      let(:verified_apex_profile) { build(:valid_apex_profile, apex_id: 'a'*33) }
+      it_behaves_like "is invalid"
+      it_behaves_like "include error message", 'は32文字以下にしてください', 'apex_id'.to_sym
     end
 
 

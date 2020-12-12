@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: recruitings
+#
+#  id                  :bigint           not null, primary key
+#  comment             :text
+#  game_mode           :integer
+#  play_style          :text
+#  rank                :integer
+#  recruitment_numbers :integer
+#  status              :integer          default("open"), not null
+#  type                :string           not null
+#  vc                  :integer
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  user_id             :string(32)       not null
+#
 require 'rails_helper'
 
 #don't test recruiting class

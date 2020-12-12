@@ -80,6 +80,13 @@ RSpec.describe "DeviseUsersController", type: :request do
       it_behaves_like "include error message", 'ID を入力してください'
     end
 
+    context 'with invalid params : long user_id case' do
+      let(:params) { attributes_for(:valid_user, user_id: "a"*33) }
+      
+      it_behaves_like "return http", 200
+      it_behaves_like "Failing to create Model", User
+      it_behaves_like "include error message", 'ID は32文字以下にしてください'
+    end
 
     context 'with invalid params : blank password case' do
       let(:params) { attributes_for(:valid_user, password: "") }
@@ -135,7 +142,7 @@ RSpec.describe "DeviseUsersController", type: :request do
 
       context 'with valid params' do
         before { registered_user_id = registered_user.user_id }
-        let(:params) { attributes_for(:valid_user, name: "valid_user_name", sex: "男性", age: 25) }
+        let(:params) { attributes_for(:valid_user, name: "valid_user_name", sex: "男性", age: 25, introduce: "よろしくお願いします。") }
 
         it_behaves_like "return http", 302
         it_behaves_like "redirect to registered_user_path"
@@ -145,6 +152,7 @@ RSpec.describe "DeviseUsersController", type: :request do
           expect(registered_user.name).to eq params[:name]
           expect(registered_user.sex).to eq params[:sex]
           expect(registered_user.age).to eq params[:age]
+          expect(registered_user.introduce).to eq params[:introduce]
         end
       end
 
@@ -162,6 +170,27 @@ RSpec.describe "DeviseUsersController", type: :request do
           #expect(registered_user.sex).not_to eq params[:sex]
           expect(registered_user.age).not_to eq params[:age]
         end
+      end
+
+      context 'with invalid params : long user_id case' do
+        let(:params) { attributes_for(:valid_user, user_id: "a"*33) }
+        
+        it_behaves_like "return http", 200
+        it_behaves_like "include error message", 'ID は32文字以下にしてください'
+      end
+
+      context 'with invalid params : long name case' do
+        let(:params) { attributes_for(:valid_user, name: "a"*17) }
+        
+        it_behaves_like "return http", 200
+        it_behaves_like "include error message", '名前 は16文字以下にしてください'
+      end
+  
+      context 'with invalid params : long introduce case' do
+        let(:params) { attributes_for(:valid_user, introduce: "a"*256) }
+        
+        it_behaves_like "return http", 200
+        it_behaves_like "include error message", '自己紹介 は255文字以下にしてください'
       end
       
     end

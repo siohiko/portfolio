@@ -1,36 +1,39 @@
-<section class="edit_form_wrap">
-  <div class="edit_form">
-    <h1 class="edit_form_ttl">基本プロフィール編集</h1>
-    <div class="edit_form_body">
+<section class="user_edit_form_wrap">
+  <div class="user_edit_form">
+    <h1 class="user_edit_form_ttl">基本プロフィール編集</h1>
+    <div class="user_edit_form_body">
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
         
         <%= render "devise/shared/error_messages", resource: resource %>
 
-        <div class="edit_form_field">
-          <%= f.text_field :user_id, autocomplete: "user_id", class: 'edit_form_text_input', required: "required", placeholder: " " %>
-          <%= f.label :user_id, class: 'edit_form_text_input_label' %>
+        <div class="user_edit_form_field">
+          <%= f.text_field :user_id, autocomplete: "user_id", class: 'user_edit_form_text_input', required: "required", placeholder: " " %>
+          <%= f.label :user_id, class: 'user_edit_form_text_input_label' %>
         </div>
 
-        <div class="edit_form_field">
-          <%= f.text_field :name, class: 'edit_form_text_input', required: "required", placeholder: " " %>
-          <%= f.label :name, class: 'edit_form_text_input_label' %>
+        <div class="user_edit_form_field">
+          <%= f.text_field :name, class: 'user_edit_form_text_input', required: "required", placeholder: " " %>
+          <%= f.label :name, class: 'user_edit_form_text_input_label' %>
         </div>
 
-        <div class="edit_form_field">
-          <%= f.telephone_field :age, class: 'edit_form_text_input', placeholder: " " %>
-          <%= f.label :age, class: 'edit_form_text_input_label' %>
+        <div class="user_edit_form_field">
+          <%= f.telephone_field :age, class: 'user_edit_form_text_input', placeholder: " " %>
+          <%= f.label :age, class: 'user_edit_form_text_input_label' %>
         </div>
 
-        <div class="edit_form_field">
-          <%= f.label :sex, class: 'edit_form_select_label' %>
-          <div class='edit_form_select'>
+        <div class="user_edit_form_field">
+          <%= f.label :sex, class: 'user_edit_form_select_label' %>
+          <div class='user_edit_form_select'>
             <%= f.select :sex, [["男性", "男性"], ["女性", "女性"]], { selected: @user.sex } %>
           </div>
         </div>
 
-        
+        <div class="user_edit_form_field">
+          <%= f.text_area :introduce, class: 'user_edit_form_text_area', placeholder: " " %>
+          <%= f.label :introduce, class: 'user_edit_form_text_area_label' %>
+        </div>
 
-        <div class="edit_form_actions">
+        <div class="user_edit_form_actions">
           <%= f.submit "Update" %>
         </div>
       <% end %>

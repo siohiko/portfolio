@@ -3,6 +3,17 @@
     <h1 class="apex_profile_edit_form_ttl">APEXプロフィール編集</h1>
      <div class="apex_profile_edit_form_body">
       <%= form_with model: @apex_profile, url: apex_profile_path, local: true do |f| %>
+
+        <% if @apex_profile.errors.any? %>
+          <div class="apex_profile_edit_form_error">
+            <ul>
+              <% @apex_profile.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
         <div class="apex_profile_edit_form_field">
           <%= f.text_field :apex_id, class: 'apex_profile_edit_form_text_input', placeholder: " " %>
           <%= f.label :apex_id, class: 'apex_profile_edit_form_text_input_label' %>

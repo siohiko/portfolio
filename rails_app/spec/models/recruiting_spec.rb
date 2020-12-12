@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: recruitings
+#
+#  id                  :bigint           not null, primary key
+#  comment             :text
+#  game_mode           :integer
+#  play_style          :text
+#  rank                :integer
+#  recruitment_numbers :integer
+#  status              :integer          default("open"), not null
+#  type                :string           not null
+#  vc                  :integer
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  user_id             :string(32)       not null
+#
 require 'rails_helper'
 
 RSpec.describe Recruiting, type: :model do
@@ -14,6 +31,9 @@ RSpec.describe Recruiting, type: :model do
     it { model_valid; expect(verified_recruiting).to be_invalid}
   end
 
+  shared_examples_for "include error message" do |msg, symbol|
+    it { model_valid; expect(verified_recruiting.errors[symbol]).to include msg }
+  end
 
   # ============= #
   #    validate   #
@@ -56,6 +76,18 @@ RSpec.describe Recruiting, type: :model do
     context 'without recruitment_numbers' do
       let(:verified_recruiting) { build(:valid_recruiting, recruitment_numbers: nil) }
       it_behaves_like "is invalid"
+    end
+
+    context 'with overly long comment' do
+      let(:verified_recruiting) { build(:valid_recruiting, comment: 'a'*300) }
+      it_behaves_like "is invalid"
+      it_behaves_like "include error message", 'は255文字以下にしてください', 'comment'.to_sym
+    end
+
+    context 'with overly long play_style' do
+      let(:verified_recruiting) { build(:valid_recruiting, play_style: 'a'*33) }
+      it_behaves_like "is invalid"
+      it_behaves_like "include error message", 'は32文字以下にしてください', 'play_style'.to_sym
     end
 
   end

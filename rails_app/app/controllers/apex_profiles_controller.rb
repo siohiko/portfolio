@@ -11,8 +11,9 @@ class ApexProfilesController < ApplicationController
 
 
   def create 
-    
-    if @user.create_apex_profile(apex_profile_params)
+    @apex_profile = @user.build_apex_profile(apex_profile_params)
+
+    if @apex_profile.save
       redirect_to user_path(@user.user_id)
     else
       render 'new'

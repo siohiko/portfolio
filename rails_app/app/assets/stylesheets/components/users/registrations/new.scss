@@ -10,9 +10,6 @@
     #{&}_body {
       @extend .base_form_body;
     }
-    #{&}_error {
-      @extend .base_form_error;
-    }
     #{&}_field {
       @extend .base_form_field;
     }
@@ -29,6 +26,9 @@
       font-size: $f_size_pc_s; 
     }
   }
+}
+.form_error {
+  @extend .base_form_error;
 }
 .mimum_password {
   font-size: $f_size_pc_s; 

@@ -133,6 +133,22 @@ RSpec.describe "Recruitings", type: :request do
         it_behaves_like "Failing to create Model", Recruiting
         it_behaves_like "include error message", '募集人数 を入力してください'
       end
+
+      context 'with invalid params : long play_style case' do
+        let(:params) { attributes_for(:valid_recruiting, play_style: "a"*33) }
+
+        it_behaves_like "return http", 200
+        it_behaves_like "Failing to create Model", Recruiting
+        it_behaves_like "include error message", 'プレイスタイル は32文字以下にしてください'
+      end
+
+      context 'with invalid params : long play_style case' do
+        let(:params) { attributes_for(:valid_recruiting, comment: "a"*256) }
+
+        it_behaves_like "return http", 200
+        it_behaves_like "Failing to create Model", Recruiting
+        it_behaves_like "include error message", 'コメント は255文字以下にしてください'
+      end
       
     end
 
@@ -248,6 +264,20 @@ RSpec.describe "Recruitings", type: :request do
   
           it_behaves_like "return http", 200
           it_behaves_like "include error message", '募集人数 を入力してください'
+        end
+
+        context 'with invalid params : long play_style case' do
+          let(:params) { attributes_for(:valid_recruiting, play_style: "a"*33) }
+  
+          it_behaves_like "return http", 200
+          it_behaves_like "include error message", 'プレイスタイル は32文字以下にしてください'
+        end
+  
+        context 'with invalid params : long play_style case' do
+          let(:params) { attributes_for(:valid_recruiting, comment: "a"*256) }
+  
+          it_behaves_like "return http", 200
+          it_behaves_like "include error message", 'コメント は255文字以下にしてください'
         end
       end
       
