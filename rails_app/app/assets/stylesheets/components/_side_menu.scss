@@ -9,6 +9,7 @@
   width: 180px;
   height: 100%;
   box-sizing: border-box;
+  padding-top: 20px;
   position: fixed;
   overflow: auto;
   top: 0px;
@@ -33,24 +34,97 @@
       @at-root {
         & li {
           margin-bottom: 10px;
+        }
+        #{&}_link {
+          position: relative;
+          padding: 10px 20px;
+          @extend .flex_row;
+          &:hover {
+            opacity: 0.7;
+          }
           @at-root {
-            & a {
+            #{&}_ico {
+              height: 30px;
+              margin: 0px 10px 0px 0px;
+            }
+            #{&}_text {
+              display: block;
+              line-height: 30px;
+              text-align: center;
+            }
+            &::after {
+              position: absolute;
+              top: calc(50% - 5px);
+              right: 10px;
+              content: '';
+              display: inline-block;
+              width: 10px;
+              height: 10px;
+              background-image: image-url('common/right_arrow_ico.png');
+              background-size: contain;
+              vertical-align: middle;
+            }
+          }
+        }
+        #{&}_child {
+          background: #0b425d;
+          @at-root {
+            #{&}_ttl {
+              position: relative;
               padding: 10px 20px;
               @extend .flex_row;
+              &:hover {
+                cursor : pointer;
+                opacity: 0.7;
+              }
               @at-root {
-                  & img {
+                &::after {
+                  position: absolute;
+                  top: calc(50% - 5px);
+                  right: 10px;
+                  content: '';
+                  display: inline-block;
+                  width: 10px;
+                  height: 10px;
+                  background-image: image-url('common/right_arrow_ico.png');
+                  background-size: contain;
+                  vertical-align: middle;
+                }
+                &.active::after {
+                  background-image: image-url('common/under_arrow_ico.png');
+                }
+                #{&}_ico {
                   height: 30px;
                   margin: 0px 10px 0px 0px;
                 }
-                  & span {
-                    display: block;
-                    width: 100%;
-                    line-height: 30px;
-                    text-align: center;
-                  }
+                #{&}_text {
+                  display: block;
+                  line-height: 30px;
+                  text-align: center;
+                }
               }
             }
-          }          
+            & > li {
+              margin: 0px;
+              border-bottom: 1px solid $midnight;
+              &:last-child {
+                border-bottom: none;
+              }
+            }
+            #{&}_link {
+              display: block;
+              width: 100%;
+              padding: 10px 0px 10px 60px;
+              line-height: 1em;
+              font-size: $f_size_pc_xs;
+              @include sp {
+                font-size: $f_size_sp_xs;
+              }
+              &:hover {
+                opacity: 0.7;
+              }
+            }
+          }
         }
       }
 

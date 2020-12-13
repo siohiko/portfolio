@@ -14,22 +14,39 @@
       <aside class="side_menu" id="side_menu" v-if="showSideMenu">
           <ul class="side_menu_list">
           <li>
-            <a href="/recruitings/new">
-              <img alt="" class="side_menu_list_ico" src="../images/common/recruiting_ico.png">
-              <span>募集</span>
+            <a href="/recruitings/new" class="side_menu_list_link">
+              <img alt="" class="side_menu_list_link_ico" src="../images/common/recruiting_ico.png">
+              <span class="side_menu_list_link_text">募集</span>
             </a>
           </li>
           <li>
-            <a href="">
-              <img alt="" class="side_menu_list_ico" src="../images/common/message_ico.png">
-              <span>メッセージ</span>
+            <a href="" class="side_menu_list_link">
+              <img alt="" class="side_menu_list_link_ico" src="../images/common/message_ico.png">
+              <span class="side_menu_list_link_text">メッセージ</span>
             </a>
           </li>
           <li>
-            <a rel="nofollow" data-method="delete" href="/users/sign_out">
-              <img alt="" class="side_menu_list_ico" src="../images/common/logout_ico.png">
-              <span>ログアウト</span>
-            </a>
+            <div class="side_menu_list_child_ttl" v-bind:class="{ active: showConfigMenu }" v-on:click="configMenuHandler">
+              <img alt="" class="side_menu_list_child_ttl_ico" src="../images/common/gear_ico.png">
+              <span class="side_menu_list_child_ttl_text">設定</span>
+            </div>
+            <ul class="side_menu_list_child" v-if="showConfigMenu">
+              <li>
+                <a href="/users/password/edit" class="side_menu_list_child_link">
+                  <span class="side_menu_list_child_link_text">パスワード変更</span>
+                </a>
+              </li>
+              <li>
+                <a rel="nofollow" data-method="delete" href="/users/sign_out"  class="side_menu_list_child_link">
+                  <span class="side_menu_list_child_link_text">ログアウト</span>
+                </a>
+              </li>
+              <li>
+                <a href="/users/delete_form/new" class="side_menu_list_child_link">
+                  <span class="side_menu_list_child_link_text">退会する</span>
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </aside>
@@ -40,7 +57,8 @@
 export default {
   data() {
     return {
-     showSideMenu : false
+     showSideMenu : false,
+     showConfigMenu : false
     };
   },
   created() {
@@ -53,7 +71,11 @@ export default {
   methods:{
     clickHandler: function(){
       this.showSideMenu = !this.showSideMenu
+    },
+    configMenuHandler: function(){
+      this.showConfigMenu = !this.showConfigMenu
     }
+    
   }
 } 
 </script>

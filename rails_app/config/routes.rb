@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :users, only: [:show], param: :user_id
   namespace :users do
     resource :password, only: [:edit, :update]
+    resource :delete_form, only: [:new]
   end
   
   resource :apex_profile,  except: [:show]
