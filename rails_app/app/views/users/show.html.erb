@@ -16,12 +16,29 @@
     </div>
     <div class="user_profile_body">
       <section class="user_profile_body_description">
-        <h2 class="user_profile_body_ttl">プロフィール<%= edit_icon_link(edit_user_registration_path) %></h2>
-        <p class="user_profile_body_description_text">
-          <%= @user.introduce %>
-        </p>
+        <% if my_page? && !@user.introduce %>
+          <div class="user_profile_body_new_link">
+            <p class="user_profile_body_new_link_notes">
+              あなたのプロフィールはまだありません。
+            </p>
+            <%= link_to 'プロフィールを編集する', edit_user_registration_path, class: 'user_profile_body_new_link_anchor' %>
+          </div>        
+        <% elsif @user.introduce %>
+          <h2 class="user_profile_body_ttl">プロフィール<%= edit_icon_link(edit_user_registration_path) %></h2>
+          <p class="user_profile_body_description_text">
+            <%= @user.introduce %>
+          </p>
+        <% end %>
       </section>
-      <% if @user.apex_profile %>
+
+      <% if my_page? && !@user.apex_profile %>
+        <div class="user_profile_body_new_link">
+          <p class="user_profile_body_new_link_notes">
+            あなたのAPEXプロフィールはまだありません。
+          </p>
+          <%= link_to 'APEXプロフィールを作成する', new_apex_profile_path, class: 'user_profile_body_new_link_anchor' %>
+        </div>        
+      <% elsif @user.apex_profile %>
         <section class="user_profile_body_apex_profile">
           <h2 class="user_profile_body_ttl">APEXプロフィール<%= edit_icon_link(edit_apex_profile_path) %></h2>
           <table class="user_profile_body_apex_profile_table">
@@ -57,6 +74,8 @@
           </table>
         </section>
       <% end %>
+
+      
     </div>
   </div>
 </section>

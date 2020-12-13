@@ -163,6 +163,32 @@
                 }
               }
             }
+            #{&}_new_link {
+              @at-root {
+                #{&}_notes {
+                  font-size: $f_size_pc_s;
+                  color: $white;
+                  text-align: center;
+                  margin-bottom: $paragraph_pc_mb_s;
+                  @include sp {
+                    margin-bottom: $paragraph_sp_mb_s;
+                    font-size: $f_size_sp_xs;
+                  }
+                }
+                #{&}_anchor {
+                  @extend .circle_btn_frame;
+                  @extend .arrow_btn;
+                  width: 270px;
+                  color: $white;
+                  border: 1px solid $white;
+                  font-size: $f_size_pc_s;
+                  @include sp {
+                    width: 100%;
+                    font-size: $f_size_sp_xs;
+                  }
+                }
+              }
+            }
           }
         }
       }
