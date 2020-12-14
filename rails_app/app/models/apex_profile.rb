@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: apex_profiles
+#
+#  id         :bigint           not null, primary key
+#  level      :integer
+#  platform   :integer
+#  rank       :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  apex_id    :string(32)
+#  user_id    :string(32)
+#
+# Indexes
+#
+#  index_apex_profiles_on_user_id  (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => users.user_id)
+#
 class ApexProfile < ApplicationRecord
   belongs_to :user
   has_many :favorite_legends
@@ -6,7 +27,8 @@ class ApexProfile < ApplicationRecord
   has_many :favorite_weapons
   has_many :weapons, through: :favorite_weapons
 
-  validates :user_id, presence: true, uniqueness: true
+  validates :user_id, presence: true, uniqueness: true, length: { maximum: 32 }
+  validates :apex_id, length: { maximum: 32 }
 
   enum rank: { 
     "ブロンズ": 0,

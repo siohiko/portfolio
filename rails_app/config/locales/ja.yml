@@ -10,6 +10,7 @@ ja:
           name: 名前
           sex: 性別
           age: 年齢
+          introduce: 自己紹介
           password: パスワード
           password_confirmation: パスワード（確認用）
         apex_profile:
@@ -30,7 +31,7 @@ ja:
           vc: VC
           recruitment_numbers: 募集人数
           play_style: プレイスタイル
-          comment: ひとこと
+          comment: コメント
           rank: ランク
           game_mode: ゲームモード
     errors:
@@ -40,6 +41,7 @@ ja:
             user_id:
               taken: "この%{attribute}は既に使われています"
               blank: "を入力してください"
+              too_long: "は32文字以下にしてください"
             password:
               blank: "は8文字以上で入力してください"
               too_short: "は8文字以上で入力してください"
@@ -49,6 +51,20 @@ ja:
             password_confirmation:
                confirmation: "が一致しません"
                blank: "を入力してください"
+            name:
+              too_long: "は16文字以下にしてください"
+            introduce:
+              too_long: "は255文字以下にしてください"
+        apex_profile:
+          attributes:
+            apex_id:
+              too_long: "は32文字以下にしてください"
+        recruiting:
+          attributes:
+            play_style:
+              too_long: "は32文字以下にしてください"
+            comment:
+              too_long: "は255文字以下にしてください"
         apex_recruiting:
           attributes:
             recruitment_numbers:

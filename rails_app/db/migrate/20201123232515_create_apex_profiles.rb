@@ -3,8 +3,8 @@ class CreateApexProfiles < ActiveRecord::Migration[6.0]
     create_table :apex_profiles do |t|
 
       t.timestamps
-      t.string :user_id
-      t.string :apex_id
+      t.string :user_id, limit: 32
+      t.string :apex_id, limit: 32
       t.integer :rank
       t.integer :level
       t.integer :platform

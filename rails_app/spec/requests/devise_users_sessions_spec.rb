@@ -110,7 +110,7 @@ RSpec.describe "DeviseUsersSessionsController", type: :request do
   # delete action #
   # ============= #
   describe 'DELETE devise/registrations#destroy' do
-    subject { delete destroy_user_session_path }
+    subject { get destroy_user_session_path }
 
     let(:registered_user) { create(:valid_user) }
     before { sign_in registered_user;}

@@ -18,8 +18,8 @@ ActiveRecord::Schema.define(version: 2020_11_29_022913) do
   create_table "apex_profiles", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "user_id"
-    t.string "apex_id"
+    t.string "user_id", limit: 32
+    t.string "apex_id", limit: 32
     t.integer "rank"
     t.integer "level"
     t.integer "platform"
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 2020_11_29_022913) do
 
   create_table "recruitings", force: :cascade do |t|
     t.string "type", null: false
-    t.string "user_id", null: false
+    t.string "user_id", limit: 32, null: false
     t.integer "vc"
     t.integer "recruitment_numbers"
     t.text "play_style"
@@ -65,16 +65,17 @@ ActiveRecord::Schema.define(version: 2020_11_29_022913) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "users", primary_key: "user_id", id: :string, force: :cascade do |t|
+  create_table "users", primary_key: "user_id", id: :string, limit: 32, force: :cascade do |t|
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "name"
+    t.string "name", limit: 16
     t.integer "sex", default: 0, null: false
     t.integer "age"
+    t.text "introduce"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["user_id"], name: "index_users_on_user_id", unique: true
   end

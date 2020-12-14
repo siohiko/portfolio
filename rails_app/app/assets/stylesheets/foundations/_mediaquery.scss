@@ -1,0 +1,13 @@
+$pc: px; // PC
+$sp: 896px;  // スマホ
+
+@mixin pc {
+  @media (min-width: (897px)) {
+    @content;
+  }
+}
+@mixin sp {
+  @media (max-width: (896px)) {
+    @content;
+  }
+}

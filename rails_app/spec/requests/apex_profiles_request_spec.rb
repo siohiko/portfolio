@@ -120,6 +120,14 @@ RSpec.describe "ApexProfile", type: :request do
           expect(response).to redirect_to user_path(registered_user.user_id)
         end
       end
+
+      context 'with invalid params : long apex_id case' do
+        let(:params) { attributes_for(:valid_apex_profile, apex_id: "a"*33) }
+        
+        it_behaves_like "return http", 200
+        it_behaves_like "Failing to create Model", ApexProfile
+        it_behaves_like "include error message", 'APEX_ID は32文字以下にしてください'
+      end
     end
 
     context 'case of being not Logged in' do
@@ -189,6 +197,13 @@ RSpec.describe "ApexProfile", type: :request do
           subject
           registered_user.reload
           expect(registered_user.apex_profile.apex_id).to eq params[:apex_id]
+        end
+
+        context 'with invalid params : long apex_id case' do
+          let(:params) { attributes_for(:valid_apex_profile, apex_id: "a"*33) }
+          
+          it_behaves_like "return http", 200
+          it_behaves_like "include error message", 'APEX_ID は32文字以下にしてください'
         end
       end
 

@@ -1,0 +1,50 @@
+.user_delete_form_wrap {
+  @extend .base_form_wrap;
+}
+.user_delete_form {
+  @extend .base_form;
+  @at-root {
+    #{&}_ttl {
+      @extend .base_form_ttl;
+    }
+    #{&}_body {
+      @extend .base_form_body;
+      @at-root {
+        #{&}_notes {
+          color: $red;
+        }
+      }
+    }
+    #{&}_button {
+      padding: 10px;
+      width: 200px;
+      text-align: center;
+      display: block;
+      margin: 30px auto;
+      border-radius: 5px;
+      border: 1px solid #000;
+    }
+    #{&}_field {
+      @extend .base_form_field;
+    }
+    #{&}_text_input {
+      @extend .base_form_text_input;
+    }
+    #{&}_text_input_label {
+      @extend .base_form_text_input_label;
+    }
+    #{&}_actions {
+      @extend .base_form_actions;
+    }
+    #{&}_remember_me_label {
+      font-size: $f_size_pc_s; 
+    }
+  }
+}
+.form_error {
+  @extend .base_form_error;
+}
+.mimum_password {
+  font-size: $f_size_pc_s; 
+  color: $light_gray;
+}

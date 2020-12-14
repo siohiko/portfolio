@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>RailsApp</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
-
+  <%= render partial: 'layouts/head' %>
   <body>
-    <%= yield %>
+    <% if content_for? :side_menu %>
+      <div id="side_mounted">
+        <%= yield :side_menu %>
+      </div>
+    <% end %>
+    <div class="wrap">
+      <main>
+        <%= yield %>
+      </main>
+    </div>
   </body>
 </html>

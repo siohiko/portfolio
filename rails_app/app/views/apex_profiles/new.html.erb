@@ -1,41 +1,65 @@
-<h2>Create Apex Profile</h2>
+<section class="apex_profile_new_form_wrap">
+  <div class="apex_profile_new_form">
+    <h1 class="apex_profile_new_form_ttl">APEXプロフィール作成</h1>
+     <div class="apex_profile_new_form_body">
+      <%= form_with model: @apex_profile, url: apex_profile_path, local: true do |f| %>
+        
+        <% if @apex_profile.errors.any? %>
+          <div class="apex_profile_new_form_error">
+            <ul>
+              <% @apex_profile.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
 
-<%= form_for(@apex_profile, url: apex_profile_path) do |f| %>
-  <div class="field">
-    <%= f.label :apex_id %><br />
-    <%= f.text_field :apex_id %>
+        <div class="apex_profile_new_form_field">
+          <%= f.text_field :apex_id, class: 'apex_profile_new_form_text_input', placeholder: " " %>
+          <%= f.label :apex_id, class: 'apex_profile_new_form_text_input_label' %>
+        </div>
+
+        <div class="apex_profile_new_form_field">
+          <%= f.label :rank, class: 'apex_profile_new_form_select_label' %>
+          <div class="apex_profile_new_form_select">
+            <%= f.select :rank, options_for_select_from_enum(ApexProfile, 'rank'), { include_blank: true } %>
+          </div>
+        </div>
+
+        <div class="apex_profile_new_form_field">
+          <%= f.telephone_field :level, class: 'apex_profile_new_form_text_input', placeholder: " "%>
+          <%= f.label :level, class: 'apex_profile_new_form_text_input_label' %>
+        </div>
+
+        <div class="apex_profile_new_form_field">
+          <%= f.label :platform, class: 'apex_profile_new_form_select_label' %>
+          <div class="apex_profile_new_form_select">
+            <%= f.select :platform, options_for_select_from_enum(ApexProfile, 'platform'), { include_blank: true } %>
+          </div>
+        </div>
+
+        <div class="apex_profile_new_form_field">
+          <%= f.label :favorite_legends, "お気入りのレジェンド", class: 'apex_profile_new_form_checkbox_label' %>
+          <div class="apex_profile_new_form_checkbox">
+            <%= collection_check_boxes(:apex_profile, :legend_ids, Legend.all, :id, :name) do |b| %>
+              <%= b.label { b.check_box + b.text } %>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="apex_profile_new_form_field">
+          <%= f.label :favorite_weapons, "お気入りの武器", class: 'apex_profile_new_form_checkbox_label' %>
+          <div class="apex_profile_new_form_checkbox">
+            <%= collection_check_boxes(:apex_profile, :weapon_ids, Weapon.all, :id, :name) do |b| %>
+              <%= b.label { b.check_box + b.text } %>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="apex_profile_new_form_actions">
+          <%= f.submit "作成" %>
+        </div>
+      <% end %>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :rank %><br />
-    <%= f.select :rank, options_for_select_from_enum(ApexProfile, 'rank'), { include_blank: true } %>
-  </div>
-
-  <div class="field">
-    <%= f.label :level %><br />
-    <%= f.telephone_field :level %>
-  </div>
-
-  <div class="field">
-    <%= f.label :platform %><br />
-    <%= f.select :platform, options_for_select_from_enum(ApexProfile, 'platform'), { include_blank: true } %>
-  </div>
-
-   <div class="field">
-    <%= f.label :favorite_legends %><br />
-    <%= collection_check_boxes(:apex_profile, :legend_ids, Legend.all, :id, :name) do |b| %>
-      <%= b.label { b.check_box + b.text } %>
-      <br>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :favorite_weapons %><br />
-    <%= collection_check_boxes(:apex_profile, :weapon_ids, Weapon.all, :id, :name) do |b| %>
-      <%= b.label { b.check_box + b.text } %>
-      <br>
-    <% end %>
-  </div>
-
-  <%= f.submit %>
-<% end %>
+</section>

@@ -47,7 +47,7 @@ class RecruitingsController < ApplicationController
     end
 
 
-    if @recruiting.update(apex_recruiting_params)
+    if @recruiting.update(recruiting_params)
       redirect_to recruiting_path(@recruiting)
     else
       render 'edit'
@@ -85,11 +85,6 @@ class RecruitingsController < ApplicationController
   private
 
   def recruiting_params
-    params.require(:recruiting).permit(:type, :vc, :recruitment_numbers, :play_style, :comment, :rank, :game_mode)
-  end
-
-
-  def apex_recruiting_params
     params.require(:recruiting).permit(:type, :vc, :recruitment_numbers, :play_style, :comment, :rank, :game_mode)
   end
 

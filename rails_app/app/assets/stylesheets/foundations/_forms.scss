@@ -1,0 +1,223 @@
+.base_form_wrap {
+  width: 100%;
+  min-height: 100vh;
+  padding: 30px 0px;
+  @extend .flex_column_center;
+}
+.base_form {
+  width: 500px;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 10px 10px 10px #000;
+  @include sp {
+    width: 94vw;
+    box-shadow: 2vw 2vw 2vw #000;
+  }
+  @at-root {
+    #{&}_ttl {
+      width: 100%;
+      padding: 15px;
+      background: $emerald;
+      border-radius: 10px 10px 0px 0px;
+      @extend .roundish_font_family;
+      font-size: $f_size_pc_xl;
+      text-align: center;
+      color: $white;
+      @include sp {
+        font-size: $f_size_sp_xl;
+      }
+    }
+    #{&}_body {
+      padding: 20px 50px;
+      background-color: $white;
+      border-radius: 0px 0px 10px 10px;
+      @include sp {
+        padding: 25px 20px;
+      }
+    }
+    #{&}_error {
+      margin-bottom: $box_pc_mb_m;
+      @extend .angular_font_family;
+      font-size: $f_size_pc_s;
+      color: $red;
+      @include sp {
+        font-size: $f_size_sp_s;
+      }
+    }
+    #{&}_field {
+      position: relative;
+      margin-bottom: $box_pc_mb_m;
+      @extend .angular_font_family;
+      font-size: $f_size_pc_m;
+      @include sp {
+        font-size: $f_size_sp_m;
+      }
+    }
+    #{&}_text_input_label {
+      position: absolute;
+      left: 0px;
+      color: $light_gray;
+      cursor: text;
+      transition: .2s;
+      top: -14px;
+      font-size: $f_size_pc_s;
+      @include sp {
+        font-size: $f_size_sp_s;
+      }
+    }
+    #{&}_text_input {
+      border: none;
+      border-bottom: 2px solid $emerald;
+      width: 100%;
+      padding: 5px 0;
+      font-size: $f_size_pc_m;
+      @include sp {
+        font-size: $f_size_sp_m;
+      }
+      &:placeholder-shown {
+        ~ label{
+          top: 10px;
+          font-size: $f_size_pc_s;
+          @include sp {
+            font-size: $f_size_sp_s;
+          }
+        }
+      }
+      &:focus {
+        ~ label {
+          top: -12px;
+          font-size: $f_size_pc_s;
+          @include sp {
+            font-size: $f_size_sp_s;
+          }
+        }
+      }
+    }
+    #{&}_text_area_label {
+      position: absolute;
+      left: 2px;
+      color: $light_gray;
+      cursor: text;
+      transition: .2s;
+      top: -18px;
+      font-size: $f_size_pc_s;
+      @include sp {
+        font-size: $f_size_sp_s;
+      }
+    }
+    #{&}_text_area {
+      border: 2px solid $emerald;
+      width: 100%;
+      padding: 5px 0;
+      font-size: $f_size_pc_s;
+      @include sp {
+        font-size: $f_size_sp_s;
+      }
+      &:placeholder-shown {
+        ~ label{
+          top: 5px;
+          left: 2px;
+          font-size: $f_size_pc_s;
+          @include sp {
+            font-size: $f_size_sp_s;
+          }
+        }
+      }
+      &:focus {
+        ~ label {
+          top: -18px;
+          left: 2px;
+          font-size: $f_size_pc_s;
+          @include sp {
+            font-size: $f_size_sp_s;
+          }
+        }
+      }
+    }
+    #{&}_select {
+      position: relative;
+      width: 160px;
+      border: 3px solid $emerald;
+      border-radius: 5px;
+      background: $white;
+      margin-top: 10px;
+      padding: 5px;
+      font-size: $f_size_pc_s;
+      @include sp {
+        font-size: $f_size_sp_s;
+      }
+      @at-root {
+        & select {
+          width: 100%;
+          height: 100%;
+        }
+        &:before {
+          position: absolute;
+          top: 0.8em;
+          right: 0.8em;
+          width: 0;
+          height: 0;
+          padding: 0;
+          content: '';
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 6px solid $emerald;
+          pointer-events: none;
+        }
+        #{&}_label {
+          color: $light_gray;
+          font-size: $f_size_pc_s;
+          @include sp {
+            font-size: $f_size_sp_s;
+          }
+        }
+      }
+    }
+    #{&}_checkbox {
+      margin-top: 10px;
+      font-size: $f_size_pc_s;
+      @extend .flex_row;
+      flex-wrap: wrap;
+      @include sp {
+        font-size: $f_size_sp_s;
+      }
+      @at-root {
+        & label {
+          margin-bottom: 5px;
+          width: 30%;
+          font-size: $f_size_pc_s;
+          @include sp {
+            margin-bottom: 10px;
+            width: 45%;
+            font-size: $f_size_sp_xs;
+          }
+          & input {
+            margin-right: 5px;
+          }
+        }
+        #{&}_label {
+          color: $light_gray;
+          font-size: $f_size_pc_s;
+          @include sp {
+            font-size: $f_size_sp_s;
+          }
+        }
+      }
+    }
+    #{&}_actions {
+      margin-top: 40px;
+      @extend .angular_font_family;
+      font-size: $f_size_pc_m;
+      & input {
+        display: block;
+        padding: 10px;
+        min-width: 180px;
+        margin: auto;
+        background: $emerald;
+        border-radius: 5px;
+        color: $white;
+        text-align: center;
+      }
+    }
+  }
+}

@@ -1,2 +1,82 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<% content_for :side_menu do %>
+  <%= javascript_pack_tag 'side_menu' %>
+<% end %>
+<section class="user">
+  <div  class="user_profile">
+    <div class="user_profile_header">
+      <div class="user_profile_header_icon">
+        <%= image_tag 'users/show/user_ico.png', alt: '' %>
+      </div>
+      <h1 class="user_profile_header_name"><%= @user.name %></h1>
+      <span class="user_profile_header_id"><%= @user.user_id %></span>
+      <div class="user_profile_header_other">
+        <span>性別：<%= @user.sex %></span>
+        <span>年齢：<%= @user.age %></span>
+      </div>
+    </div>
+    <div class="user_profile_body">
+      <section class="user_profile_body_description">
+        <% if my_page? && !@user.introduce %>
+          <div class="user_profile_body_new_link">
+            <p class="user_profile_body_new_link_notes">
+              あなたのプロフィールはまだありません。
+            </p>
+            <%= link_to 'プロフィールを編集する', edit_user_registration_path, class: 'user_profile_body_new_link_anchor' %>
+          </div>        
+        <% elsif @user.introduce %>
+          <h2 class="user_profile_body_ttl">プロフィール<%= edit_icon_link(edit_user_registration_path) %></h2>
+          <p class="user_profile_body_description_text">
+            <%= @user.introduce %>
+          </p>
+        <% end %>
+      </section>
+
+      <% if my_page? && !@user.apex_profile %>
+        <div class="user_profile_body_new_link">
+          <p class="user_profile_body_new_link_notes">
+            あなたのAPEXプロフィールはまだありません。
+          </p>
+          <%= link_to 'APEXプロフィールを作成する', new_apex_profile_path, class: 'user_profile_body_new_link_anchor' %>
+        </div>        
+      <% elsif @user.apex_profile %>
+        <section class="user_profile_body_apex_profile">
+          <h2 class="user_profile_body_ttl">APEXプロフィール<%= edit_icon_link(edit_apex_profile_path) %></h2>
+          <table class="user_profile_body_apex_profile_table">
+            <tr>
+              <th>ID</th>
+              <td><%= @user.apex_profile.apex_id %></td>
+            </tr>
+            <tr>
+              <th>ランク</th>
+              <td><%= @user.apex_profile.rank %></td>
+            </tr>
+
+            <tr>
+              <th>プラットフォーム</th>
+              <td><%= @user.apex_profile.platform %></td>
+            </tr>
+            <tr>
+              <th>よく使うレジェンド</th>
+              <td>
+                <% @user.apex_profile.legends.each do |legend| %>
+                  <%= legend.name %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <th>よく使う武器</th>
+              <td>
+                <% @user.apex_profile.weapons.each do |legend| %>
+                  <%= legend.name %>
+                <% end %>
+              </td>
+            </tr>
+          </table>
+        </section>
+      <% end %>
+
+      
+    </div>
+  </div>
+</section>
+

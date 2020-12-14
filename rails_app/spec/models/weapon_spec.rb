@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: weapons
+#
+#  id         :bigint           not null, primary key
+#  category   :integer          not null
+#  name       :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 require 'rails_helper'
 
 RSpec.describe Weapon, type: :model do

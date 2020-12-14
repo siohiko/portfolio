@@ -1,0 +1,37 @@
+.flex_column {
+  display: flex;
+  flex-direction: column;
+}
+.flex_column_center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.flex_column_space_ar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.flex_row {
+  display: flex;
+  flex-direction: row;
+}
+.flex_row_center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.right_content_box {
+  width: calc(100% - 180px);
+  float: right;
+  @include sp {
+    margin-top: $sp_header_height;
+    width: 100%;
+    float: none;
+  }
+}
+.right_content_box::after {
+  content: "";
+  display: block;
+  clear: both;
+}

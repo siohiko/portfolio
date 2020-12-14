@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  age                    :integer
+#  encrypted_password     :string           default(""), not null
+#  introduce              :text
+#  name                   :string(16)
+#  remember_created_at    :datetime
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string
+#  sex                    :integer          default("男性"), not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  user_id                :string(32)       not null, primary key
+#
+# Indexes
+#
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_user_id               (user_id) UNIQUE
+#
 class User < ApplicationRecord
   has_one :apex_profile, dependent: :destroy, primary_key: :user_id, foreign_key: :user_id
   has_one :recruiting, dependent: :destroy, primary_key: :user_id, foreign_key: :user_id
@@ -8,7 +29,9 @@ class User < ApplicationRecord
          :rememberable, :authentication_keys => [:user_id]
 
   devise :validatable, password_length: 8..128
-  validates :user_id, presence: true, uniqueness: true
+  validates :user_id, presence: true, uniqueness: true, length: { maximum: 32 }
+  validates :name, length: { maximum: 16 }
+  validates :introduce, length: { maximum: 255 }
 
 
   enum sex: { "男性": 0, "女性": 1}

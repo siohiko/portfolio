@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: weapons
+#
+#  id         :bigint           not null, primary key
+#  category   :integer          not null
+#  name       :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 class Weapon < ApplicationRecord
   has_many :favorite_weapons
   has_many :apex_profiles, through: :favorite_weapons
