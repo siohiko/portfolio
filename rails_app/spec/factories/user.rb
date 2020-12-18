@@ -15,6 +15,18 @@ FactoryBot.define do
     password { valid_password }
   end
   
+
+  factory :applying_user, class: User do
+    user_id { "applying_user_id" }
+    password { valid_password }
+    trait :user_with_entry_recruiting do
+      after(:build) do |user| #after(:build)とした場合、createの場合もcallbackが走る
+        user.entry_recruiting = create(:valid_recruiting)
+      end
+    end
+  end
+
+
   # ========== #
   # invalid_user #
   # ========== #

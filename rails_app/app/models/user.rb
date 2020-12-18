@@ -23,6 +23,14 @@ class User < ApplicationRecord
   has_one :apex_profile, dependent: :destroy, primary_key: :user_id, foreign_key: :user_id
   has_one :recruiting, dependent: :destroy, primary_key: :user_id, foreign_key: :user_id
 
+  has_one :applicant_entry_recruiting,
+            primary_key: :user_id,
+            foreign_key: :applicant_id,
+            dependent: :destroy
+  has_one :entry_recruiting,
+            class_name: "Recruiting",
+            through: :applicant_entry_recruiting
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

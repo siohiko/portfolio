@@ -18,6 +18,14 @@
 class Recruiting < ApplicationRecord
   belongs_to :user
 
+  has_many :applicant_entry_recruitings,
+             primary_key: :id,
+             foreign_key: :entry_recruiting_id,
+             dependent: :destroy
+  has_many :applicants,
+             class_name: "User",
+             through: :applicant_entry_recruitings
+
   validates :user_id, presence: true, uniqueness: true, length: { maximum: 32 }
   validates :type,  presence: true
   validates :recruitment_numbers,  presence: true
