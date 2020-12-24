@@ -140,7 +140,7 @@ RSpec.describe Recruiting, type: :model do
   
 
   # ============= #
-  #    method   #
+  #    method     #
   # ============= #
 
   describe 'vc(enum)' do
@@ -176,6 +176,87 @@ RSpec.describe Recruiting, type: :model do
         expect(verified_recruiting.status).to eq return_value
       end
     end  
+  end
+  
+
+  describe 'adopt method' do
+    let(:created_valid_recruiting) { create(:valid_recruiting) }
+    before { created_valid_recruiting }
+
+    context 'when the number of applicants is less than the capacity' do
+      
+      it 'decrease recruitment_numbers' do 
+        expect{ created_valid_recruiting.adopt }.to change{ created_valid_recruiting.recruitment_numbers }.by(-1)
+      end
+    end
+
+    context 'when the number of applicants exceeds the capacity' do
+
+      it 'decrease recruitment_numbers and close' do 
+        expect{ 
+          created_valid_recruiting.adopt
+          created_valid_recruiting.adopt
+         }.to change{ created_valid_recruiting.recruitment_numbers }.by(-2)
+
+        expect(created_valid_recruiting.status).to eq 'close'
+      end
+    end
+  end
+
+
+
+  describe 'reject method' do
+    let(:created_valid_recruiting) { create(:valid_recruiting, status: 'close', recruitment_numbers: 0) }
+    before { created_valid_recruiting }
+      
+    it 'increase recruitment_numbers and status update to open' do 
+      expect{ created_valid_recruiting.reject }.to change{ created_valid_recruiting.recruitment_numbers }.by(1)
+      expect(created_valid_recruiting.status).to eq 'open'
+    end
+  end
+
+
+  describe 'owner?_method' do
+    let(:created_valid_recruiting) { create(:valid_recruiting) }
+    let(:owner) {created_valid_recruiting.user}
+    let(:not_owner){ create(:valid_users) }
+    before { created_valid_recruiting }
+
+    context 'if user is owner' do 
+      it 'return true' do
+        expect(created_valid_recruiting.owner?(owner)).to eq true
+      end
+    end
+
+    context 'if user is not owner' do 
+      it 'return false' do
+        expect(created_valid_recruiting.owner?(not_owner)).to eq false
+      end
+    end
+  end
+
+
+  describe 'is_filled?_method' do
+    let(:applied_recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+    before { applied_recruiting }
+      
+    context 'if the applicant has been approved, return true' do 
+      before { 
+        applied_recruiting.applicant_entry_recruitings.each do |applicant|
+          applicant.update(status: 'approved')
+        end
+      }
+
+      it 'return true' do 
+        expect(applied_recruiting.is_filled?).to eq true
+      end
+    end
+
+    context 'if the applicant has not been approved, return false' do 
+      it 'return false' do 
+        expect(applied_recruiting.is_filled?).to eq false
+      end
+    end
   end
 
 end

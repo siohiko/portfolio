@@ -39,6 +39,7 @@ class Recruiting < ApplicationRecord
   scope :apex_type,     -> { where(type: 'ApexRecruiting') }
 
 
+
   enum vc: { 
     "off": 0,
     "on": 1
@@ -59,6 +60,39 @@ class Recruiting < ApplicationRecord
     if type.present? && !GAMETYPENAMES.include?(type)
       errors.add(:type, " 指定のゲームは募集できません")
     end
+  end
+
+
+  #Process when one applicant is approved.
+  def adopt
+    capacity = self.recruitment_numbers - 1
+
+    if capacity > 0
+      self.update(recruitment_numbers: capacity )
+    else
+      self.update(recruitment_numbers: 0, status: 'close')
+    end
+  end
+
+
+  def reject
+    capacity = self.recruitment_numbers + 1
+    self.update(recruitment_numbers: capacity, status: 'open' )
+  end
+
+
+  def owner?(user)
+    user.user_id == self.user.user_id ? true :false
+  end
+
+
+  def is_filled?
+    participants = 0
+    self.applicant_entry_recruitings.each do | entry |
+      participants += 1 if entry.approved?
+    end
+
+    participants < self.recruitment_numbers ? false : true
   end
 
 end

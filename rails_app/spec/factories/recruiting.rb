@@ -12,6 +12,27 @@ FactoryBot.define do
     #for apex
     rank { 'シルバー' }
     game_mode { 'ランク' }
+
+    trait :recruiting_with_applicant do
+      after(:create) do |recruiting|
+        recruiting.applicants << create(:valid_users)
+        recruiting.applicants << create(:valid_users)
+      end
+    end
+  end
+
+
+  factory :recruiting_mock, class: Recruiting do
+    type {'ApexRecruiting'}
+    vc { 'on' }
+    recruitment_numbers { 1 }
+    play_style { 'pro' }
+    status { 'open' }
+    comment { 'hello' }
+
+    #for apex
+    rank { 'シルバー' }
+    game_mode { 'ランク' }
   end
 
 end
