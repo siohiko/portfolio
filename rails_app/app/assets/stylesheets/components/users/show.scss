@@ -24,20 +24,12 @@
   @extend .right_content_box;
   @at-root {
     #{&}_profile {
-      width: 1000px;
-      margin: 50px auto;
-      box-shadow: 10px 10px 10px #000;
-      @include sp {
-        width: 94vw;
-      }
+      @extend .common_card_layout;
       @at-root {
         #{&}_header {
-          padding: 20px;
+          @extend .common_card_inner;
           border-radius: 10px 10px 0px 0px;
           background-color: $profile_header_color;
-          @include sp {
-            padding: 10px;
-          }
           @at-root {
             #{&}_icon {
               margin-bottom: $box_pc_mb_s;
@@ -90,12 +82,9 @@
           }
         }
         #{&}_body {
-          padding: 20px;
+          @extend .common_card_inner;
           background-color: $profile_body_color;
           border-radius: 0px 0px 10px 10px;
-          @include sp {
-            padding: 10px;
-          }
           @at-root {
             #{&}_description {
               margin-bottom: $box_pc_mb_l;

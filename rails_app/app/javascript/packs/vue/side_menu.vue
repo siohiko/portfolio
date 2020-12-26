@@ -14,7 +14,7 @@
       <aside class="side_menu" id="side_menu" v-if="showSideMenu">
           <ul class="side_menu_list">
           <li>
-            <a href="/recruitings/new" class="side_menu_list_link">
+            <a href="/recruitings/search" class="side_menu_list_link">
               <img alt="" class="side_menu_list_link_ico" src="../images/common/recruiting_ico.png">
               <span class="side_menu_list_link_text">募集</span>
             </a>

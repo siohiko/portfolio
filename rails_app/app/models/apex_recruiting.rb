@@ -37,4 +37,11 @@ class ApexRecruiting < Recruiting
     "どちらでも": 2
   }
 
+  class << self
+
+    def search(params)
+      return self.status_open.rank_is(params[:search][:rank]).game_mode_is(params[:search][:game_mode])
+    end
+
+  end
 end

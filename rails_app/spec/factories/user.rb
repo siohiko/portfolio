@@ -28,6 +28,20 @@ FactoryBot.define do
   end
 
 
+  factory :recruiters, class: User do
+    sequence(:user_id) { |n| "valid_user_id_#{n}" }
+    password { valid_password }
+
+    transient do
+      rank { 'ブロンズ' }
+    end
+
+    after(:create) do |user, evaluator|
+      user.create_recruiting(attributes_for(:recruiting_mock, rank: evaluator.rank))
+    end
+  end
+
+
   factory :applying_user, class: User do
     user_id { "applying_user_id" }
     password { valid_password }

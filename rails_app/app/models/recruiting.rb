@@ -52,7 +52,6 @@ class Recruiting < ApplicationRecord
   }
 
 
-
   #list of game type.
   GAMETYPENAMES = ['ApexRecruiting']
 
@@ -93,6 +92,20 @@ class Recruiting < ApplicationRecord
     end
 
     participants < self.recruitment_numbers ? false : true
+  end
+
+
+
+  class << self
+    def search(params)
+      if params[:search][:type] && GAMETYPENAMES.include?(params[:search][:type])
+        game_model = params[:search][:type]
+        game_model.constantize.search(params)
+      else
+        return nil
+      end
+    end
+
   end
 
 end

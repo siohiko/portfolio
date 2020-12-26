@@ -21,6 +21,11 @@
   flex-direction: row;
   justify-content: center;
 }
+.flex_row_space_ar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
 .right_content_box {
   width: calc(100% - 180px);
   float: right;
@@ -34,4 +39,19 @@
   content: "";
   display: block;
   clear: both;
+}
+
+.common_card_layout {
+  width: 1000px;
+  margin: 50px auto;
+  box-shadow: 10px 10px 10px #000;
+  @include sp {
+    width: 94vw;
+  }
+}
+.common_card_inner {
+  padding: 20px;
+  @include sp {
+    padding: 10px;
+  }
 }

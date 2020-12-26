@@ -66,19 +66,6 @@ class RecruitingsController < ApplicationController
   end
 
 
-  # ApexRecruiting only for now.
-  def search
-    if search_params[:search].nil?
-      @recruitings = ApexRecruiting.all
-      return
-    end
-    
-    if search_params[:search][:type] == 'ApexRecruiting'
-      @recruitings = ApexRecruiting.status_open.apex_type.rank_is(search_params[:search][:rank]).game_mode_is(search_params[:search][:game_mode])
-    end  
-  end
-
-
 
 
 

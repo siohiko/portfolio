@@ -177,7 +177,27 @@ RSpec.describe Recruiting, type: :model do
       end
     end  
   end
-  
+
+
+  describe 'search method' do
+    let(:created_valid_recruiting) { create(:valid_recruiting) }
+    let(:params) {
+      { 
+        search: {
+          type: 'ApexRecruiting',
+          rank: created_valid_recruiting.rank,
+          game_mode: created_valid_recruiting.game_mode
+        }
+      }
+    }
+    before { created_valid_recruiting }
+      
+    it 'return valid search results' do 
+      resluts = Recruiting.search(params)
+      expect(resluts[0].id).to eq created_valid_recruiting.id
+    end
+  end
+
 
   describe 'adopt method' do
     let(:created_valid_recruiting) { create(:valid_recruiting) }
