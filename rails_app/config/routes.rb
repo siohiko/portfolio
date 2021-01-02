@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     resource :delete_form, only: [:new]
   end
 
-  resource :applicant_entry_recruitings, only: [:create, :update]
+  resource :applicant_entry_recruitings, only: [:create, :update, :destroy]
   resource :apex_profile,  except: [:show]
 
   namespace :recruitings do

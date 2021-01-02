@@ -94,4 +94,91 @@ RSpec.describe User, type: :model do
     it_behaves_like "include error message", 'は255文字以下にしてください', 'introduce'.to_sym
   end
 
+
+
+
+  # ============= #
+  #    method     #
+  # ============= #
+  describe 'is_owner? method' do
+    let(:valid_recruiter) { create(:recruiter, :user_with_recruiting) }
+    let(:recruiting){ valid_recruiter.recruiting }
+    let(:another_recruiting) { create(:valid_recruitings) }
+
+    context 'with valid argument of recruiting' do
+      it 'return true' do 
+        expect(valid_recruiter.is_owner?(recruiting)).to eq true
+      end
+    end
+
+    context 'with invalid argument of recruiting' do
+      it 'return false' do 
+        expect(valid_recruiter.is_owner?(another_recruiting)).to eq false
+      end
+    end
+  end
+
+
+  describe 'is_applicant? method' do
+    let(:valid_recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+    let(:applicant){ valid_recruiting.applicants[0] }
+    let(:another_recruiting) { create(:valid_recruitings) }
+
+    context 'with valid argument of recruiting' do
+      it 'return true' do 
+        expect(applicant.is_applicant?(valid_recruiting)).to eq true
+      end
+    end
+
+    context 'with invalid argument of recruiting' do
+      it 'return false' do 
+        expect(applicant.is_applicant?(another_recruiting)).to eq false
+      end
+    end
+  end
+
+
+  describe 'is_member? method' do
+    let(:valid_recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+    let(:applicant){ valid_recruiting.applicants[0] }
+    let(:another_recruiting) { create(:valid_recruitings) }
+
+    before{
+      applicant.applicant_entry_recruiting.approved!
+    }
+
+    context 'with valid argument of recruiting' do
+      it 'return true' do 
+        expect(applicant.is_member?(valid_recruiting)).to eq true
+      end
+    end
+
+    context 'with invalid argument of recruiting' do
+      it 'return false' do 
+        expect(applicant.is_member?(another_recruiting)).to eq false
+      end
+    end
+  end
+
+  describe 'is_free? method' do
+    let(:valid_recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+    let(:applicant){ valid_recruiting.applicants[0] }
+    let(:another_user) { create(:valid_users) }
+
+    before{
+      applicant.applicant_entry_recruiting.approved!
+    }
+
+    context 'case of applicant' do
+      it 'return false' do 
+        expect(applicant.is_free?).to eq false
+      end
+    end
+
+    context 'case of unapplicant' do
+      it 'return true' do 
+        expect(another_user.is_free?).to eq true
+      end
+    end
+  end
 end

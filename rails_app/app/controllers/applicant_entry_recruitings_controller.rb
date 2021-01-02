@@ -2,7 +2,6 @@ class ApplicantEntryRecruitingsController < ApplicationController
   before_action :authenticate_user!, :set_user
   before_action :set_recruiting, :is_updater_owner?, only: [:update]
 
-
   def create
     entry = ApplicantEntryRecruiting.new(
       applicant_id: @user.user_id,
@@ -29,6 +28,22 @@ class ApplicantEntryRecruitingsController < ApplicationController
 
   end
 
+
+  def destroy
+
+    entry = ApplicantEntryRecruiting.where(
+      entry_recruiting_id: applicant_entry_recruiting_params[:recruiting_id]
+    ).where(
+      applicant_id: @user.user_id
+    )
+
+    if entry[0]
+      entry[0].destroy
+      response_success
+    else
+      response_bad_request
+    end
+  end
 
 
 

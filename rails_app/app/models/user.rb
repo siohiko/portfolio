@@ -73,4 +73,39 @@ class User < ApplicationRecord
     clean_up_passwords
     result
   end
+
+
+  def is_owner?(recruiting)
+    return false unless recruiting
+
+    if self.user_id == recruiting.user_id
+      true
+    else
+      false
+    end
+  end
+
+
+  def is_applicant?(recruiting)
+    return false unless recruiting
+
+    recruiting.applicants.include?(self)
+  end
+
+
+  def is_member?(recruiting)
+    return false unless recruiting
+
+    if recruiting.applicants.include?(self) && self.applicant_entry_recruiting.approved?
+      true
+    else
+      false
+    end
+  end
+
+
+  def is_free?
+    self.entry_recruiting ? false : true
+  end
+
 end

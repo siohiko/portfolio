@@ -21,6 +21,19 @@ FactoryBot.define do
     end
   end
 
+  factory :valid_recruitings, class: Recruiting do
+    association :user, factory: :valid_users
+    type {'ApexRecruiting'}
+    vc { 'on' }
+    recruitment_numbers { 2 }
+    play_style { 'pro' }
+    status { 'open' }
+    comment { 'hello' }
+
+    #for apex
+    rank { 'シルバー' }
+    game_mode { 'ランク' }
+  end
 
   factory :recruiting_mock, class: Recruiting do
     type {'ApexRecruiting'}

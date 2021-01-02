@@ -159,8 +159,59 @@ RSpec.describe "ApplicantEntryRecruitings", type: :request do
     end
 
   end
+
+
+
   # ============== #
   # destroy action #
   # ============== #
+  describe 'DELETE applicant_entry_recruitings#destroy' do
+    subject { delete applicant_entry_recruitings_path, params: { applicant_entry_recruiting: params } } 
+    let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+    let(:decliner) { recruiting.applicants[0] }
+    let(:params) { 
+      { 
+        recruiting_id: recruiting.id,
+      }
+    }
 
+    context 'case of decliner Logged in' do
+      before {
+        recruiting 
+        sign_in decliner 
+      }
+
+      it "delete entry" do
+        expect{subject}.to change(ApplicantEntryRecruiting, :count).by(-1)
+      end
+
+      it 'the decliners are declining properly' do
+        subject
+        expect(recruiting.reload.applicants.include?(decliner)).to eq false
+      end
+    end
+
+    context 'case of another_user Logged in' do
+      let(:another_user) { create(:valid_users) }
+      before { 
+        recruiting
+        sign_in another_user 
+      }
+
+      it "do not delete entry" do
+        expect{subject}.to change(ApplicantEntryRecruiting, :count).by(0)
+      end
+
+      it 'users are not being turned down on their own' do
+        subject
+        expect(recruiting.reload.applicants.include?(decliner)).to eq true
+      end
+    end
+
+    context 'case of being not Logged in' do
+      it_behaves_like "return http", 302
+      it_behaves_like "redirect to login_path"
+    end
+
+  end
 end

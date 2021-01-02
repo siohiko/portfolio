@@ -1,7 +1,7 @@
 class RecruitingsController < ApplicationController
   before_action :authenticate_user!, :set_user
   before_action :set_users_recruiting, except: [:create, :show, :search]
-
+  before_action :set_recruiting, only: [:show]
   def new
     if @recruiting
       redirect_to edit_recruiting_path(@recruiting.id)
@@ -62,7 +62,11 @@ class RecruitingsController < ApplicationController
 
 
   def show
-    @recruiting = Recruiting.find(params[:id])
+    @participants = []
+    @recruiting.applicants.includes(:applicant_entry_recruiting).each do |applicant|
+      @participants << applicant if applicant.applicant_entry_recruiting.approved?
+    end
+    
   end
 
 
@@ -83,6 +87,11 @@ class RecruitingsController < ApplicationController
 
   def set_user
     @user = current_user
+  end
+
+
+  def set_recruiting
+    @recruiting = Recruiting.find(params[:id])
   end
 
 
