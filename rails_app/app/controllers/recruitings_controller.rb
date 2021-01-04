@@ -63,10 +63,6 @@ class RecruitingsController < ApplicationController
 
   def show
     @user_position_for_recruiting = @user.position_in_the_recruiting(@recruiting)
-    @participants = []
-    @recruiting.applicants.includes(:applicant_entry_recruiting).each do |applicant|
-      @participants << applicant if applicant.applicant_entry_recruiting.approved?
-    end
     
   end
 

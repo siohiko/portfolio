@@ -44,6 +44,44 @@ RSpec.describe "ApplicantEntryRecruitings", type: :request do
     it { expect{subject}.to_not change(model, :count) }
   end
 
+
+  # ============= #
+  # index action #
+  # ============= #
+  describe 'GET applicant_entry_recruitings#index' do
+    subject { get applicant_entry_recruitings_path, params: { applicant_entry_recruiting: params }}
+    let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+    let(:owner) { recruiting.user }
+
+    context 'case of Logged in' do
+      context 'if user is owner' do
+        let(:params) { {recruiting_id: recruiting.id} }
+        before { sign_in owner }
+
+        it_behaves_like "return http", 200
+        it 'return valid allicants data' do
+          subject
+          json = JSON.parse(response.body)
+          expect(json['applicants'].length).to eq(2)
+        end
+      end
+
+      context 'if user is another user' do
+        let(:params) { {recruiting_id: recruiting.id} }
+        let(:another_user) { create(:valid_users) }
+        before { sign_in another_user }
+
+        it_behaves_like "return http", 401
+      end
+    end
+
+    context 'case of being not Logged in' do
+      let(:params) { {recruiting_id: recruiting.id} }
+      it_behaves_like "return http", 302
+      it_behaves_like "redirect to login_path"
+    end
+  end
+
   # ============= #
   # create action #
   # ============= #
