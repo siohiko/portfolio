@@ -1,25 +1,29 @@
 module RecruitingsHelper
   
-  def load_js_pack_for_user_position(user, recruiting)
+  #return contents of operation against recruitment for user position
+  def operation_display_for_position(position)
+    packs_for_user = {
+      owner:     { pack: 'recruiting/show/operation_for_owner' },
+      member:    { pack: 'recruiting/show/operation_for_member' },
+      applicant: { pack: 'recruiting/show/operation_for_applicant' },
+      free:      { pack: 'recruiting/show/operation_for_general_user' }
+    }
 
-    if user.is_owner?(recruiting)
-      js_pack_tag = javascript_pack_tag('recruiting/show/operation_for_owner')
-    elsif user.is_member?(recruiting)
-      js_pack_tag = javascript_pack_tag('recruiting/show/operation_for_member')
-    elsif user.is_applicant?(recruiting)
-      js_pack_tag = javascript_pack_tag('recruiting/show/operation_for_applicant')
-    elsif user.is_free?
-      js_pack_tag = javascript_pack_tag('recruiting/show/operation_for_general_user')
-    else
+    if position === :applicant_for_another_recruiting
       content = content_tag(:div) do
         content_tag(:p, "他の募集に応募しているので、応募はできません。")
       end
-      return content
+    elsif position
+      #div to mount vue
+      mounted_div_tag = content_tag(:div, nil, id: "recruiting_operation")
+      #load js
+      js_pack_tag = javascript_pack_tag(packs_for_user[position][:pack])
+      content = mounted_div_tag + js_pack_tag
+    else
+      content = nil
     end
 
-
-    mounted_div_tag = content_tag(:div, nil, id: "recruiting_operation")
-    return mounted_div_tag + js_pack_tag
+    return content
   end
 
 end

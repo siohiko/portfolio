@@ -46,7 +46,7 @@
         <h2 class="recruiting_show_detail_comment_ttl">コメント</h2>
         <p class="recruiting_show_detail_comment_p"><%= @recruiting.comment %></p>
       </section>
-      <% if @user.is_owner?(@recruiting) %>
+      <% if @user_position_for_recruiting === :owner%>
         <div class="recruiting_show_owner_section">
           <%= link_to edit_recruiting_path(@recruiting), class: 'recruiting_show_owner_section_btn', data: { confirm: "募集を取り消しますか？" } do %>
             <%= image_tag('users/show/edit_ico.png', alt: '') %>
@@ -59,6 +59,6 @@
         </div>
       <% end %>
     </div>
-    <%= load_js_pack_for_user_position(@user, @recruiting) %>
+    <%= operation_display_for_position(@user_position_for_recruiting) %>
   </div>
 </section>

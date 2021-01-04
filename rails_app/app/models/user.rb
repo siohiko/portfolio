@@ -75,37 +75,21 @@ class User < ApplicationRecord
   end
 
 
-  def is_owner?(recruiting)
+  # Return symbol of the user's position for the recruiting of argument.
+  def position_in_the_recruiting(recruiting)
     return false unless recruiting
 
     if self.user_id == recruiting.user_id
-      true
+      :owner
+    elsif recruiting.applicants.include?(self) && self.applicant_entry_recruiting.approved?
+      :member
+    elsif recruiting.applicants.include?(self)
+      :applicant
+    elsif recruiting.applicants.exclude?(self) && !self.entry_recruiting
+      :free
     else
-      false
+      :applicant_for_another_recruiting
     end
-  end
-
-
-  def is_applicant?(recruiting)
-    return false unless recruiting
-
-    recruiting.applicants.include?(self)
-  end
-
-
-  def is_member?(recruiting)
-    return false unless recruiting
-
-    if recruiting.applicants.include?(self) && self.applicant_entry_recruiting.approved?
-      true
-    else
-      false
-    end
-  end
-
-
-  def is_free?
-    self.entry_recruiting ? false : true
   end
 
 end

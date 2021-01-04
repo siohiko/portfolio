@@ -100,84 +100,63 @@ RSpec.describe User, type: :model do
   # ============= #
   #    method     #
   # ============= #
-  describe 'is_owner? method' do
-    let(:valid_recruiter) { create(:recruiter, :user_with_recruiting) }
-    let(:recruiting){ valid_recruiter.recruiting }
-    let(:another_recruiting) { create(:valid_recruitings) }
-
+  describe 'position_in_the_recruiting method' do
     context 'with valid argument of recruiting' do
-      it 'return true' do 
-        expect(valid_recruiter.is_owner?(recruiting)).to eq true
+      context 'if user is owner' do
+        let(:owner) { create(:recruiter, :user_with_recruiting) }
+        let(:recruiting){ owner.recruiting }
+
+        it 'return :owner' do 
+          expect(owner.position_in_the_recruiting(recruiting)).to eq :owner
+        end
+      end
+      
+      context 'if user is applicant' do
+        let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+        let(:applicant){ recruiting.applicants[0] }
+
+        it 'return :applicant' do 
+          expect(applicant.position_in_the_recruiting(recruiting)).to eq :applicant
+        end
+      end
+
+      context 'if user is memebr' do
+        let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+        let(:member){ recruiting.applicants[0] }
+        before{ member.applicant_entry_recruiting.approved! }
+
+        it 'return :member' do 
+          expect(member.position_in_the_recruiting(recruiting)).to eq :member
+        end
+      end
+
+      context 'if user is free' do
+        let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+        let(:free_user) { create(:valid_users) }
+
+        it 'return :free' do 
+          expect(free_user.position_in_the_recruiting(recruiting)).to eq :free
+        end
+      end
+
+      context 'if user is applicant for another recruiting' do
+        let(:another_recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+        let(:recruiting) { create(:valid_recruitings) }
+        let(:applicant_for_another_recruiting) { another_recruiting.applicants[0] }
+
+        it 'return false' do 
+          expect(applicant_for_another_recruiting.position_in_the_recruiting(recruiting)).to eq :applicant_for_another_recruiting
+        end
       end
     end
+
 
     context 'with invalid argument of recruiting' do
+      let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+      let(:applicant){ recruiting.applicants[0] }
+
       it 'return false' do 
-        expect(valid_recruiter.is_owner?(another_recruiting)).to eq false
-      end
-    end
-  end
-
-
-  describe 'is_applicant? method' do
-    let(:valid_recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
-    let(:applicant){ valid_recruiting.applicants[0] }
-    let(:another_recruiting) { create(:valid_recruitings) }
-
-    context 'with valid argument of recruiting' do
-      it 'return true' do 
-        expect(applicant.is_applicant?(valid_recruiting)).to eq true
-      end
-    end
-
-    context 'with invalid argument of recruiting' do
-      it 'return false' do 
-        expect(applicant.is_applicant?(another_recruiting)).to eq false
-      end
-    end
-  end
-
-
-  describe 'is_member? method' do
-    let(:valid_recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
-    let(:applicant){ valid_recruiting.applicants[0] }
-    let(:another_recruiting) { create(:valid_recruitings) }
-
-    before{
-      applicant.applicant_entry_recruiting.approved!
-    }
-
-    context 'with valid argument of recruiting' do
-      it 'return true' do 
-        expect(applicant.is_member?(valid_recruiting)).to eq true
-      end
-    end
-
-    context 'with invalid argument of recruiting' do
-      it 'return false' do 
-        expect(applicant.is_member?(another_recruiting)).to eq false
-      end
-    end
-  end
-
-  describe 'is_free? method' do
-    let(:valid_recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
-    let(:applicant){ valid_recruiting.applicants[0] }
-    let(:another_user) { create(:valid_users) }
-
-    before{
-      applicant.applicant_entry_recruiting.approved!
-    }
-
-    context 'case of applicant' do
-      it 'return false' do 
-        expect(applicant.is_free?).to eq false
-      end
-    end
-
-    context 'case of unapplicant' do
-      it 'return true' do 
-        expect(another_user.is_free?).to eq true
+        expect(applicant.position_in_the_recruiting(nil)).to eq false
       end
     end
   end
