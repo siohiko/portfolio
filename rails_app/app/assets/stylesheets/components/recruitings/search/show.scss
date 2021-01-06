@@ -4,8 +4,13 @@
     & .your_section {
       @extend .common_card_layout;
       @extend .common_card_inner;
+      @extend .flex_row;
+      justify-content: space-between;
       border-radius: 10px;
       background-color: $recruiting_card_color;
+      @include sp {
+        display: block;
+      }
       @at-root {
         #{&}_ttl {
           @extend .roundish_font_family;
@@ -18,12 +23,42 @@
         }
       }
     }
+    & .your_applying_recruiting_status {
+      text-align: center;
+      padding: 5px;
+      & .status_approve { 
+        display: inline-block;
+        padding: 3px;
+        border-radius: 3px;
+        background: $emerald;
+      }
+      & .status_unapprove {
+        display: inline-block;
+        padding: 3px;
+        border-radius: 3px;
+        background: $gray;
+      }
+    }
     & .your_recruiting {
       width: 45%;
       @include sp {
         width: 100%;
+        margin-bottom: $box_sp_mb_m;
       }
       @at-root {
+        #{&}_new_btn {
+          display: block;
+          width: 60%;
+          padding: 10px;
+          font-size: 18px;
+          text-align: center;
+          background: $orange;
+          border-radius: 5px;
+          margin: auto;
+          &:hover {
+            opacity: 0.7;
+          }
+        }
         #{&}_card {
           @extend .flex_row;
           flex-wrap: wrap;

@@ -1,5 +1,8 @@
 class Recruitings::SearchController < ApplicationController
-  before_action :authenticate_user!, :set_user, :set_users_recruiting
+  before_action :authenticate_user!,
+                :set_user,
+                :set_users_recruiting,
+                :set_applying_recruiting
 
 
   # ApexRecruiting only for now.
@@ -29,13 +32,19 @@ class Recruitings::SearchController < ApplicationController
     params.permit(:commit, search: [:type, :rank, :game_mode])
   end
 
+
   def set_user
     @user = current_user
   end
+
 
   def set_users_recruiting
     @recruiting = @user.recruiting
   end
 
+
+  def set_applying_recruiting
+    @applying_recruiting = @user.entry_recruiting
+  end
 
 end
