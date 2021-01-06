@@ -279,4 +279,39 @@ RSpec.describe Recruiting, type: :model do
     end
   end
 
+
+
+  # ============ #
+  #   callback   #
+  # ============ #
+  describe 'before update callback' do
+    let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+    let(:participant) { recruiting.applicants[0] }
+    before { participant.applicant_entry_recruiting.approved! }
+
+    context 'update recruitment_numbers to 1' do
+      before { recruiting.update(recruitment_numbers: 1) }
+
+      it 'recruitment_numbers eq 0' do
+        expect(recruiting.recruitment_numbers).to eq 0
+      end
+
+      it 'recruiting is closed' do
+        expect(recruiting.status).to eq 'close'
+      end
+    end
+
+    context 'update recruitment_numbers to 3' do
+      before { recruiting.update(recruitment_numbers: 3) }
+
+      it 'recruitment_numbers eq 2' do
+        expect(recruiting.recruitment_numbers).to eq 2
+      end
+
+      it 'recruiting is open' do
+        expect(recruiting.status).to eq 'open'
+      end
+    end
+  end
+
 end

@@ -16,6 +16,10 @@
 #  user_id             :string(32)       not null
 #
 class Recruiting < ApplicationRecord
+  before_update do
+    calculate_recruitment_numbers if will_save_change_to_recruitment_numbers?
+  end
+
   belongs_to :user
 
   has_many :applicant_entry_recruitings,
@@ -62,7 +66,7 @@ class Recruiting < ApplicationRecord
   end
 
 
-  #Process when one applicant is approved.
+  #応募者を承認する時の処理
   def adopt
     capacity = self.recruitment_numbers - 1
 
@@ -86,12 +90,12 @@ class Recruiting < ApplicationRecord
 
 
   def is_filled?
-    participants = 0
+    participants_count = 0
     self.applicant_entry_recruitings.each do | entry |
-      participants += 1 if entry.approved?
+      participants_count += 1 if entry.approved?
     end
 
-    participants < self.recruitment_numbers ? false : true
+    participants_count < self.recruitment_numbers ? false : true
   end
 
 
@@ -107,5 +111,24 @@ class Recruiting < ApplicationRecord
     end
 
   end
+
+
+  private
+
+  #募集人数更新時は、既に参加しているユーザー数を換算して更新する。
+  def calculate_recruitment_numbers
+    participants_count = 0
+    self.applicant_entry_recruitings.each do |entry|
+      participants_count += 1 if entry.approved?
+    end
+
+    self.recruitment_numbers = self.recruitment_numbers - participants_count
+
+    if self.recruitment_numbers <= 0
+      self.status = 'close'
+      self.recruitment_numbers = 0
+    end
+  end
+
 
 end
