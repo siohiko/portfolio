@@ -1,3 +1,38 @@
+//common style in this file
+.recruiting_show_common_section_layout {
+  width: 500px;
+  margin: auto;
+  @include sp {
+    width: 100%;
+    display: block;
+  }
+}
+.recruiting_show_common_user_cards {
+  padding: 10px 15px;
+  border: 1px solid $white;
+  border-radius: 10px;
+  background-color: $azure_blue;
+}
+
+@mixin recruiting_show_common_section_ttl($font_size_pc, $font_size_sp) {
+  @extend .roundish_font_family;
+      font-size: $font_size_pc;
+      max-width: 500px;
+      margin: 0px auto 20px;
+      @include sp {
+        margin-bottom: $box_sp_mb_s;
+        font-size: $font_size_sp;
+      }
+}
+
+
+
+
+
+
+
+
+
 .recruiting_show {
   @extend .right_content_box;
   @at-root {
@@ -8,28 +43,17 @@
       background-color: $recruiting_card_color;
     }
     #{&}_ttl {
-      @extend .roundish_font_family;
-      font-size: $f_size_pc_l;
-      max-width: 500px;
-      margin: 0px auto 20px;
-      @include sp {
-        margin-bottom: $box_sp_mb_s;
-        font-size: $f_size_sp_l;
-      }
+      @include recruiting_show_common_section_ttl($f_size_pc_l, $f_size_sp_l);
     }
     #{&}_detail {
-      width: 500px;
-      margin: auto;
+      @extend .recruiting_show_common_section_layout;
       @extend .flex_row;
       flex-wrap: wrap;
       background-color: $azure_blue;
       padding: 15px 10px;
+      margin-bottom: $box_pc_mb_s;
       border-radius: 10px;
       border: 1px solid $white;
-      @include sp {
-        width: 100%;
-        display: block;
-      }
       @at-root {
         #{&}_user {
           @extend .flex_column_center;
@@ -171,6 +195,71 @@
                   width: 14px;
                 }
               }
+            }
+          }
+        }
+      }
+    }
+    #{&}_users {
+      @extend .recruiting_show_common_section_layout;
+      margin-bottom: $box_pc_mb_s;
+      @at-root {
+        #{&}_ttl {
+          @include recruiting_show_common_section_ttl($f_size_pc_m, $f_size_sp_m);
+        }
+        #{&}_list {
+          @extend .recruiting_show_common_user_cards;
+          @at-root {
+            #{&}_left {
+              @at-root {
+                & a {
+                  display: block;
+                  &:hover {
+                    opacity: 0.7;
+                  }
+                }
+                #{&}_name {
+                  display: block;
+                  text-align: center;
+                  font-size: $f_size_pc_xs;
+                }
+                & img {
+                  margin: 0px auto 5px;
+                  width: 80px;
+                  background-color: $white;
+                  border-radius: 50%;
+                  padding: 10px;
+                }
+              }
+            }
+            #{&}_right {
+              flex-grow: 1;
+            }
+            #{&}_btn {
+              height: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              & span {
+                cursor: pointer;
+                display: block;
+                text-align: center;
+                width:80%;
+                border-radius: 5px;
+                line-height: 2.5em;
+                &:hover {
+                  opacity: 0.7;
+                }
+              }
+            }
+            #{&}_approve_btn_span {
+              background: $emerald;
+            }
+            #{&}_kick_btn_span {
+              background: $pink;
+            }
+            & li {
+              @extend .flex_row;
             }
           }
         }

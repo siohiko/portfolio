@@ -150,4 +150,25 @@ RSpec.describe ApplicantEntryRecruiting, type: :model do
     end
   end
 
+
+  describe 'destroy callback' do
+    let(:applying_user) { create(:applying_user, :user_with_entry_recruiting) }
+    let(:applying_user__applicant_entry_recruiting) {applying_user.applicant_entry_recruiting }
+    let(:applying_user_entry_recruiting) { applying_user.entry_recruiting }
+    before { applying_user }
+
+    context 'case of destroy applicant' do
+
+      it 'recruitment_numbers of Recruiting remain the same' do
+        expect{ applying_user__applicant_entry_recruiting.destroy }.to change{ applying_user_entry_recruiting.recruitment_numbers }.by(0)
+      end
+    end
+
+    context 'case of destroy participant' do
+      before { applying_user__applicant_entry_recruiting.approved! }
+      it 'recruitment_numbers of Recruiting increase' do
+        expect{ applying_user__applicant_entry_recruiting.destroy }.to change{ applying_user_entry_recruiting.recruitment_numbers }.by(1)
+      end
+    end
+  end
 end

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>募集者の承認待ちです。</p>
+    <p>あなたはこの募集のメンバーです</p>
     <div v-if="operationUncompleted">
       <div class="recruiting_application" @click="declining">
         <span>参加を辞退する</span>

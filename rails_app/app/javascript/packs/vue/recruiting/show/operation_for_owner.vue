@@ -1,55 +1,152 @@
 <template>
   <div>
-    <p>募集者の承認待ちです。</p>
-    <div v-if="operationUncompleted">
-      <div class="recruiting_application" @click="declining">
-        <span>参加を辞退する</span>
+    <section class="recruiting_show_users">
+      <h3 class="recruiting_show_users_ttl">参加者</h3>
+
+      <ul 
+        v-if="this.participants == null || this.participants.length > 0"
+        class="recruiting_show_users_list"
+      >
+        <li v-for="user in participants" :key="user.user_id">
+          <div class="recruiting_show_users_list_left">
+            <a v-bind:href="'/users/' + user.user_id">
+              <img alt="" src="../../../images/common/user_ico.png">
+              <span class="recruiting_show_users_list_left_name">{{ user.name }}</span>
+            </a>
+          </div>
+          <div class="recruiting_show_users_list_right">
+            <div class="recruiting_show_users_list_btn">
+              <span
+                @click="kick" 
+                v-bind:data-id= user.user_id
+                class = "recruiting_show_users_list_kick_btn_span"
+              >
+                このユーザーをキックする
+              </span>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div v-else>
+        <p>参加者はいません。</p>
       </div>
-    </div>
-    <div v-else>
-      <div class="recruiting_application">
-        <span>辞退しました！</span>
+    </section>
+    <section class="recruiting_show_users">
+      <h3 class="recruiting_show_users_ttl">応募者</h3>
+      <ul 
+        v-if="this.applicants == null || this.applicants.length > 0"
+        class="recruiting_show_users_list"
+      >
+        <li v-for="user in applicants" :key="user.user_id">
+          <div class="recruiting_show_users_list_left">
+            <a v-bind:href="'/users/' + user.user_id">
+              <img alt="" src="../../../images/common/user_ico.png">
+              <span class="recruiting_show_users_list_left_name">{{ user.name }}</span>
+            </a>
+          </div>
+          <div class="recruiting_show_users_list_right">
+            <div class="recruiting_show_users_list_btn">
+              <span
+                @click="approve" 
+                v-bind:data-id= user.user_id
+                class = "recruiting_show_users_list_approve_btn_span"
+              >
+                このユーザーを承認する
+              </span>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div v-else>
+        <p>応募者はいません。</p>
       </div>
-    </div>
-    <div v-if="errorMasseges != null">
-      <p>{{ errorMasseges }}</p>
-    </div>
+    </section>
   </div>
 </template>
 <script>
 import axios from 'axios'
+import qs from 'qs';
+
 var token = document.getElementsByName('csrf-token')[0].getAttribute('content')
 axios.defaults.headers.common['X-CSRF-Token'] = token
 var recruitintgIdReg = new RegExp('/recruitings/(.*)');
 var recruitingIdStr = location.href.match(recruitintgIdReg)
 
+var params = {
+  applicant_entry_recruiting: {
+    recruiting_id: Number(recruitingIdStr[1])
+  }
+};
+var paramsSerializer = (params) => qs.stringify(params);
+
 export default {
   data() {
     return {
-     recruitingId : Number(recruitingIdStr[1]),
+      recruitingId : Number(recruitingIdStr[1]),
      operationUncompleted : true,
-     errorMasseges : null
+     errorMasseges : null,
+     applicants : null,
+     participants : null
     };
   },
+
   created() {
- console.log(this);
+    axios.get('/applicant_entry_recruitings',{
+      params, paramsSerializer
+    }).then((response) => {
+      if (response.status == 200) {
+        this.applicants = response.data['applicants'];
+        this.participants = response.data['participants'];
+      } else {
+        this.errorMasseges = 'ユーザーデータの読み込みに失敗しました。再読み込みしてください。'
+      }
+    })
+    .catch((error) =>  {
+      this.errorMasseges = 'ユーザーデータの読み込みに失敗しました。再読み込みしてください。'
+    });
   },
+
   methods: {
-    declining: function(){
-      axios.delete(
-        '/applicant_entry_recruitings',
-        { data: { applicant_entry_recruiting: { recruiting_id: this.recruitingId } } }
-      ).then((response) => {
-        if (response.status == 200) {
-          this.operationUncompleted = false;
+    approve: function(e){
+      var id = e.currentTarget.getAttribute('data-id');
+      axios.put('/applicant_entry_recruitings',{
+        applicant_entry_recruiting: {
+          recruiting_id: this.recruitingId,
+          applicant_id: id,
+          status: 'approved'
+        }
+      }).then((response) => {
+        if (response.status == 201) {
+          location.reload();
         } else {
-          this.errorMasseges = '辞退に失敗しました。再読み込みしてください。'
+          this.errorMasseges = '承認に失敗しました。再読み込みしてください。'
         }
       })
       .catch((error) =>  {
-        this.errorMasseges = '辞退に失敗しました。再読み込みしてください。'
+        this.errorMasseges = '承認に失敗しました。再読み込みしてください。'
       });
-    }
+    },
+
+    kick: function(e){
+      var id = e.currentTarget.getAttribute('data-id')
+      axios.delete('/applicant_entry_recruitings',{
+        data: {
+          applicant_entry_recruiting: {
+            recruiting_id: this.recruitingId,
+            applicant_id: id,
+          }
+        }
+      }).then((response) => {
+        if (response.status == 200) {
+          location.reload();
+        } else {
+          this.errorMasseges = 'キックに失敗しました。再読み込みしてください。'
+        }
+      })
+      .catch((error) =>  {
+        this.errorMasseges = 'キックに失敗しました。再読み込みしてください。'
+      });
+    },
   }
 } 
 </script>

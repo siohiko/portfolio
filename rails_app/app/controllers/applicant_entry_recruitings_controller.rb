@@ -1,6 +1,8 @@
 class ApplicantEntryRecruitingsController < ApplicationController
   before_action :authenticate_user!, :set_user
-  before_action :set_recruiting, :is_user_owner?, only: [:index, :update]
+  before_action :set_recruiting, only: [:index, :update, :destroy]
+  before_action :is_user_owner?, only: [:index, :update]
+  before_action :set_user_for_destroy, only: [:destroy]
 
   #Return a list of participants.
   #Accessible only to the owner of the recruitment. General users should use the search controller.
@@ -55,7 +57,7 @@ class ApplicantEntryRecruitingsController < ApplicationController
     entry = ApplicantEntryRecruiting.where(
       entry_recruiting_id: applicant_entry_recruiting_params[:recruiting_id]
     ).where(
-      applicant_id: @user.user_id
+      applicant_id: @tagret_user.user_id
     )
 
     if entry[0]
@@ -91,6 +93,19 @@ class ApplicantEntryRecruitingsController < ApplicationController
     else
       response_unauthorized
     end
+  end
+
+  #ユーザーがオーナーの時はパラメータよりユーザーをセット、それ以外の場合はアクセスしたユーザー本人をセット。
+  def set_user_for_destroy
+    return response_unauthorized unless @recruiting
+
+    if @recruiting.owner?(current_user)
+      @tagret_user = User.find_by(user_id: applicant_entry_recruiting_params[:applicant_id])
+    else
+      @tagret_user = current_user
+    end
+
+    return response_unauthorized unless @tagret_user
   end
 
 end

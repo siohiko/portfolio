@@ -19,6 +19,10 @@ class ApplicantEntryRecruiting < ApplicationRecord
     update_with_recruiting if saved_change_to_status?
   end
 
+  before_destroy do
+    destroy_participant_and_increase_recruitment_numbers
+  end
+
   belongs_to :entry_recruiting, class_name: "Recruiting"
   belongs_to :applicant, class_name: "User"
 
@@ -45,7 +49,7 @@ class ApplicantEntryRecruiting < ApplicationRecord
     errors.add(:applicant, 'あなた自身がかけた募集には応募できません') if self.entry_recruiting.user_id == self.applicant_id
   end
 
-  #for after_update
+  #レコード更新時、更新内容に応じて関連している募集モデルの募集人数を増減する。
   def update_with_recruiting
     recruting = self.entry_recruiting
 
@@ -54,6 +58,12 @@ class ApplicantEntryRecruiting < ApplicationRecord
     else
       recruting.reject
     end
+  end
+
+  #レコード削除時、もしそれが参加者（status = approved）だった場合、関連している募集モデルのrejectメソッドを呼ぶ（募集人数を増やす）
+  def destroy_participant_and_increase_recruitment_numbers
+    recruting = self.entry_recruiting
+    recruting.reject if self.approved?
   end
 
 end
