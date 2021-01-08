@@ -90,6 +90,23 @@ RSpec.describe Recruiting, type: :model do
       it_behaves_like "include error message", 'は32文字以下にしてください', 'play_style'.to_sym
     end
 
+
+    context 'if the number of participants exceeds recruitment_numbers at the time of update' do
+      let(:verified_recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+      let(:applicants) { verified_recruiting.applicant_entry_recruitings }
+      before {
+        verified_recruiting.applicant_entry_recruitings.each do |entry|
+          entry.approved!
+        end
+      }
+
+      it 'return errors' do
+        verified_recruiting.update(recruitment_numbers: 1)
+        expect(verified_recruiting.errors[:recruitment_numbers]).to include '既に参加者しているメンバー数以下の値には設定できません。'
+      end
+    end
+
+
   end
 
 
@@ -199,43 +216,6 @@ RSpec.describe Recruiting, type: :model do
   end
 
 
-  describe 'adopt method' do
-    let(:created_valid_recruiting) { create(:valid_recruiting) }
-    before { created_valid_recruiting }
-
-    context 'when the number of applicants is less than the capacity' do
-      
-      it 'decrease recruitment_numbers' do 
-        expect{ created_valid_recruiting.adopt }.to change{ created_valid_recruiting.recruitment_numbers }.by(-1)
-      end
-    end
-
-    context 'when the number of applicants exceeds the capacity' do
-
-      it 'decrease recruitment_numbers and close' do 
-        expect{ 
-          created_valid_recruiting.adopt
-          created_valid_recruiting.adopt
-         }.to change{ created_valid_recruiting.recruitment_numbers }.by(-2)
-
-        expect(created_valid_recruiting.status).to eq 'close'
-      end
-    end
-  end
-
-
-
-  describe 'reject method' do
-    let(:created_valid_recruiting) { create(:valid_recruiting, status: 'close', recruitment_numbers: 0) }
-    before { created_valid_recruiting }
-      
-    it 'increase recruitment_numbers and status update to open' do 
-      expect{ created_valid_recruiting.reject }.to change{ created_valid_recruiting.recruitment_numbers }.by(1)
-      expect(created_valid_recruiting.status).to eq 'open'
-    end
-  end
-
-
   describe 'owner?_method' do
     let(:created_valid_recruiting) { create(:valid_recruiting) }
     let(:owner) {created_valid_recruiting.user}
@@ -254,64 +234,4 @@ RSpec.describe Recruiting, type: :model do
       end
     end
   end
-
-
-  describe 'is_filled?_method' do
-    let(:applied_recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
-    before { applied_recruiting }
-      
-    context 'if the applicant has been approved, return true' do 
-      before { 
-        applied_recruiting.applicant_entry_recruitings.each do |applicant|
-          applicant.update(status: 'approved')
-        end
-      }
-
-      it 'return true' do 
-        expect(applied_recruiting.is_filled?).to eq true
-      end
-    end
-
-    context 'if the applicant has not been approved, return false' do 
-      it 'return false' do 
-        expect(applied_recruiting.is_filled?).to eq false
-      end
-    end
-  end
-
-
-
-  # ============ #
-  #   callback   #
-  # ============ #
-  describe 'before update callback' do
-    let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
-    let(:participant) { recruiting.applicants[0] }
-    before { participant.applicant_entry_recruiting.approved! }
-
-    context 'update recruitment_numbers to 1' do
-      before { recruiting.update(recruitment_numbers: 1) }
-
-      it 'recruitment_numbers eq 0' do
-        expect(recruiting.recruitment_numbers).to eq 0
-      end
-
-      it 'recruiting is closed' do
-        expect(recruiting.status).to eq 'close'
-      end
-    end
-
-    context 'update recruitment_numbers to 3' do
-      before { recruiting.update(recruitment_numbers: 3) }
-
-      it 'recruitment_numbers eq 2' do
-        expect(recruiting.recruitment_numbers).to eq 2
-      end
-
-      it 'recruiting is open' do
-        expect(recruiting.status).to eq 'open'
-      end
-    end
-  end
-
 end

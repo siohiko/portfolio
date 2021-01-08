@@ -55,19 +55,6 @@ RSpec.describe ApplicantEntryRecruiting, type: :model do
     end
 
 
-    context 'if the recruiting is filled' do
-      let(:applying_user) { build(:applying_user, :user_with_entry_recruiting) }
-      let(:verified_applicant_entry_recruiting) {applying_user.applicant_entry_recruiting}
-
-      before { 
-        applying_user
-        applying_user.entry_recruiting.recruitment_numbers = 0
-      }
-      it_behaves_like "is invalid"
-      it_behaves_like "include error message", 'その募集は既に満員です', 'entry_recruiting'.to_sym
-    end
-
-
     context 'if the applicant is owner' do
       let(:applying_user) { build(:applying_user, :user_with_entry_recruiting) }
       let(:verified_applicant_entry_recruiting) {applying_user.applicant_entry_recruiting}
@@ -78,6 +65,20 @@ RSpec.describe ApplicantEntryRecruiting, type: :model do
       }
       it_behaves_like "is invalid"
       it_behaves_like "include error message", 'あなた自身がかけた募集には応募できません', 'applicant'.to_sym
+    end
+
+
+    context 'if the number of participants exceeds recruitment_numbers at the time of update' do
+      let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant, recruitment_numbers: 1) }
+      let(:verified_applicant_entry_recruiting) { recruiting.applicant_entry_recruitings[0] }
+      let(:participant_entry) { recruiting.applicant_entry_recruitings[1] }
+
+      before { participant_entry.approved! }
+
+      it 'return errors' do
+        verified_applicant_entry_recruiting.update(status: 'approved')
+        expect(verified_applicant_entry_recruiting.errors[:status]).to include 'この募集は既に満員です。募集人数を設定しなおしてください。'
+      end
     end
 
   end
@@ -127,48 +128,23 @@ RSpec.describe ApplicantEntryRecruiting, type: :model do
   end
 
 
-  # ============ #
-  #   callback   #
-  # ============ #
-  describe 'update callback' do
-    let(:applying_user) { create(:applying_user, :user_with_entry_recruiting) }
-    let(:applying_user__applicant_entry_recruiting) {applying_user.applicant_entry_recruiting }
-    let(:applying_user_entry_recruiting) { applying_user.entry_recruiting }
-    before { applying_user }
 
-    context 'case of updating status to approved' do
-      it 'recruitment_numbers of Recruiting decrease' do
-        expect{ applying_user__applicant_entry_recruiting.approved! }.to change{ applying_user_entry_recruiting.recruitment_numbers }.by(-1)
-      end
+  # ============ #
+  #    callback  #
+  # ============ #
+  describe 'update_with_recruiting_status method' do
+    let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+    let(:verified_applicant_entry_recruiting) { recruiting.applicant_entry_recruitings[0] }
+    let(:participant_entry) { recruiting.applicant_entry_recruitings[1] }
+    before { 
+      participant_entry.approved!
+    }
+
+    it 'return valid value' do
+      verified_applicant_entry_recruiting.approved!
+      expect(recruiting.reload.status).to eq 'close'
     end
 
-    context 'case of updating status to unapproved' do
-      before { applying_user__applicant_entry_recruiting.approved! }
-      it 'recruitment_numbers of Recruiting increase' do
-        expect{ applying_user__applicant_entry_recruiting.unapproved! }.to change{ applying_user_entry_recruiting.recruitment_numbers }.by(1)
-      end
-    end
   end
 
-
-  describe 'destroy callback' do
-    let(:applying_user) { create(:applying_user, :user_with_entry_recruiting) }
-    let(:applying_user__applicant_entry_recruiting) {applying_user.applicant_entry_recruiting }
-    let(:applying_user_entry_recruiting) { applying_user.entry_recruiting }
-    before { applying_user }
-
-    context 'case of destroy applicant' do
-
-      it 'recruitment_numbers of Recruiting remain the same' do
-        expect{ applying_user__applicant_entry_recruiting.destroy }.to change{ applying_user_entry_recruiting.recruitment_numbers }.by(0)
-      end
-    end
-
-    context 'case of destroy participant' do
-      before { applying_user__applicant_entry_recruiting.approved! }
-      it 'recruitment_numbers of Recruiting increase' do
-        expect{ applying_user__applicant_entry_recruiting.destroy }.to change{ applying_user_entry_recruiting.recruitment_numbers }.by(1)
-      end
-    end
-  end
 end

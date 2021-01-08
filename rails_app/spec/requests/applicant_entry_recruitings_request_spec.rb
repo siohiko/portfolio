@@ -107,13 +107,6 @@ RSpec.describe "ApplicantEntryRecruitings", type: :request do
         it_behaves_like "include error message", 'その募集は既に閉じられています'
       end
 
-      context 'if recruitment_numbers is 0' do
-        before { recruiter.recruiting.update(recruitment_numbers: 0) }
-
-        it_behaves_like "return http", 409
-        it_behaves_like "Failing to create Model", ApplicantEntryRecruiting
-        it_behaves_like "include error message", 'その募集は既に満員です'
-      end
     end
 
 
@@ -173,10 +166,15 @@ RSpec.describe "ApplicantEntryRecruitings", type: :request do
       end
 
       context 'case that recruiting is filled' do
-        before { recruiter.recruiting.update(recruitment_numbers: 0) }
+        let(:recruiting) {recruiter.recruiting}
+        before { 
+          recruiting.update(recruitment_numbers: 1)
+          recruiting.applicants << create(:valid_users)
+          recruiting.applicant_entry_recruitings[1].approved!
+        }
 
         it_behaves_like "return http", 409
-        it_behaves_like "include error message", 'その募集は既に満員です'
+        it_behaves_like "include error message", 'この募集は既に満員です。募集人数を設定しなおしてください。'
         it 'do not updates applicant_entry_recruitings' do
           subject
           expect(recruiter.recruiting.applicant_entry_recruitings[0].status).to_not eq params[:status]
