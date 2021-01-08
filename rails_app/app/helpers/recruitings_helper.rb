@@ -26,4 +26,15 @@ module RecruitingsHelper
     return content
   end
 
+
+  def display_recruiting_status
+    if @recruiting.status == "open"
+      content_tag(:span, "募集中", class: "open")
+    elsif @recruiting.status == "close"
+      content_tag(:span, "募集終了", class: "close")
+    elsif @recruiting.status == "filled"
+      content_tag(:span, "満員", class: "filled")
+    end
+  end
+
 end

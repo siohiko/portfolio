@@ -49,7 +49,8 @@ class Recruiting < ApplicationRecord
 
   enum status: { 
     "open": 0,
-    "close": 1
+    "close": 1,
+    "filled": 2
   }
 
 

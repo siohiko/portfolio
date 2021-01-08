@@ -73,7 +73,7 @@ class RecruitingsController < ApplicationController
   private
 
   def recruiting_params
-    params.require(:recruiting).permit(:type, :vc, :recruitment_numbers, :play_style, :comment, :rank, :game_mode)
+    params.require(:recruiting).permit(:type, :vc, :recruitment_numbers, :play_style, :comment, :rank, :game_mode, :status)
   end
 
 

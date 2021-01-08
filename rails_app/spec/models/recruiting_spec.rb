@@ -184,7 +184,8 @@ RSpec.describe Recruiting, type: :model do
       [
         [nil, nil],
         [0, 'open'],
-        [1, 'close']
+        [1, 'close'],
+        [2, 'filled']
       ]
     end
 
