@@ -16,7 +16,11 @@
 #
 class ApplicantEntryRecruiting < ApplicationRecord
   after_update_commit do
-    update_with_recruiting_status if saved_change_to_status?
+    increase_participants_numbers_and_update_status if saved_change_to_status? && approved?
+  end
+
+  after_destroy do
+    decrease_participants_numbers_and_update_status if approved?
   end
 
   belongs_to :entry_recruiting, class_name: "Recruiting"
@@ -53,20 +57,31 @@ class ApplicantEntryRecruiting < ApplicationRecord
 
 
   #自身のstatusをapprovedに更新成功時、関連するRecruitingレコードの参加人数を更新し、それに応じて状態も更新をする
-  def update_with_recruiting_status
-    if self.saved_change_to_status? && self.approved?
-      #まずは参加人数を更新
-      entry_recruiting.participants_numbers += 1
+  def increase_participants_numbers_and_update_status
+    entry_recruiting.participants_numbers += 1
 
-      #もし参加人数と募集人数が同じになったら自動的に状態を満員に更新
-      if entry_recruiting.recruitment_numbers === entry_recruiting.participants_numbers
-        entry_recruiting.status = 'filled'
-      end
-
-      #FIX ME!!!!
-      #現状ここで更新失敗することはないが、いつかに備えてエラーハンドリングは必要。
-      entry_recruiting.save
+    #もし参加人数と募集人数が同じになったら自動的に状態を満員に更新
+    if entry_recruiting.recruitment_numbers === entry_recruiting.participants_numbers
+      entry_recruiting.status = 'filled'
     end
+
+    #FIX ME!!!!
+    #現状ここで更新失敗することはないが、いつかに備えてエラーハンドリングは必要。
+    entry_recruiting.save
   end
 
+
+  #キック時、レコードを消去すると共に、関連するRecruitingレコードの参加人数を更新し、それに応じて状態も更新をする
+  def decrease_participants_numbers_and_update_status
+    entry_recruiting.participants_numbers -= 1
+    
+    #もし募集状態が満員状態であったなら、１枠空いたので公開中にする
+    if entry_recruiting.filled?
+      entry_recruiting.status = 'open'
+    end
+
+    #FIX ME!!!!
+    #現状ここで更新失敗することはないが、いつかに備えてエラーハンドリングは必要。
+    entry_recruiting.save
+  end
 end

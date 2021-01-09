@@ -132,7 +132,7 @@ RSpec.describe ApplicantEntryRecruiting, type: :model do
   # ============ #
   #    callback  #
   # ============ #
-  describe 'update_with_recruiting_status method' do
+  describe 'increase_participants_numbers_and_update_status method' do
     let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
     let(:verified_applicant_entry_recruiting) { recruiting.applicant_entry_recruitings[0] }
     let(:participant_entry) { recruiting.applicant_entry_recruitings[1] }
@@ -143,6 +143,17 @@ RSpec.describe ApplicantEntryRecruiting, type: :model do
     it 'return valid value' do
       verified_applicant_entry_recruiting.reload.approved!
       expect(recruiting.reload.status).to eq 'filled'
+    end
+
+  end
+
+  describe 'destrou callback' do
+    let(:recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
+    before { recruiting.reload }
+
+    it 'return valid value' do
+      recruiting.applicant_entry_recruitings[0].destroy
+      expect(recruiting.reload.status).to eq 'open'
     end
 
   end
