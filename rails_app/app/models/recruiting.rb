@@ -40,7 +40,7 @@ class Recruiting < ApplicationRecord
   validate :type_include_game_name?
   validate :validation_recruitment_numbers
 
-
+  default_scope -> { order(created_at: :desc) }
   scope :status_open,   -> { where(status: 'open') }
   scope :apex_type,     -> { where(type: 'ApexRecruiting') }
 
