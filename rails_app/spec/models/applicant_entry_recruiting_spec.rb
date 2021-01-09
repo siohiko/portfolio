@@ -3,7 +3,7 @@
 # Table name: applicant_entry_recruitings
 #
 #  id                  :bigint           not null, primary key
-#  status              :integer          default("invited")
+#  status              :integer          default("unapproved")
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  applicant_id        :string(32)       not null

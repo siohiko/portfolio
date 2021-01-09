@@ -2,18 +2,19 @@
 #
 # Table name: recruitings
 #
-#  id                  :bigint           not null, primary key
-#  comment             :text
-#  game_mode           :integer
-#  play_style          :text
-#  rank                :integer
-#  recruitment_numbers :integer
-#  status              :integer          default("open"), not null
-#  type                :string           not null
-#  vc                  :integer
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  user_id             :string(32)       not null
+#  id                   :bigint           not null, primary key
+#  comment              :text
+#  game_mode            :integer
+#  participants_numbers :integer          default(0)
+#  play_style           :text
+#  rank                 :integer
+#  recruitment_numbers  :integer
+#  status               :integer          default("open"), not null
+#  type                 :string           not null
+#  vc                   :integer
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  user_id              :string(32)       not null
 #
 class Recruiting < ApplicationRecord
   belongs_to :user
