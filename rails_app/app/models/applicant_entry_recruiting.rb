@@ -29,18 +29,6 @@ class ApplicantEntryRecruiting < ApplicationRecord
   enum status: { "unapproved": 0, "approved": 1}
 
 
-  #participants_countのゲッター（初期化時に下記処理をやると、必要無いときもSQLクエリ走るのでここで行う）
-  def participants_count
-    unless @participants_count
-      @participants_count = 0
-      entry_recruiting.applicant_entry_recruitings.each do |entry|
-        @participants_count += 1 if entry.approved?
-      end
-    end
-
-    return @participants_count
-  end
-
   private
 
   def recruiting_open?
@@ -55,23 +43,29 @@ class ApplicantEntryRecruiting < ApplicationRecord
 
   #stautsをapprovedに更新する時、参加者数が募集人数を超えないように確認する
   def check_vacancy_of_recruiting
-    return true if self.unapproved?
+    if will_save_change_to_status? && self.approved?
 
-    if entry_recruiting.recruitment_numbers <= participants_count
-      errors.add(:status, 'この募集は既に満員です。募集人数を設定しなおしてください。')
+      if entry_recruiting.recruitment_numbers <= entry_recruiting.participants_numbers
+        errors.add(:status, 'この募集は既に満員です。募集人数を設定しなおしてください。')
+      end
     end
   end
 
 
-  #自身のstatusをapprovedに更新時、参加者人数が募集人数に達したら関連している募集をclosedにする
+  #自身のstatusをapprovedに更新成功時、関連するRecruitingレコードの参加人数を更新し、それに応じて状態も更新をする
   def update_with_recruiting_status
-    return unless self.approved?
+    if self.saved_change_to_status? && self.approved?
+      #まずは参加人数を更新
+      entry_recruiting.participants_numbers += 1
 
-    count = participants_count
-    count += 1 
+      #もし参加人数と募集人数が同じになったら自動的に状態を満員に更新
+      if entry_recruiting.recruitment_numbers === entry_recruiting.participants_numbers
+        entry_recruiting.status = 'filled'
+      end
 
-    if entry_recruiting.recruitment_numbers === count
-      entry_recruiting.close!
+      #FIX ME!!!!
+      #現状ここで更新失敗することはないが、いつかに備えてエラーハンドリングは必要。
+      entry_recruiting.save
     end
   end
 

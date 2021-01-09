@@ -93,21 +93,34 @@ RSpec.describe Recruiting, type: :model do
 
 
     context 'if the number of participants exceeds recruitment_numbers at the time of update' do
-      let(:verified_recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
-      let(:applicants) { verified_recruiting.applicant_entry_recruitings }
-      before {
-        verified_recruiting.applicant_entry_recruitings.each do |entry|
-          entry.approved!
-        end
-      }
+      let(:verified_recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
 
       it 'return errors' do
-        verified_recruiting.update(recruitment_numbers: 1)
-        expect(verified_recruiting.errors[:recruitment_numbers]).to include '既に参加者しているメンバー数以下の値には設定できません。'
+        verified_recruiting.reload.update(recruitment_numbers: 1)
+        expect(verified_recruiting.reload.errors[:recruitment_numbers]).to include '既に参加者しているメンバー数以下の値には設定できません。'
       end
     end
 
 
+    context 'if increase recruitment_numbers' do
+      context 'if recruiting was filled' do
+        let(:verified_recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
+
+        it 'return errors' do
+          verified_recruiting.reload.update(recruitment_numbers: 3)
+          expect(verified_recruiting.reload.status).to eq 'open'
+        end
+      end
+
+      context 'if recruiting was closed' do
+        let(:verified_recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
+        before { verified_recruiting.reload.close! }
+        it 'return errors' do
+          verified_recruiting.reload.update(recruitment_numbers: 3)
+          expect(verified_recruiting.reload.status).to eq 'close'
+        end
+      end
+    end
   end
 
 

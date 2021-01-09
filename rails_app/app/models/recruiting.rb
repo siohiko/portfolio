@@ -17,6 +17,10 @@
 #  user_id              :string(32)       not null
 #
 class Recruiting < ApplicationRecord
+  before_update do
+     update_status_with_recruitment_numbers if will_save_change_to_recruitment_numbers?
+  end
+
   belongs_to :user
 
   has_many :applicant_entry_recruitings,
@@ -34,7 +38,7 @@ class Recruiting < ApplicationRecord
   validates :comment, length: { maximum: 255 }
 
   validate :type_include_game_name?
-  validate :validation_recruitment_numbers, on: :update
+  validate :validation_recruitment_numbers
 
 
   scope :status_open,   -> { where(status: 'open') }
@@ -90,15 +94,15 @@ class Recruiting < ApplicationRecord
     #募集人数が無い場合、precenseバリデーションで引っかかるのでここではすぐに返す
     return unless self.recruitment_numbers
 
-    participants_count = 0
-    self.applicant_entry_recruitings.each do |entry|
-      participants_count += 1 if entry.approved?
-    end
-
-    if self.recruitment_numbers <= participants_count
+    if self.recruitment_numbers < self.participants_numbers
       errors.add(:recruitment_numbers, '既に参加者しているメンバー数以下の値には設定できません。')
     end
   end
 
-
+  #募集人数を増加時、もし募集状態が満員(filled)だったら公開中（open）にする
+  def update_status_with_recruitment_numbers
+    if self.recruitment_numbers > self.participants_numbers && self.filled?
+      self.status = 'open'
+    end
+  end
 end

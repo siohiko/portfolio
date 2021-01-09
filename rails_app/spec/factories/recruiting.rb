@@ -19,7 +19,17 @@ FactoryBot.define do
         recruiting.applicants << create(:valid_users)
       end
     end
+
+    trait :recruiting_is_filled do
+      after(:create) do |recruiting|
+        recruiting.applicants << create(:valid_users)
+        recruiting.applicants << create(:valid_users)
+        recruiting.reload.applicant_entry_recruitings[0].approved!
+        recruiting.reload.applicant_entry_recruitings[1].approved!
+      end
+    end
   end
+
 
   factory :valid_recruitings, class: Recruiting do
     association :user, factory: :valid_users
