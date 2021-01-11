@@ -39,6 +39,7 @@ class Recruiting < ApplicationRecord
 
   validate :type_include_game_name?
   validate :validation_recruitment_numbers
+  validate :validation_status_update, on: :update
 
   default_scope -> { order(created_at: :desc) }
   scope :status_open,   -> { where(status: 'open') }
@@ -94,15 +95,41 @@ class Recruiting < ApplicationRecord
     #募集人数が無い場合、precenseバリデーションで引っかかるのでここではすぐに返す
     return unless self.recruitment_numbers
 
-    if self.recruitment_numbers < self.participants_numbers
-      errors.add(:recruitment_numbers, '既に参加者しているメンバー数以下の値には設定できません。')
+    if recruitment_numbers_is_less_than_participants?
+      errors.add(:recruitment_numbers, '既に参加しているメンバー数未満の値には設定できません。')
     end
   end
 
   #募集人数を増加時、もし募集状態が満員(filled)だったら公開中（open）にする
   def update_status_with_recruitment_numbers
-    if self.recruitment_numbers > self.participants_numbers && self.filled?
+    if recruitment_numbers_is_more_than_participants? && self.filled?
       self.status = 'open'
     end
+  end
+
+
+  #募集人数が参加者数以下のまま公開状態への変更はさせない
+  def validation_status_update
+    #募集人数が無い場合、precenseバリデーションで引っかかるのでここではすぐに返す
+    return unless self.recruitment_numbers
+
+    if self.open? && recruitment_numbers_is_no_more_than_participants?
+      errors.add(:status, 'この募集は満員状態なので公開できません。募集人数を再設定するか、新しく募集を作成してください')
+    end
+  end
+
+
+  def recruitment_numbers_is_less_than_participants?
+    self.recruitment_numbers < self.participants_numbers ? true : false
+  end
+
+
+  def recruitment_numbers_is_no_more_than_participants?
+    self.recruitment_numbers <= self.participants_numbers ? true : false
+  end
+
+
+  def recruitment_numbers_is_more_than_participants?
+    self.recruitment_numbers > self.participants_numbers ? true : false
   end
 end

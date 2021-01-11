@@ -97,7 +97,7 @@ RSpec.describe Recruiting, type: :model do
 
       it 'return errors' do
         verified_recruiting.reload.update(recruitment_numbers: 1)
-        expect(verified_recruiting.reload.errors[:recruitment_numbers]).to include '既に参加者しているメンバー数以下の値には設定できません。'
+        expect(verified_recruiting.reload.errors[:recruitment_numbers]).to include '既に参加しているメンバー数未満の値には設定できません。'
       end
     end
 
@@ -118,6 +118,27 @@ RSpec.describe Recruiting, type: :model do
         it 'return errors' do
           verified_recruiting.reload.update(recruitment_numbers: 3)
           expect(verified_recruiting.reload.status).to eq 'close'
+        end
+      end
+    end
+
+
+    context 'when changing recruiting from close to open' do
+      context 'if recruiting was filled' do
+        let(:verified_recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
+
+        it 'return errors' do
+          verified_recruiting.reload.update(status: 'open')
+          expect(verified_recruiting.reload.errors[:status]).to include 'この募集は満員状態なので公開できません。募集人数を再設定するか、新しく募集を作成してください'
+        end
+      end
+
+      context 'if recruiting was closed' do
+        let(:verified_recruiting) { create(:valid_recruiting) }
+
+        it 'return errors' do
+          verified_recruiting.update(status: 'open')
+          expect(verified_recruiting.reload.status).to eq 'open'
         end
       end
     end
