@@ -1,12 +1,16 @@
 <template>
   <div>
-    <div class="recruiting_application" @click="apply" v-if="operationUncompleted">
-      <span>この募集に応募する</span>
+    <div class="recruiting_show_application" @click="apply" v-if="operationUncompleted">
+      <div class="recruiting_show_application_btn">
+        <span>この募集に応募する</span>
+      </div>
     </div>
-    <div v-else>
-      <span>応募しました！募集者の承認をお待ちください！</span>
+    <div v-else class="recruiting_show_application">
+      <div class="recruiting_show_application_success">
+        <p>応募しました！募集者の承認をお待ちください！</p>
+      </div>
     </div>
-    <div v-if="errorMasseges">
+    <div v-if="errorMasseges" class="recruiting_application_error">
       <p>{{ errorMasseges }}</p>
     </div>
   </div>

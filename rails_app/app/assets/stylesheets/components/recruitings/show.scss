@@ -275,5 +275,55 @@
         }
       }
     }
+    #{&}_application {
+      @extend .recruiting_show_common_section_layout;
+      margin-bottom: $box_pc_mb_s;
+      @at-root {
+        #{&}_btn {
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          & span {
+            cursor: pointer;
+            display: block;
+            text-align: center;
+            width:80%;
+            border: solid 1px $white;
+            border-radius: 5px;
+            line-height: 2.5em;
+            background: $emerald;
+            &:hover {
+              opacity: 0.7;
+            }
+          }
+        }
+        #{&}_revocation_btn {
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          & span {
+            cursor: pointer;
+            display: block;
+            text-align: center;
+            width:80%;
+            border: solid 1px $white;
+            border-radius: 5px;
+            line-height: 2.5em;
+            background: $pink;
+            &:hover {
+              opacity: 0.7;
+            }
+          }
+        }
+        #{&}_success p {
+          text-align: center;
+        }
+        #{&}_error p {
+          text-align: center;
+        }
+      }
+    }
   }
 }

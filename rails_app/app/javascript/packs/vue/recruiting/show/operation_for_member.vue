@@ -1,18 +1,16 @@
 <template>
   <div>
-    <p>あなたはこの募集のメンバーです</p>
-    <div v-if="operationUncompleted">
-      <div class="recruiting_application" @click="declining">
-        <span>参加を辞退する</span>
+    <div class="recruiting_show_application">
+      <p v-if="operationUncompleted">あなたはこの募集のメンバーです</p>
+      <div v-if="operationUncompleted" class="recruiting_show_application_revocation_btn" @click="declining">
+          <span>参加を辞退する</span>
       </div>
-    </div>
-    <div v-else>
-      <div class="recruiting_application">
-        <span>辞退しました！</span>
+      <div v-else class="recruiting_application_success">
+          <span>辞退しました！</span>
       </div>
-    </div>
-    <div v-if="errorMasseges != null">
-      <p>{{ errorMasseges }}</p>
+      <div v-if="errorMasseges != null" class="recruiting_application_error">
+        <p>{{ errorMasseges }}</p>
+      </div>
     </div>
   </div>
 </template>
