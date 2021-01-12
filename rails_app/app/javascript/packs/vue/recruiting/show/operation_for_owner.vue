@@ -55,6 +55,9 @@
               </span>
             </div>
           </div>
+          <div v-if="errorMasseges" class="recruiting_show_users_list_error">
+            <p>{{ errorMasseges }}</p>
+          </div>
         </li>
       </ul>
       <div v-else>
@@ -109,27 +112,38 @@ export default {
   methods: {
     approve: function(e){
       var id = e.currentTarget.getAttribute('data-id');
-      axios.put('/applicant_entry_recruitings',{
-        applicant_entry_recruiting: {
-          recruiting_id: this.recruitingId,
-          applicant_id: id,
-          status: 'approved'
-        }
+      axios({
+        method: 'put',
+        url: '/applicant_entry_recruitings',
+        data: {
+          applicant_entry_recruiting: {
+            recruiting_id: this.recruitingId,
+            applicant_id: id,
+            status: 'approved'
+          }
+        },
+        validateStatus: function(status) {
+          return status < 500;
+        },
       }).then((response) => {
-        if (response.status == 201) {
+        if (response.data.status == 201) {
           location.reload();
+        } else if (response.data.status == 409){
+          this.errorMasseges = response.data.error_message.entry_recruiting[0];
         } else {
           this.errorMasseges = '承認に失敗しました。再読み込みしてください。'
         }
       })
       .catch((error) =>  {
-        this.errorMasseges = '承認に失敗しました。再読み込みしてください。'
+          this.errorMasseges = '承認に失敗しました。再読み込みしてください。'
       });
     },
 
     kick: function(e){
       var id = e.currentTarget.getAttribute('data-id')
-      axios.delete('/applicant_entry_recruitings',{
+      axios({
+        method: 'delete',
+        url: '/applicant_entry_recruitings',
         data: {
           applicant_entry_recruiting: {
             recruiting_id: this.recruitingId,
@@ -137,7 +151,7 @@ export default {
           }
         }
       }).then((response) => {
-        if (response.status == 200) {
+        if (response.data.status == 200) {
           location.reload();
         } else {
           this.errorMasseges = 'キックに失敗しました。再読み込みしてください。'

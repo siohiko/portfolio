@@ -258,8 +258,18 @@
             #{&}_kick_btn_span {
               background: $pink;
             }
+            #{&}_error {
+              width: 100%;
+              @at-root {
+                & p {
+                  text-align: center;
+                  color: $red;
+                }
+              }
+            }
             & li {
               @extend .flex_row;
+              flex-wrap: wrap;
             }
           }
         }

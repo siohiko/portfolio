@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
 
   # 409 Conflict
   def response_conflict(class_name, error_message = nil)
-    render status: 409, json: { status: 409, message: "#{class_name} Conflict", error_messafe: error_message}
+    render status: 409, json: { status: 409, message: "#{class_name} Conflict", error_message: error_message}
   end
 
   # 500 Internal Server Error
