@@ -208,7 +208,6 @@
           @include recruiting_show_common_section_ttl($f_size_pc_m, $f_size_sp_m);
         }
         #{&}_list {
-          @extend .recruiting_show_common_user_cards;
           @at-root {
             #{&}_left {
               @at-root {
@@ -268,7 +267,9 @@
               }
             }
             & li {
+              @extend .recruiting_show_common_user_cards;
               @extend .flex_row;
+              margin-bottom: $box_pc_mb_s;
               flex-wrap: wrap;
             }
           }
