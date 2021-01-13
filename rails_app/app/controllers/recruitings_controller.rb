@@ -1,7 +1,7 @@
 class RecruitingsController < ApplicationController
   before_action :authenticate_user!, :set_user
   before_action :set_users_recruiting, except: [:create, :show, :search]
-
+  before_action :set_recruiting, only: [:show]
   def new
     if @recruiting
       redirect_to edit_recruiting_path(@recruiting.id)
@@ -62,20 +62,8 @@ class RecruitingsController < ApplicationController
 
 
   def show
-    @recruiting = Recruiting.find(params[:id])
-  end
-
-
-  # ApexRecruiting only for now.
-  def search
-    if search_params[:search].nil?
-      @recruitings = ApexRecruiting.all
-      return
-    end
+    @user_position_for_recruiting = @user.position_in_the_recruiting(@recruiting)
     
-    if search_params[:search][:type] == 'ApexRecruiting'
-      @recruitings = ApexRecruiting.status_open.apex_type.rank_is(search_params[:search][:rank]).game_mode_is(search_params[:search][:game_mode])
-    end  
   end
 
 
@@ -85,7 +73,7 @@ class RecruitingsController < ApplicationController
   private
 
   def recruiting_params
-    params.require(:recruiting).permit(:type, :vc, :recruitment_numbers, :play_style, :comment, :rank, :game_mode)
+    params.require(:recruiting).permit(:type, :vc, :recruitment_numbers, :play_style, :comment, :rank, :game_mode, :status)
   end
 
 
@@ -96,6 +84,11 @@ class RecruitingsController < ApplicationController
 
   def set_user
     @user = current_user
+  end
+
+
+  def set_recruiting
+    @recruiting = Recruiting.find(params[:id])
   end
 
 

@@ -1,0 +1,188 @@
+<% content_for :side_menu do %>
+  <%= javascript_pack_tag 'side_menu' %>
+<% end %>
+<div class="recruitings_search">
+  <div class="your_section">
+
+    <section class="your_recruiting">
+      <h2 class="your_section_ttl">あなたの募集</h2>
+      <% if @recruiting %>
+        <%= link_to recruiting_path(@recruiting), class: 'your_recruiting_card_link' do%>
+          <div class="your_recruiting_card">
+            <div class="your_recruiting_left">
+              <div class="your_recruiting_left_icon">
+                <%= image_tag 'users/show/user_ico.png', alt: '' %>
+              </div>
+              <p class="your_recruiting_left_name">
+                <span class="your_recruiting_left_name_sub">オーナー</span><br>
+                <%= @user.name %>
+              </p>
+            </div>
+            <div class="your_recruiting_right">
+              <table class="your_recruiting_right_table">
+                <tr>
+                  <th>ランク</th>
+                  <td><%= @recruiting.rank %></td>
+                </tr>
+                <tr>
+                  <th>VC</th>
+                  <td><%= @recruiting.vc %></td>
+                </tr>
+
+                <tr>
+                  <th>募集人数</th>
+                  <td><%= @recruiting.recruitment_numbers %></td>
+                </tr>
+                <tr>
+                  <th>ゲームモード</th>
+                  <td><%= @recruiting.game_mode %></td>
+                </tr>
+                <tr>
+                  <th>募集状態</th>
+                  <td>
+                    <%= display_recruiting_status %>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <%= link_to new_recruiting_path, class: 'your_recruiting_new_btn' do%>
+          新しく募集する
+        <% end %>
+      <% end %>
+    </section>
+
+    <section class="your_recruiting">
+      <h2 class="your_section_ttl">応募している募集</h2>
+      <% if @applying_recruiting %>
+        <%= link_to recruiting_path(@applying_recruiting), class: 'your_recruiting_card_link' do%>
+          <div class="your_recruiting_card">
+            <div class="your_recruiting_left">
+              <div class="your_recruiting_left_icon">
+                <%= image_tag 'users/show/user_ico.png', alt: '' %>
+              </div>
+              <p class="your_recruiting_left_name">
+                <span class="your_recruiting_left_name_sub">オーナー</span><br>
+                <%= @applying_recruiting.user.name %>
+              </p>
+            </div>
+            <div class="your_recruiting_right">
+              <table class="your_recruiting_right_table">
+                <tr>
+                  <th>ランク</th>
+                  <td><%= @applying_recruiting.rank %></td>
+                </tr>
+                <tr>
+                  <th>VC</th>
+                  <td><%= @applying_recruiting.vc %></td>
+                </tr>
+
+                <tr>
+                  <th>募集人数</th>
+                  <td><%= @applying_recruiting.recruitment_numbers %></td>
+                </tr>
+                <tr>
+                  <th>ゲームモード</th>
+                  <td><%= @applying_recruiting.game_mode %></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        <% end %>
+        <div>
+          <p class="your_applying_recruiting_status">
+            状態:
+            <% if @user.applicant_entry_recruiting.approved? %>
+              <span class="status_approve">参加中</span>
+            <% else %>
+              <span class="status_unapprove">承認待ち</span>
+            <% end %>
+          </p>
+        </div>
+      <% else %>
+        <p>あなたはどの募集にも応募していません。</p>
+      <% end %>
+    </section>
+
+  </div>
+  <div class="recruitings_search_box">
+    <section class="recruitings_search_form">
+      <h2 class="recruitings_search_form_ttl">検索条件</h2>
+      <%= form_with method: :get, url: recruitings_search_path, scope: :search, local: true do |f| %>
+        <div class="recruitings_search_form_fields_wrap">
+          <div class="recruitings_search_form_field">
+            <%= f.label :type, class: 'recruitings_search_form_select_label' %>
+            <div class='recruitings_search_form_select'>
+              <%= f.select :type, {'Apex Legends': 'ApexRecruiting'},  selected: 'ApexRecruiting'%>
+            </div>
+          </div>
+          <div class="recruitings_search_form_field">
+            <%= f.label :rank, class: 'recruitings_search_form_select_label' %>
+            <div class='recruitings_search_form_select'>
+              <%= f.select :rank, options_for_select_from_enum(ApexRecruiting, 'rank'), { include_blank: true } %>
+            </div>
+          </div>
+          <div class="recruitings_search_form_field">
+            <%= f.label :game_mode, class: 'recruitings_search_form_select_label' %>
+            <div class='recruitings_search_form_select'>
+              <%= f.select :game_mode, options_for_select_from_enum(ApexRecruiting, 'game_mode'), { include_blank: true } %>
+            </div>
+          </div>
+        </div>
+        <div class="recruitings_search_form_actions">
+          <%= f.submit "検索" %>
+        </div>
+      <% end %>
+    </section>
+    <section class="recruitings_search_results">
+      <h2 class="recruitings_search_results_ttl">
+        検索結果 : <span class="recruitings_search_results_ttl_sub"><%= @search_results_count %>件</span>
+      </h2>
+      <% if @search_results_for_view %>
+        <div class="recruitings_search_results_list"> 
+          <% @search_results_for_view.includes(:user).each do |recruiting| %>
+            <%= link_to recruiting_path(recruiting), class: 'recruitings_search_results_card_link' do%>
+              <div class="recruitings_search_results_card">
+                <div class="recruitings_search_results_left">
+                  <div class="recruitings_search_results_left_icon">
+                    <%= image_tag 'users/show/user_ico.png', alt: '' %>
+                  </div>
+                  <p class="recruitings_search_results_left_name">
+                    <span class="recruitings_search_results_left_name_sub">オーナー</span><br>
+                    <%= recruiting.user.name %>
+                  </p>
+                </div>
+                <div class="recruitings_search_results_right">
+                  <table class="recruitings_search_results_right_table">
+                    <tr>
+                      <th>ランク</th>
+                      <td><%= recruiting.rank %></td>
+                    </tr>
+                    <tr>
+                      <th>VC</th>
+                      <td><%= recruiting.vc %></td>
+                    </tr>
+
+                    <tr>
+                      <th>募集人数</th>
+                      <td><%= recruiting.recruitment_numbers %></td>
+                    </tr>
+                    <tr>
+                      <th>ゲームモード</th>
+                      <td><%= recruiting.game_mode %></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="recruitings_search_paginate">
+          <%= paginate @search_results_for_view %>
+        </div>
+      <% end %>
+    </section>
+  </div>
+</div>

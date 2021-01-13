@@ -94,4 +94,70 @@ RSpec.describe User, type: :model do
     it_behaves_like "include error message", 'は255文字以下にしてください', 'introduce'.to_sym
   end
 
+
+
+
+  # ============= #
+  #    method     #
+  # ============= #
+  describe 'position_in_the_recruiting method' do
+    context 'with valid argument of recruiting' do
+      context 'if user is owner' do
+        let(:owner) { create(:recruiter, :user_with_recruiting) }
+        let(:recruiting){ owner.recruiting }
+
+        it 'return :owner' do 
+          expect(owner.position_in_the_recruiting(recruiting)).to eq :owner
+        end
+      end
+      
+      context 'if user is applicant' do
+        let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+        let(:applicant){ recruiting.applicants[0] }
+
+        it 'return :applicant' do 
+          expect(applicant.position_in_the_recruiting(recruiting)).to eq :applicant
+        end
+      end
+
+      context 'if user is memebr' do
+        let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+        let(:member){ recruiting.applicants[0] }
+        before{ member.applicant_entry_recruiting.approved! }
+
+        it 'return :member' do 
+          expect(member.position_in_the_recruiting(recruiting)).to eq :member
+        end
+      end
+
+      context 'if user is free' do
+        let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+        let(:free_user) { create(:valid_users) }
+
+        it 'return :free' do 
+          expect(free_user.position_in_the_recruiting(recruiting)).to eq :free
+        end
+      end
+
+      context 'if user is applicant for another recruiting' do
+        let(:another_recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+        let(:recruiting) { create(:valid_recruitings) }
+        let(:applicant_for_another_recruiting) { another_recruiting.applicants[0] }
+
+        it 'return false' do 
+          expect(applicant_for_another_recruiting.position_in_the_recruiting(recruiting)).to eq :applicant_for_another_recruiting
+        end
+      end
+    end
+
+
+    context 'with invalid argument of recruiting' do
+      let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+      let(:applicant){ recruiting.applicants[0] }
+
+      it 'return false' do 
+        expect(applicant.position_in_the_recruiting(nil)).to eq false
+      end
+    end
+  end
 end

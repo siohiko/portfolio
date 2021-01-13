@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_29_022913) do
+ActiveRecord::Schema.define(version: 2021_01_09_001102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,16 @@ ActiveRecord::Schema.define(version: 2020_11_29_022913) do
     t.integer "level"
     t.integer "platform"
     t.index ["user_id"], name: "index_apex_profiles_on_user_id"
+  end
+
+  create_table "applicant_entry_recruitings", force: :cascade do |t|
+    t.string "applicant_id", limit: 32, null: false
+    t.integer "entry_recruiting_id", null: false
+    t.integer "status", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["applicant_id"], name: "index_applicant_entry_recruitings_on_applicant_id"
+    t.index ["entry_recruiting_id"], name: "index_applicant_entry_recruitings_on_entry_recruiting_id"
   end
 
   create_table "favorite_legends", force: :cascade do |t|
@@ -63,6 +73,7 @@ ActiveRecord::Schema.define(version: 2020_11_29_022913) do
     t.integer "game_mode"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "participants_numbers", default: 0
   end
 
   create_table "users", primary_key: "user_id", id: :string, limit: 32, force: :cascade do |t|

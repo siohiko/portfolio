@@ -14,14 +14,15 @@ Rails.application.routes.draw do
     resource :password, only: [:edit, :update]
     resource :delete_form, only: [:new]
   end
-  
+
+  get  "applicant_entry_recruitings", to: 'applicant_entry_recruitings#index', as: :applicant_entry_recruitings
+  resource :applicant_entry_recruitings, only: [:create, :update, :destroy]
   resource :apex_profile,  except: [:show]
-  
-  resources :recruitings,  except: [:index] do
-    collection do
-      get :search, to: "recruitings#search"
-    end
+
+  namespace :recruitings do
+    get 'search', to: 'search#show', as: :search
   end
+  resources :recruitings,  except: [:index]
 
   root "top#show"
 end

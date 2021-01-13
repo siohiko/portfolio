@@ -23,6 +23,14 @@ class User < ApplicationRecord
   has_one :apex_profile, dependent: :destroy, primary_key: :user_id, foreign_key: :user_id
   has_one :recruiting, dependent: :destroy, primary_key: :user_id, foreign_key: :user_id
 
+  has_one :applicant_entry_recruiting,
+            primary_key: :user_id,
+            foreign_key: :applicant_id,
+            dependent: :destroy
+  has_one :entry_recruiting,
+            class_name: "Recruiting",
+            through: :applicant_entry_recruiting
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -65,4 +73,23 @@ class User < ApplicationRecord
     clean_up_passwords
     result
   end
+
+
+  # Return symbol of the user's position for the recruiting of argument.
+  def position_in_the_recruiting(recruiting)
+    return false unless recruiting
+
+    if self.user_id == recruiting.user_id
+      :owner
+    elsif recruiting.applicants.include?(self) && self.applicant_entry_recruiting.approved?
+      :member
+    elsif recruiting.applicants.include?(self)
+      :applicant
+    elsif recruiting.applicants.exclude?(self) && !self.entry_recruiting
+      :free
+    else
+      :applicant_for_another_recruiting
+    end
+  end
+
 end

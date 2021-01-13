@@ -60,10 +60,16 @@
           </div>
         </div>
 
+        <div class="recruiting_edit_form_field">
+          <%= f.label :status, class: 'recruiting_edit_form_select_label' %>
+          <div class='recruiting_edit_form_select'>
+            <%= f.select :status, {'募集を公開する': 'open', '募集を閉じる': 'close' } %>
+          </div>
+        </div>
+
         <div class="recruiting_edit_form_actions">
           <%= f.submit "更新する" %>
         </div>
-        <!--<p>Dlete <%= button_to "delete recruiting", recruiting_path, data: { confirm: "Are you sure?" }, method: :delete %></p>-->
 
       <% end %>
     </div>

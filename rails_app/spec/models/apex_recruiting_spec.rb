@@ -2,18 +2,19 @@
 #
 # Table name: recruitings
 #
-#  id                  :bigint           not null, primary key
-#  comment             :text
-#  game_mode           :integer
-#  play_style          :text
-#  rank                :integer
-#  recruitment_numbers :integer
-#  status              :integer          default("open"), not null
-#  type                :string           not null
-#  vc                  :integer
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  user_id             :string(32)       not null
+#  id                   :bigint           not null, primary key
+#  comment              :text
+#  game_mode            :integer
+#  participants_numbers :integer          default(0)
+#  play_style           :text
+#  rank                 :integer
+#  recruitment_numbers  :integer
+#  status               :integer          default("open"), not null
+#  type                 :string           not null
+#  vc                   :integer
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  user_id              :string(32)       not null
 #
 require 'rails_helper'
 
@@ -109,4 +110,22 @@ RSpec.describe ApexRecruiting, type: :model do
     end  
   end
 
+  describe 'search method' do
+    let(:created_valid_apex_recruiting) { create(:valid_apex_recruiting) }
+    let(:params) {
+      { 
+        search: {
+          type: 'ApexRecruiting',
+          rank: created_valid_apex_recruiting.rank,
+          game_mode: created_valid_apex_recruiting.game_mode
+        }
+      }
+    }
+    before { created_valid_apex_recruiting }
+      
+    it 'return valid search results' do 
+      resluts = ApexRecruiting.search(params)
+      expect(resluts[0].id).to eq created_valid_apex_recruiting.id
+    end
+  end
 end

@@ -1,0 +1,70 @@
+<% content_for :side_menu do %>
+  <%= javascript_pack_tag 'side_menu' %>
+<% end %>
+<section class="recruiting_show">
+  <div class="recruiting_show_inner">
+    <h1 class="recruiting_show_ttl">
+      <%= @recruiting.user.name %>の募集
+    </h1>
+    <div class="recruiting_show_detail">
+      <div class="recruiting_show_detail_user">
+        <%= link_to user_path(@recruiting.user), class: 'recruiting_show_detail_user_link' do%>
+          <div class="recruiting_show_detail_user_icon">
+            <%= image_tag 'users/show/user_ico.png', alt: '' %>
+          </div>
+          <span class="recruiting_show_detail_user_name">
+            <%= @recruiting.user.name %>
+          </span>
+        <% end %>
+      </div>
+      <div class="recruiting_show_detail_conditions">
+        <table class="recruiting_show_detail_conditions_table">
+          <tr>
+            <th>ランク</th>
+            <td><%= @recruiting.rank %></td>
+          </tr>
+          <tr>
+            <th>VC</th>
+            <td><%= @recruiting.vc %></td>
+          </tr>
+
+          <tr>
+            <th>募集人数</th>
+            <td><%= @recruiting.recruitment_numbers %></td>
+          </tr>
+          <tr>
+            <th>ゲームモード</th>
+            <td><%= @recruiting.game_mode %></td>
+          </tr>
+          <tr>
+            <th>募集状態</th>
+            <td>
+              <%= display_recruiting_status %>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <section class="recruiting_show_detail_play_style">
+        <h2 class="recruiting_show_detail_play_style_ttl">プレイスタイル</h2>
+        <p class="recruiting_show_detail_play_style_p"><%= @recruiting.play_style %></p>
+      </section>
+      <section class="recruiting_show_detail_comment">
+        <h2 class="recruiting_show_detail_comment_ttl">コメント</h2>
+        <p class="recruiting_show_detail_comment_p"><%= @recruiting.comment %></p>
+      </section>
+      <% if @user_position_for_recruiting === :owner%>
+        <div class="recruiting_show_owner_section">
+          <%= link_to edit_recruiting_path(@recruiting), class: 'recruiting_show_owner_section_btn', data: { confirm: "募集を取り消しますか？" } do %>
+            <%= image_tag('users/show/edit_ico.png', alt: '') %>
+            編集する
+          <% end %>
+          <div class="recruiting_show_owner_section_btn_delete">
+            <%= image_tag('common/trash_can_ico.png', alt: '') %>
+            <%= button_to "募集を取り消す", recruiting_path(@recruiting), data: { confirm: "本当に取り消しますか？" }, method: :delete %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <%= operation_display_for_position(@user_position_for_recruiting) %>
+  </div>
+</section>

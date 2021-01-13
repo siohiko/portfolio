@@ -2,18 +2,19 @@
 #
 # Table name: recruitings
 #
-#  id                  :bigint           not null, primary key
-#  comment             :text
-#  game_mode           :integer
-#  play_style          :text
-#  rank                :integer
-#  recruitment_numbers :integer
-#  status              :integer          default("open"), not null
-#  type                :string           not null
-#  vc                  :integer
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  user_id             :string(32)       not null
+#  id                   :bigint           not null, primary key
+#  comment              :text
+#  game_mode            :integer
+#  participants_numbers :integer          default(0)
+#  play_style           :text
+#  rank                 :integer
+#  recruitment_numbers  :integer
+#  status               :integer          default("open"), not null
+#  type                 :string           not null
+#  vc                   :integer
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  user_id              :string(32)       not null
 #
 require 'rails_helper'
 
@@ -90,6 +91,36 @@ RSpec.describe Recruiting, type: :model do
       it_behaves_like "include error message", 'は32文字以下にしてください', 'play_style'.to_sym
     end
 
+
+    context 'if the number of participants exceeds recruitment_numbers at the time of update' do
+      let(:verified_recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
+
+      it 'return errors' do
+        verified_recruiting.reload.update(recruitment_numbers: 1)
+        expect(verified_recruiting.reload.errors[:recruitment_numbers]).to include '既に参加しているメンバー数未満の値には設定できません。'
+      end
+    end
+
+
+    context 'when changing recruiting from close to open' do
+      context 'if recruiting was filled' do
+        let(:verified_recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
+
+        it 'return errors' do
+          verified_recruiting.reload.update(status: 'open')
+          expect(verified_recruiting.reload.errors[:status]).to include 'この募集は満員状態なので公開できません。募集人数を再設定するか、新しく募集を作成してください'
+        end
+      end
+
+      context 'if recruiting was closed' do
+        let(:verified_recruiting) { create(:valid_recruiting) }
+
+        it 'return errors' do
+          verified_recruiting.update(status: 'open')
+          expect(verified_recruiting.reload.status).to eq 'open'
+        end
+      end
+    end
   end
 
 
@@ -97,7 +128,6 @@ RSpec.describe Recruiting, type: :model do
   # ============= #
   #    relation   #
   # ============= #
-
   describe 'about relation' do
 
     context 'when delete user' do
@@ -115,6 +145,57 @@ RSpec.describe Recruiting, type: :model do
 
 
 
+  # ============= #
+  #    callback   #
+  # ============= #
+  describe 'about callback' do
+
+    context 'if increase recruitment_numbers' do
+      context 'if recruiting was filled' do
+        let(:update_recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
+
+        it 'update status to open' do
+          update_recruiting.reload.update(recruitment_numbers: 3)
+          expect(update_recruiting.reload.status).to eq 'open'
+        end
+      end
+
+      context 'if recruiting was closed' do
+        let(:update_recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
+        before { update_recruiting.reload.close! }
+        it 'remain status' do
+          update_recruiting.reload.update(recruitment_numbers: 3)
+          expect(update_recruiting.reload.status).to eq 'close'
+        end
+      end
+    end
+
+
+    context 'if update status to close or filled' do
+      context 'case of filled' do
+        let(:update_recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+        before { 
+          update_recruiting.applicants << create(:valid_users)
+          update_recruiting.reload.applicant_entry_recruitings[0].approved!
+          update_recruiting.reload.applicant_entry_recruitings[1].approved!
+        }
+
+        it 'destroy unapproved entries' do
+          expect(update_recruiting.reload.applicants.length).to eq 2
+        end
+      end
+
+      context 'case of closed' do
+        let(:update_recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+        before { update_recruiting.close! }
+
+        it 'destroy unapproved entries' do
+          expect(update_recruiting.reload.applicants.length).to eq 0
+        end
+      end
+    end
+
+  end
   # ============= #
   #    scope      #
   # ============= #
@@ -140,7 +221,7 @@ RSpec.describe Recruiting, type: :model do
   
 
   # ============= #
-  #    method   #
+  #    method     #
   # ============= #
 
   describe 'vc(enum)' do
@@ -167,7 +248,8 @@ RSpec.describe Recruiting, type: :model do
       [
         [nil, nil],
         [0, 'open'],
-        [1, 'close']
+        [1, 'close'],
+        [2, 'filled']
       ]
     end
 
@@ -178,4 +260,43 @@ RSpec.describe Recruiting, type: :model do
     end  
   end
 
+
+  describe 'search method' do
+    let(:created_valid_recruiting) { create(:valid_recruiting) }
+    let(:params) {
+      { 
+        search: {
+          type: 'ApexRecruiting',
+          rank: created_valid_recruiting.rank,
+          game_mode: created_valid_recruiting.game_mode
+        }
+      }
+    }
+    before { created_valid_recruiting }
+      
+    it 'return valid search results' do 
+      resluts = Recruiting.search(params)
+      expect(resluts[0].id).to eq created_valid_recruiting.id
+    end
+  end
+
+
+  describe 'owner?_method' do
+    let(:created_valid_recruiting) { create(:valid_recruiting) }
+    let(:owner) {created_valid_recruiting.user}
+    let(:not_owner){ create(:valid_users) }
+    before { created_valid_recruiting }
+
+    context 'if user is owner' do 
+      it 'return true' do
+        expect(created_valid_recruiting.owner?(owner)).to eq true
+      end
+    end
+
+    context 'if user is not owner' do 
+      it 'return false' do
+        expect(created_valid_recruiting.owner?(not_owner)).to eq false
+      end
+    end
+  end
 end
