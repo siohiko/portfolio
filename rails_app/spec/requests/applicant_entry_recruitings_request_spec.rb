@@ -154,32 +154,6 @@ RSpec.describe "ApplicantEntryRecruitings", type: :request do
         end
       end
 
-      context 'case that recruiting is closed' do
-        before { recruiter.recruiting.close! }
-
-        it_behaves_like "return http", 409
-        it_behaves_like "include error message", 'その募集は既に閉じられています'
-        it 'do not updates applicant_entry_recruitings' do
-          subject
-          expect(recruiter.recruiting.applicant_entry_recruitings[0].status).to_not eq params[:status]
-        end
-      end
-
-      context 'case that recruiting is filled' do
-        let(:recruiting) {recruiter.recruiting}
-        before { 
-          recruiting.update(recruitment_numbers: 1)
-          recruiting.applicants << create(:valid_users)
-          recruiting.applicant_entry_recruitings[1].approved!
-        }
-
-        it_behaves_like "return http", 409
-        it_behaves_like "include error message", 'この募集は既に満員です。募集人数を設定しなおしてください。'
-        it 'do not updates applicant_entry_recruitings' do
-          subject
-          expect(recruiter.recruiting.applicant_entry_recruitings[0].status).to_not eq params[:status]
-        end
-      end
     end
 
     context 'case that another_user logged in' do

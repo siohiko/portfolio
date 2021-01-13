@@ -102,27 +102,6 @@ RSpec.describe Recruiting, type: :model do
     end
 
 
-    context 'if increase recruitment_numbers' do
-      context 'if recruiting was filled' do
-        let(:verified_recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
-
-        it 'return errors' do
-          verified_recruiting.reload.update(recruitment_numbers: 3)
-          expect(verified_recruiting.reload.status).to eq 'open'
-        end
-      end
-
-      context 'if recruiting was closed' do
-        let(:verified_recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
-        before { verified_recruiting.reload.close! }
-        it 'return errors' do
-          verified_recruiting.reload.update(recruitment_numbers: 3)
-          expect(verified_recruiting.reload.status).to eq 'close'
-        end
-      end
-    end
-
-
     context 'when changing recruiting from close to open' do
       context 'if recruiting was filled' do
         let(:verified_recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
@@ -149,7 +128,6 @@ RSpec.describe Recruiting, type: :model do
   # ============= #
   #    relation   #
   # ============= #
-
   describe 'about relation' do
 
     context 'when delete user' do
@@ -167,6 +145,57 @@ RSpec.describe Recruiting, type: :model do
 
 
 
+  # ============= #
+  #    callback   #
+  # ============= #
+  describe 'about callback' do
+
+    context 'if increase recruitment_numbers' do
+      context 'if recruiting was filled' do
+        let(:update_recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
+
+        it 'update status to open' do
+          update_recruiting.reload.update(recruitment_numbers: 3)
+          expect(update_recruiting.reload.status).to eq 'open'
+        end
+      end
+
+      context 'if recruiting was closed' do
+        let(:update_recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
+        before { update_recruiting.reload.close! }
+        it 'remain status' do
+          update_recruiting.reload.update(recruitment_numbers: 3)
+          expect(update_recruiting.reload.status).to eq 'close'
+        end
+      end
+    end
+
+
+    context 'if update status to close or filled' do
+      context 'case of filled' do
+        let(:update_recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+        before { 
+          update_recruiting.applicants << create(:valid_users)
+          update_recruiting.reload.applicant_entry_recruitings[0].approved!
+          update_recruiting.reload.applicant_entry_recruitings[1].approved!
+        }
+
+        it 'destroy unapproved entries' do
+          expect(update_recruiting.reload.applicants.length).to eq 2
+        end
+      end
+
+      context 'case of closed' do
+        let(:update_recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+        before { update_recruiting.close! }
+
+        it 'destroy unapproved entries' do
+          expect(update_recruiting.reload.applicants.length).to eq 0
+        end
+      end
+    end
+
+  end
   # ============= #
   #    scope      #
   # ============= #

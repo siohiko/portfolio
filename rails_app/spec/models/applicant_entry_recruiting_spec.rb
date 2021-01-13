@@ -75,9 +75,8 @@ RSpec.describe ApplicantEntryRecruiting, type: :model do
 
       before { participant_entry.approved! }
 
-      it 'return errors' do
-        verified_applicant_entry_recruiting.reload.update(status: 'approved')
-        expect(verified_applicant_entry_recruiting.errors[:status]).to include 'この募集は既に満員です。募集人数を設定しなおしてください。'
+      it 'delete unapproved entry' do
+        expect(ApplicantEntryRecruiting.find_by(id: verified_applicant_entry_recruiting.id)).to eq nil
       end
     end
 

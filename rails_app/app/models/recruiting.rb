@@ -21,6 +21,13 @@ class Recruiting < ApplicationRecord
      update_status_with_recruitment_numbers if will_save_change_to_recruitment_numbers?
   end
 
+  after_update do
+    #更新時に募集が満員、もしくはクローズになった場合、未承認の応募者レコードを全員削除する
+    if saved_change_to_status && !self.open?
+      cut_the_applicants
+    end
+  end
+
   belongs_to :user
 
   has_many :applicant_entry_recruitings,
@@ -118,6 +125,13 @@ class Recruiting < ApplicationRecord
     end
   end
 
+
+  #未承認の募集者を全員切る
+  def cut_the_applicants
+    self.applicant_entry_recruitings.each do |entry|
+      entry.delete if entry.unapproved?
+    end
+  end
 
   def recruitment_numbers_is_less_than_participants?
     self.recruitment_numbers < self.participants_numbers ? true : false
