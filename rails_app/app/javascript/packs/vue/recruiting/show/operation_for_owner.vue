@@ -15,13 +15,13 @@
             </a>
           </div>
           <div class="recruiting_show_users_list_right">
-            <div class="recruiting_show_users_list_btn">
+            <div class="recruiting_show_users_list_btn_wrap">
               <span
                 @click="kick" 
                 v-bind:data-id= user.user_id
-                class = "recruiting_show_users_list_kick_btn_span"
+                class = "recruiting_show_users_list_kick_btn"
               >
-                このユーザーをキックする
+                キックする
               </span>
             </div>
           </div>
@@ -45,13 +45,22 @@
             </a>
           </div>
           <div class="recruiting_show_users_list_right">
-            <div class="recruiting_show_users_list_btn">
+            <div class="recruiting_show_users_list_btn_wrap">
               <span
                 @click="approve" 
                 v-bind:data-id= user.user_id
-                class = "recruiting_show_users_list_approve_btn_span"
+                class = "recruiting_show_users_list_approve_btn"
               >
-                このユーザーを承認する
+                参加を承認する
+              </span>
+            </div>
+            <div class="recruiting_show_users_list_btn_wrap">
+              <span
+                @click="kick" 
+                v-bind:data-id= user.user_id
+                class = "recruiting_show_users_list_kick_btn"
+              >
+                参加を拒否する
               </span>
             </div>
           </div>
