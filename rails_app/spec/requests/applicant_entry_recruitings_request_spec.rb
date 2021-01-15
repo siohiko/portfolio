@@ -97,6 +97,7 @@ RSpec.describe "ApplicantEntryRecruitings", type: :request do
       context 'case of correct application' do
         it_behaves_like "return http", 201
         it_behaves_like "create Model", ApplicantEntryRecruiting, 1
+        it_behaves_like "create Model", ApplicationNotice, 1
       end
 
       context 'if recruiting is closed' do

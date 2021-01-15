@@ -1,7 +1,12 @@
 <template>
   <div>
-    <div class="recruiting_show_application" @click="apply" v-if="operationUncompleted">
-      <div class="recruiting_show_application_btn">
+    <div class="recruiting_show_application" v-if="operationUncompleted">
+      <div class="recruiting_show_application_text_form_wrap">
+        <span class="recruiting_show_application_text_form_ttl">メッセージ</span>
+        <textarea id="application_message" placeholder="メッセージを入力してください">
+        </textarea>
+      </div>
+      <div @click="apply" class="recruiting_show_application_btn">
         <span>応募する</span>
       </div>
     </div>
@@ -34,8 +39,10 @@ export default {
   },
   methods:{
     apply: function(){
+        var message = document.getElementById("application_message").value;
         axios.post('/applicant_entry_recruitings',{
         applicant_entry_recruiting: {
+          message: message,
           recruiting_id: this.recruitingId
         }
       }).then((response) => {

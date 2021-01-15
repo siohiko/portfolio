@@ -4,7 +4,7 @@
 #
 #  id            :bigint           not null, primary key
 #  content       :text
-#  status        :integer
+#  status        :integer          default("未読"), not null
 #  title         :string
 #  type          :string           not null
 #  created_at    :datetime         not null
@@ -59,4 +59,23 @@ RSpec.describe Notice, type: :model do
     end
   end
 
+
+
+  # ============= #
+  #    relation   #
+  # ============= #
+  describe 'about relation' do
+
+    context 'when delete user' do
+      let(:notice) { create(:valid_notice) }
+      before { notice }
+
+      it 'delete notice too' do 
+        count = Notice.all.count
+        notice.user.destroy
+        expect(Notice.all.count).to eq (count - 1)
+      end
+    end
+
+  end
 end

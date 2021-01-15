@@ -4,7 +4,7 @@ class CreateNotices < ActiveRecord::Migration[6.0]
       t.string :type, null: false
       t.string :title
       t.text :content
-      t.integer :status
+      t.integer :status, null: false, default: 0
       t.string :user_id, index: true, foreign_key: true
       t.timestamps
     end

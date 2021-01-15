@@ -1,4 +1,6 @@
 class ApplicantEntryRecruitingsController < ApplicationController
+  include NoticeFactory
+
   before_action :authenticate_user!, :set_user
   before_action :set_recruiting, only: [:index, :update, :destroy]
   before_action :is_user_owner?, only: [:index, :update]
@@ -27,12 +29,22 @@ class ApplicantEntryRecruitingsController < ApplicationController
 
 
   def create
+    recruiting_id = applicant_entry_recruiting_params[:recruiting_id]
+    recruiting = Recruiting.find_by(id: recruiting_id)
+
     entry = ApplicantEntryRecruiting.new(
       applicant_id: @user.user_id,
-      entry_recruiting_id: applicant_entry_recruiting_params[:recruiting_id]
+      entry_recruiting_id: recruiting_id
     )
 
+
     if entry.save
+      create_application_notice(
+        owner_id: recruiting.user.user_id,
+        applicant_id: @user.user_id,
+        recruiting_id: recruiting_id,
+        content: applicant_entry_recruiting_params[:message]
+      )
       response_created
     else 
       response_conflict('ApplicantEntryRecruiting', entry.errors)
@@ -73,7 +85,7 @@ class ApplicantEntryRecruitingsController < ApplicationController
   private
 
   def applicant_entry_recruiting_params
-    params.require(:applicant_entry_recruiting).permit(:recruiting_id, :applicant_id, :status)
+    params.require(:applicant_entry_recruiting).permit(:recruiting_id, :applicant_id, :status, :message)
   end
 
 
