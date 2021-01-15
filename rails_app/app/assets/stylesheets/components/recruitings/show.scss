@@ -233,28 +233,34 @@
             }
             #{&}_right {
               flex-grow: 1;
-            }
-            #{&}_btn {
-              height: 100%;
               display: flex;
               justify-content: center;
               align-items: center;
+              flex-wrap: wrap;
+            }
+            #{&}_btn_wrap {
+                width: 100%;
               & span {
                 cursor: pointer;
                 display: block;
                 text-align: center;
-                width:80%;
+                width: 95%;
                 border-radius: 5px;
                 line-height: 2.5em;
+                margin: 0px auto;
+                font-size: $f_size_sp_s;
                 &:hover {
                   opacity: 0.7;
                 }
+                &:nth-child(2) {
+                  margin-top: 20px;
+                }
               }
             }
-            #{&}_approve_btn_span {
+            #{&}_approve_btn {
               background: $emerald;
             }
-            #{&}_kick_btn_span {
+            #{&}_kick_btn {
               background: $pink;
             }
             #{&}_error {
@@ -270,7 +276,6 @@
               @extend .recruiting_show_common_user_cards;
               @extend .flex_row;
               margin-bottom: $box_pc_mb_s;
-              flex-wrap: wrap;
             }
           }
         }

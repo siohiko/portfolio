@@ -3,7 +3,7 @@
     <div class="recruiting_show_application">
       <p v-if="operationUncompleted">募集者の承認待ちです。</p>
       <div v-if="operationUncompleted" class="recruiting_show_application_revocation_btn" @click="declining">
-        <span>この募集にたいする応募を取り消す</span>
+        <span>応募を取り消す</span>
       </div>
       <div v-else class="recruiting_application_success">
         <span>応募を取り消しました！！</span>

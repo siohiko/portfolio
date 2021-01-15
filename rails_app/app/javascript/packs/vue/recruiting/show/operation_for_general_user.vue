@@ -2,7 +2,7 @@
   <div>
     <div class="recruiting_show_application" @click="apply" v-if="operationUncompleted">
       <div class="recruiting_show_application_btn">
-        <span>この募集に応募する</span>
+        <span>応募する</span>
       </div>
     </div>
     <div v-else class="recruiting_show_application">
