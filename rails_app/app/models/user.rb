@@ -31,6 +31,8 @@ class User < ApplicationRecord
             class_name: "Recruiting",
             through: :applicant_entry_recruiting
 
+  has_many :notices
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
