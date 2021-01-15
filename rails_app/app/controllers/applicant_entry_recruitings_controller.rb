@@ -1,6 +1,4 @@
 class ApplicantEntryRecruitingsController < ApplicationController
-  include NoticeFactory
-
   before_action :authenticate_user!, :set_user
   before_action :set_recruiting, only: [:index, :update, :destroy]
   before_action :is_user_owner?, only: [:index, :update]
@@ -34,20 +32,11 @@ class ApplicantEntryRecruitingsController < ApplicationController
 
     entry = ApplicantEntryRecruiting.new(
       applicant_id: @user.user_id,
-      entry_recruiting_id: recruiting_id
+      entry_recruiting_id: recruiting_id,
+      message: applicant_entry_recruiting_params[:message]
     )
 
-
     if entry.save
-
-      #応募があったことを通知する
-      create_application_notice(
-        owner_id: recruiting.user.user_id,
-        applicant_id: @user.user_id,
-        recruiting_id: recruiting_id,
-        content: applicant_entry_recruiting_params[:message]
-      )
-
       response_created
     else 
       response_conflict('ApplicantEntryRecruiting', entry.errors)
@@ -59,15 +48,6 @@ class ApplicantEntryRecruitingsController < ApplicationController
     entry = ApplicantEntryRecruiting.find_by(applicant_id: applicant_entry_recruiting_params[:applicant_id])
 
     if entry.update(status: applicant_entry_recruiting_params[:status])
-
-      #承認されたことをユーザーに通知する
-      if applicant_entry_recruiting_params[:status] == 'approved'
-        create_adoption_notice(
-          applicant_id: entry.applicant_id,
-          recruiting_id: entry.entry_recruiting_id
-        )
-      end
-
       response_created
     else
       response_conflict('ApplicantEntryRecruiting', entry.errors)

@@ -34,6 +34,9 @@ RSpec.describe ApplicantEntryRecruiting, type: :model do
     it { model_valid; expect(verified_applicant_entry_recruiting.errors[symbol]).to include msg }
   end
 
+  shared_examples_for "create Model" do |model, count|
+    it { expect{subject}.to change(model, :count).by(count) }
+  end
 
   # ============= #
   #    validate   #
@@ -129,7 +132,7 @@ RSpec.describe ApplicantEntryRecruiting, type: :model do
 
 
   # ============ #
-  #    callback  #
+  #   callback   #
   # ============ #
   describe 'increase_participants_numbers_and_update_status method' do
     let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
@@ -146,7 +149,7 @@ RSpec.describe ApplicantEntryRecruiting, type: :model do
 
   end
 
-  describe 'destrou callback' do
+  describe 'destroy callback' do
     let(:recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
     before { recruiting.reload }
 
@@ -154,6 +157,41 @@ RSpec.describe ApplicantEntryRecruiting, type: :model do
       recruiting.applicant_entry_recruitings[0].destroy
       expect(recruiting.reload.status).to eq 'open'
     end
+
+  end
+
+
+  describe 'notification related callbacks ' do
+
+    context 'when create new applicant_entry_recruiting' do
+      subject { 
+        entry = ApplicantEntryRecruiting.new(
+          applicant_id: applicant.user_id,
+          entry_recruiting_id: recruiting.id,
+          message: 'よろしくお願いします。'
+        )
+        entry.save
+      }
+
+      let(:recruiting) { create(:valid_recruiting) }
+      let(:applicant) { create(:valid_users) }
+
+      it_behaves_like "create Model", ApplicationNotice, 1
+      it 'notice incude message' do
+        subject
+        expect(ApplicationNotice.first.content).to eq 'よろしくお願いします。'
+      end
+    end
+
+
+    context 'when update status to approved' do
+      let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+      subject { recruiting.applicant_entry_recruitings[0].approved! }
+
+      it_behaves_like "create Model", AdoptionNotice, 1
+    end
+
+
 
   end
 
