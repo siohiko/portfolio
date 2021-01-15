@@ -149,6 +149,7 @@ RSpec.describe "ApplicantEntryRecruitings", type: :request do
 
       context 'case of correct application' do
         it_behaves_like "return http", 201
+        it_behaves_like "create Model", AdoptionNotice, 1
         it 'updates applicant_entry_recruitings' do
           subject
           expect(recruiter.recruiting.applicant_entry_recruitings[0].status).to eq params[:status]
