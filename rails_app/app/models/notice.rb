@@ -2,16 +2,17 @@
 #
 # Table name: notices
 #
-#  id            :bigint           not null, primary key
-#  content       :text
-#  status        :integer          default("未読"), not null
-#  title         :string
-#  type          :string           not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  applicant_id  :string
-#  recruiting_id :integer
-#  user_id       :string
+#  id                      :bigint           not null, primary key
+#  content                 :text
+#  reason_for_delete_entry :integer          default(0), not null
+#  status                  :integer          default("未読"), not null
+#  title                   :string
+#  type                    :string           not null
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  applicant_id            :string
+#  recruiting_id           :integer
+#  user_id                 :string
 #
 # Indexes
 #
@@ -28,9 +29,9 @@ class Notice < ApplicationRecord
   #list of game type.
   NOTICETYPE = [
     'ApplicationNotice',
-    'AdoptionNotice'
+    'AdoptionNotice',
+    'DeleteEntryNotice'
   ]
-
 
   private
 
