@@ -44,7 +44,7 @@ class Recruiting < ApplicationRecord
   validates :play_style, length: { maximum: 32 }
   validates :comment, length: { maximum: 255 }
 
-  validate :type_include_game_name?
+  validate :valid_type?
   validate :validation_recruitment_numbers
   validate :validation_status_update, on: :update
 
@@ -70,11 +70,6 @@ class Recruiting < ApplicationRecord
   #list of game type.
   GAMETYPENAMES = ['ApexRecruiting']
 
-  def type_include_game_name?
-    if type.present? && !GAMETYPENAMES.include?(type)
-      errors.add(:type, " 指定のゲームは募集できません")
-    end
-  end
 
 
   def owner?(user)
@@ -96,6 +91,13 @@ class Recruiting < ApplicationRecord
 
 
   private
+
+  def valid_type?
+    if type.present? && GAMETYPENAMES.exclude?(type)
+      errors.add(:type, " 指定のゲームは募集できません")
+    end
+  end
+
 
   #募集人数更新時は、既に参加しているユーザー数を下回っていないか確認する
   def validation_recruitment_numbers

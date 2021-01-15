@@ -2,14 +2,16 @@
 #
 # Table name: notices
 #
-#  id         :bigint           not null, primary key
-#  content    :text
-#  status     :integer
-#  title      :string
-#  type       :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  user_id    :string
+#  id            :bigint           not null, primary key
+#  content       :text
+#  status        :integer
+#  title         :string
+#  type          :string           not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  applicant_id  :string
+#  recruiting_id :integer
+#  user_id       :string
 #
 # Indexes
 #
@@ -36,7 +38,6 @@ RSpec.describe Notice, type: :model do
   end
 
 
-
   # ============= #
   #    validate   #
   # ============= #
@@ -47,8 +48,15 @@ RSpec.describe Notice, type: :model do
       it_behaves_like "is valid"
     end
 
+    context 'with invalid type' do
+      let(:verified_notice) { build(:valid_notice, type: 'InvalidType') }
+      it_behaves_like "is invalid"
+    end
+
+    context 'with too much content' do
+      let(:verified_notice) { build(:valid_notice, content: 'a'*256) }
+      it_behaves_like "is invalid"
+    end
   end
-
-
 
 end

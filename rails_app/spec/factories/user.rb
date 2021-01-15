@@ -25,6 +25,13 @@ FactoryBot.define do
         user.create_recruiting(attributes_for(:recruiting_mock))
       end
     end
+
+    trait :user_with_applicant do
+      after(:create) do |user|
+        user.create_recruiting(attributes_for(:recruiting_mock))
+        user.recruiting.applicants << create(:valid_users)
+      end
+    end
   end
 
 
