@@ -64,7 +64,13 @@ class ApplicantEntryRecruitingsController < ApplicationController
       applicant_id: @tagret_user.user_id
     )
 
+
     if entry[0]
+
+      #エントリー削除理由が送信されていれば、インスタンスにセット
+      delete_reason = applicant_entry_recruiting_params[:delete_reason]
+      entry[0].delete_reason = delete_reason if delete_reason
+
       entry[0].destroy
       response_success
     else
@@ -77,7 +83,7 @@ class ApplicantEntryRecruitingsController < ApplicationController
   private
 
   def applicant_entry_recruiting_params
-    params.require(:applicant_entry_recruiting).permit(:recruiting_id, :applicant_id, :status, :message)
+    params.require(:applicant_entry_recruiting).permit(:recruiting_id, :applicant_id, :status, :message, :delete_reason)
   end
 
 

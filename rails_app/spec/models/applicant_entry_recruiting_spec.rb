@@ -150,12 +150,70 @@ RSpec.describe ApplicantEntryRecruiting, type: :model do
   end
 
   describe 'destroy callback' do
-    let(:recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
-    before { recruiting.reload }
 
-    it 'return valid value' do
-      recruiting.applicant_entry_recruitings[0].destroy
-      expect(recruiting.reload.status).to eq 'open'
+    context 'decrease_participants_numbers_and_update_status method' do
+      let(:recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
+      let(:entry) {recruiting.reload.applicant_entry_recruitings[0]}
+      before { recruiting.reload }
+      subject { entry.destroy }
+
+      it 'status of recruiting update to open' do
+        subject
+        expect(recruiting.reload.status).to eq 'open'
+      end
+    end
+
+
+    context 'create_delete_entry_notice method' do
+      context 'when a member leaves' do
+        let(:recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
+        let(:entry) {recruiting.reload.applicant_entry_recruitings[0]}
+        before { entry.delete_reason = 'decline' }
+        subject { entry.destroy }
+
+        it 'save delete_entry_notice to owner' do
+          subject
+          notice = DeleteEntryNotice.first
+          expect(notice.title).to eq '参加メンバーが離脱しました'
+          expect(notice.user_id).to eq recruiting.user_id
+        end
+
+        it_behaves_like "create Model", DeleteEntryNotice, 1
+      end
+
+
+      context 'when owner deny the application' do
+        let(:recruiting) { create(:valid_recruiting, :recruiting_with_applicant) }
+        let(:entry) {recruiting.reload.applicant_entry_recruitings[0]}
+        before { entry.delete_reason = 'refusal' }
+        subject { entry.destroy }
+
+        it 'save delete_entry_notice to owner' do
+          subject
+          notice = DeleteEntryNotice.first
+          expect(notice.title).to eq '参加申請が拒否されました'
+          expect(notice.user_id).to eq entry.applicant_id
+        end
+
+        it_behaves_like "create Model", DeleteEntryNotice, 1
+      end
+
+
+      context 'when owner kicks member' do
+        let(:recruiting) { create(:valid_recruiting, :recruiting_is_filled) }
+        let(:entry) {recruiting.reload.applicant_entry_recruitings[0]}
+        before { entry.delete_reason = 'kick' }
+        subject { entry.destroy }
+
+        it 'save delete_entry_notice to owner' do
+          subject
+          notice = DeleteEntryNotice.first
+          expect(notice.title).to eq 'キックされました'
+          expect(notice.user_id).to eq entry.applicant_id
+        end
+
+        it_behaves_like "create Model", DeleteEntryNotice, 1
+      end
     end
 
   end

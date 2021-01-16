@@ -17,8 +17,9 @@
           <div class="recruiting_show_users_list_right">
             <div class="recruiting_show_users_list_btn_wrap">
               <span
-                @click="kick" 
+                @click="delete_entry" 
                 v-bind:data-id= user.user_id
+                data-reason = 'kick'
                 class = "recruiting_show_users_list_kick_btn"
               >
                 キックする
@@ -56,8 +57,9 @@
             </div>
             <div class="recruiting_show_users_list_btn_wrap">
               <span
-                @click="kick" 
+                @click="delete_entry" 
                 v-bind:data-id= user.user_id
+                data-reason = 'refusal'
                 class = "recruiting_show_users_list_kick_btn"
               >
                 参加を拒否する
@@ -148,8 +150,9 @@ export default {
       });
     },
 
-    kick: function(e){
+    delete_entry: function(e){
       var id = e.currentTarget.getAttribute('data-id')
+      var delete_reason = e.currentTarget.getAttribute('data-reason')
       axios({
         method: 'delete',
         url: '/applicant_entry_recruitings',
@@ -157,6 +160,7 @@ export default {
           applicant_entry_recruiting: {
             recruiting_id: this.recruitingId,
             applicant_id: id,
+            delete_reason: delete_reason
           }
         }
       }).then((response) => {

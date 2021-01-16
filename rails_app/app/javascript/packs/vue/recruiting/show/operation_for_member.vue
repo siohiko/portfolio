@@ -2,7 +2,12 @@
   <div>
     <div class="recruiting_show_application">
       <p v-if="operationUncompleted">あなたはこの募集のメンバーです</p>
-      <div v-if="operationUncompleted" class="recruiting_show_application_revocation_btn" @click="declining">
+      <div 
+        v-if="operationUncompleted"
+        class="recruiting_show_application_revocation_btn"
+        @click="declining"
+        data-reason = 'decline'
+      >
           <span>参加を辞退する</span>
       </div>
       <div v-else class="recruiting_application_success">
@@ -33,11 +38,19 @@ export default {
  console.log(this);
   },
   methods: {
-    declining: function(){
-      axios.delete(
-        '/applicant_entry_recruitings',
-        { data: { applicant_entry_recruiting: { recruiting_id: this.recruitingId } } }
-      ).then((response) => {
+    declining: function(e){
+      var delete_reason = e.currentTarget.getAttribute('data-reason')
+
+      axios({
+        method: 'delete',
+        url: '/applicant_entry_recruitings',
+        data: {
+          applicant_entry_recruiting: {
+            recruiting_id: this.recruitingId,
+            delete_reason: delete_reason
+          }
+        }
+      }).then((response) => {
         if (response.status == 200) {
           this.operationUncompleted = false;
         } else {

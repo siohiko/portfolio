@@ -15,7 +15,7 @@
 #  index_applicant_entry_recruitings_on_entry_recruiting_id  (entry_recruiting_id)
 #
 class ApplicantEntryRecruiting < ApplicationRecord
-  attr_accessor :message
+  attr_accessor :message, :delete_reason
 
   after_create do
     #応募があったことを通知する
@@ -39,7 +39,10 @@ class ApplicantEntryRecruiting < ApplicationRecord
 
   after_destroy do
     decrease_participants_numbers_and_update_status if approved?
+    create_delete_entry_notice(delete_reason) if self.delete_reason
   end
+
+
 
   belongs_to :entry_recruiting, class_name: "Recruiting"
   belongs_to :applicant, class_name: "User"
@@ -131,6 +134,23 @@ class ApplicantEntryRecruiting < ApplicationRecord
       )
 
     if notice.save
+      return true
+    else
+      return false
+    end
+  end
+
+
+  def create_delete_entry_notice(reason)
+    
+    notice = DeleteEntryNotice.create_for_reason(
+      reason: delete_reason,
+      recruiting_id: entry_recruiting_id,
+      owner_id: entry_recruiting.user_id,
+      applicant_id: applicant_id
+    )
+
+    if notice
       return true
     else
       return false
