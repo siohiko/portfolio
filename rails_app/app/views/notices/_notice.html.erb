@@ -7,7 +7,11 @@
     %>
 
       <p>
-        <a href="/users/<%= notice.applicant_id %>"><%= notice.applicant_id %>さん</a>より参加申請が届いています。<br>
+        あなたの募集に参加申請が届いています。<br>
+        <br>
+        <a href="/users/<%= notice.applicant_id %>"><%= notice.applicant_id %>さん</a><br>
+        <span class="notice_index_list_content_comment">「<%= notice.content %>」</span><br>
+        <br>
         <a href="/recruitings/<%= notice.recruiting_id %>">こちらから確認してください>></a>
       </p>
 
