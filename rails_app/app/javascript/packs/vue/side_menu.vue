@@ -20,9 +20,9 @@
             </a>
           </li>
           <li>
-            <a href="" class="side_menu_list_link">
+            <a href="/notices" class="side_menu_list_link">
               <img alt="" class="side_menu_list_link_ico" src="../images/common/message_ico.png">
-              <span class="side_menu_list_link_text">メッセージ</span>
+              <span class="side_menu_list_link_text">通知</span>
             </a>
           </li>
           <li>

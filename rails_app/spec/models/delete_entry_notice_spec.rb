@@ -5,7 +5,7 @@
 #  id                      :bigint           not null, primary key
 #  content                 :text
 #  reason_for_delete_entry :integer          default(0), not null
-#  status                  :integer          default("未読"), not null
+#  status                  :integer          default(unread), not null
 #  title                   :string
 #  type                    :string           not null
 #  created_at              :datetime         not null

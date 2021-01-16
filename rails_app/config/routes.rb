@@ -24,5 +24,7 @@ Rails.application.routes.draw do
   end
   resources :recruitings,  except: [:index]
 
+  resources :notices, only: [:index]
+
   root "top#show"
 end

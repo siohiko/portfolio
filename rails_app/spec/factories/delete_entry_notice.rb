@@ -3,7 +3,7 @@ FactoryBot.define do
   factory :valid_delete_entry_notice, class: DeleteEntryNotice do
     type {'DeleteEntryNotice'}
     title {'参加申請が拒否されました'}
-    status { '未読' }
+    status { 'unread' }
     reason_for_delete_entry { 'refusal'}
 
     after(:build) do |notice|

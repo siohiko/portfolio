@@ -28,5 +28,6 @@ module RailsApp
     # anti-DNS Rebuilding Attack 
     config.hosts << "backend"
     config.hosts << '.example.com'
+    config.time_zone = 'Tokyo'
   end
 end

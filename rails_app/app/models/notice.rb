@@ -5,7 +5,7 @@
 #  id                      :bigint           not null, primary key
 #  content                 :text
 #  reason_for_delete_entry :integer          default(0), not null
-#  status                  :integer          default("未読"), not null
+#  status                  :integer          default(unread), not null
 #  title                   :string
 #  type                    :string           not null
 #  created_at              :datetime         not null
@@ -24,7 +24,9 @@ class Notice < ApplicationRecord
   validates :content, length: { maximum: 255 }
   validate :valid_type?
 
-  enum status: { "未読": 0, "既読": 1}
+  default_scope -> { order(created_at: :desc) }
+
+  enum status: { "unread": 0, "read": 1}
 
   #list of game type.
   NOTICETYPE = [

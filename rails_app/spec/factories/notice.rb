@@ -5,7 +5,7 @@ FactoryBot.define do
     type {'ApplicationNotice'}
     title {'タイトル'}
     content { '内容' }
-    status { '未読' }
+    status { 'unread' }
   end
 
 end
