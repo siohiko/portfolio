@@ -13,6 +13,12 @@
     <transition name="sideMenu">
       <aside class="side_menu" id="side_menu" v-if="showSideMenu">
           <ul class="side_menu_list">
+            <li>
+            <a v-bind:href="'/users/' + userId" class="side_menu_list_link">
+              <img alt="" class="side_menu_list_link_ico" src="../images/common/white_user_ico.png">
+              <span class="side_menu_list_link_text">マイページ</span>
+            </a>
+          </li>
           <li>
             <a href="/recruitings/search" class="side_menu_list_link">
               <img alt="" class="side_menu_list_link_ico" src="../images/common/recruiting_ico.png">
@@ -58,7 +64,8 @@ export default {
   data() {
     return {
      showSideMenu : false,
-     showConfigMenu : false
+     showConfigMenu : false,
+     userId: null
     };
   },
   created() {
@@ -67,6 +74,8 @@ export default {
     } else if (window.matchMedia('(min-width:897px)').matches) {
       this.showSideMenu = true;
     }
+    var user_id = document.getElementsByName('user_id')[0].getAttribute('content')
+    this.userId = user_id
   },
   methods:{
     clickHandler: function(){
