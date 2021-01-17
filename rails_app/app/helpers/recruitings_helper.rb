@@ -1,6 +1,6 @@
 module RecruitingsHelper
   
-  #return contents of operation against recruitment for user position
+  #ログインしているユーザーのポジションに合わせたvueファイルをう埋め込む
   def operation_display_for_position(position)
     packs_for_user = {
       owner:     { pack: 'recruiting/show/operation_for_owner' },
@@ -37,4 +37,25 @@ module RecruitingsHelper
     end
   end
 
+
+  #文字列をバイト単位で切り抜き、最後に省略記号を追加するメソッド
+  def resize_string(str, options = {})
+    return nil unless str
+
+    options = { 
+      size: 20,
+      ellipsis: true 
+    }.merge(options)
+
+    byte_size = str.bytesize
+
+    #文字列をカットして不正な文字は削除
+    last_index = options[:size] - 1
+    str = str.byteslice(0..last_index).scrub('')
+
+    #文字列の最後に省略記号を追加
+    str = str + '....' if options[:ellipsis] && byte_size > last_index
+    
+    return str
+  end
 end
