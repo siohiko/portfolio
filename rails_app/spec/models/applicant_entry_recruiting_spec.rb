@@ -54,7 +54,7 @@ RSpec.describe ApplicantEntryRecruiting, type: :model do
         applying_user.entry_recruiting.status = 'close'
       }
       it_behaves_like "is invalid"
-      it_behaves_like "include error message", 'その募集は既に閉じられています', 'entry_recruiting'.to_sym
+      it_behaves_like "include error message", 'その募集には応募できません', 'entry_recruiting'.to_sym
     end
 
 

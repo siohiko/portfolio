@@ -285,6 +285,15 @@
       @extend .recruiting_show_common_section_layout;
       margin-bottom: $box_pc_mb_s;
       @at-root {
+        #{&}_error {
+          width: 100%;
+          @at-root {
+            & p {
+              text-align: center;
+              color: $red;
+            }
+          }
+        }
         #{&}_text_form {
           @at-root {
             #{&}_wrap {
@@ -350,6 +359,9 @@
           text-align: center;
         }
       }
+    }
+    #{&}_close_notice p {   
+      text-align: center;
     }
   }
 }

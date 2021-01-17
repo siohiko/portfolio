@@ -13,6 +13,12 @@ module RecruitingsHelper
       content = content_tag(:div) do
         content_tag(:p, "他の募集に応募しているので、応募はできません。")
       end
+
+    #募集が満員、もしくは閉じていた場合に一般ユーザーがアクセスしてきた場合
+    elsif position === :free && !@recruiting.open?
+      content = content_tag(:div, class: 'recruiting_show_close_notice') do
+        content_tag(:p, "こちらの募集には応募できません。")
+      end
     elsif position
       #div to mount vue
       mounted_div_tag = content_tag(:div, nil, id: "recruiting_operation")
@@ -28,11 +34,11 @@ module RecruitingsHelper
 
 
   def display_recruiting_status
-    if @recruiting.status == "open"
+    if @recruiting.open?
       content_tag(:span, "募集中", class: "open")
-    elsif @recruiting.status == "close"
+    elsif @recruiting.close?
       content_tag(:span, "募集終了", class: "close")
-    elsif @recruiting.status == "filled"
+    elsif @recruiting.filled?
       content_tag(:span, "満員", class: "filled")
     end
   end

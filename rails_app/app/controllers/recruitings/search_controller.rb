@@ -11,7 +11,7 @@ class Recruitings::SearchController < ApplicationController
     if search_params.present?
       search_results = Recruiting.search(search_params)
     else
-      search_results = Recruiting.all
+      search_results = Recruiting.status_open
     end
 
     @search_results_for_view = search_results.page(params[:page]).per(5)

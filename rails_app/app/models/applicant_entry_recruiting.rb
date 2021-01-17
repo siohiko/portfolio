@@ -57,7 +57,7 @@ class ApplicantEntryRecruiting < ApplicationRecord
   private
 
   def recruiting_open?
-    errors.add(:entry_recruiting, 'その募集は既に閉じられています') if entry_recruiting.close?
+    errors.add(:entry_recruiting, 'その募集には応募できません') unless entry_recruiting.open?
   end
 
 

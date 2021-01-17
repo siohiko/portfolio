@@ -104,7 +104,7 @@ RSpec.describe "ApplicantEntryRecruitings", type: :request do
 
         it_behaves_like "return http", 409
         it_behaves_like "Failing to create Model", ApplicantEntryRecruiting
-        it_behaves_like "include error message", 'その募集は既に閉じられています'
+        it_behaves_like "include error message", 'その募集には応募できません'
       end
 
     end

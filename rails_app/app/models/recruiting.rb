@@ -131,7 +131,11 @@ class Recruiting < ApplicationRecord
   #未承認の募集者を全員切る
   def cut_the_applicants
     self.applicant_entry_recruitings.each do |entry|
-      entry.delete if entry.unapproved?
+      
+      if entry.unapproved?
+        entry.delete_reason = 'refusal'
+        entry.destroy
+      end
     end
   end
 
