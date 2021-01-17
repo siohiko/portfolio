@@ -64,6 +64,26 @@
               background-size: contain;
               vertical-align: middle;
             }
+            #{&}_notice {
+              position: relative;
+              @at-root {
+                & .unread_count {
+                  position: absolute;
+                  top: 6px;
+                  left: 12px;
+                  z-index: 10;
+                  display: block;
+                  height: 16px;
+                  width: 16px;
+                  border-radius: 50%;
+                  background-color: $red;
+                  font-size: 12px;
+                  text-align: center;
+                  line-height: 16px;
+                  color: $white;
+                }
+              }
+            }
           }
         }
         #{&}_child {

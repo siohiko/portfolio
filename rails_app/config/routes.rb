@@ -25,6 +25,9 @@ Rails.application.routes.draw do
   resources :recruitings,  except: [:index]
 
   resources :notices, only: [:index]
+  namespace :notices do
+    resource :unread_notice_count, only: [:show]
+  end
 
   root "top#show"
 end

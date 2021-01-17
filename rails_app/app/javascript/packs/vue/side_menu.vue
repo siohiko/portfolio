@@ -26,7 +26,8 @@
             </a>
           </li>
           <li>
-            <a href="/notices" class="side_menu_list_link">
+            <a href="/notices" class="side_menu_list_link side_menu_list_link_notice">
+              <span class="unread_count" v-if="unreadNoticeCount != null">{{unreadNoticeCount}}</span>
               <img alt="" class="side_menu_list_link_ico" src="../images/common/message_ico.png">
               <span class="side_menu_list_link_text">通知</span>
             </a>
@@ -60,15 +61,34 @@
   </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
      showSideMenu : false,
      showConfigMenu : false,
-     userId: null
+     userId: null,
+     unreadNoticeCount: null
     };
   },
   created() {
+    axios({
+        method: 'get',
+        url: '/notices/unread_notice_count',
+        validateStatus: function(status) {
+          return status < 500;
+        },
+      }).then((response) => {
+        if (response.status == 200) {
+          var unread_count = response.data.unread_count;
+
+          if (unread_count >= 10) {
+            this.unreadNoticeCount = '9+';
+          } else if (unread_count >= 1) {
+            this.unreadNoticeCount = unread_count;
+          }
+        }
+      });
     if (window.matchMedia('(max-width: 897px)').matches) {
       this.showSideMenu = false;
     } else if (window.matchMedia('(min-width:897px)').matches) {
