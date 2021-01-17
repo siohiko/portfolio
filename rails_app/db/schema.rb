@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_15_212632) do
+ActiveRecord::Schema.define(version: 2021_01_17_093227) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,16 @@ ActiveRecord::Schema.define(version: 2021_01_15_212632) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["applicant_id"], name: "index_applicant_entry_recruitings_on_applicant_id"
     t.index ["entry_recruiting_id"], name: "index_applicant_entry_recruitings_on_entry_recruiting_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "content"
+    t.string "user_id"
+    t.integer "recruiting_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["recruiting_id"], name: "index_comments_on_recruiting_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "favorite_legends", force: :cascade do |t|
