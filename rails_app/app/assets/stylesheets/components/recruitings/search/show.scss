@@ -262,6 +262,27 @@
             }
           }
         }
+        #{&}_bottom {
+          width: 100%;
+          padding-top: 10px;
+          margin-top: 10px;
+          border-top: 1px solid $white;
+          @at-root {
+            #{&}_ttl {
+              margin-bottom: 5px;
+              font-size: $f_size_pc_s;
+              @include sp {
+                font-size: $f_size_sp_s;
+              }
+            }
+            #{&}_content {
+              font-size: $f_size_pc_s;
+              @include sp {
+                font-size: $f_size_sp_s;
+              }
+            }
+          }
+        }
       }
     }
     #{&}_paginate {

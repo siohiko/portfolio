@@ -15,13 +15,34 @@
 #  index_applicant_entry_recruitings_on_entry_recruiting_id  (entry_recruiting_id)
 #
 class ApplicantEntryRecruiting < ApplicationRecord
+  attr_accessor :message, :delete_reason
+
+  after_create do
+    #応募があったことを通知する
+    create_application_notice(
+      owner_id: entry_recruiting.user_id,
+      applicant_id: applicant_id,
+      recruiting_id: entry_recruiting_id,
+      content: message
+    )
+  end
+
   after_update_commit do
-    increase_participants_numbers_and_update_status if saved_change_to_status? && approved?
+    if saved_change_to_status? && approved?
+      increase_participants_numbers_and_update_status
+      create_adoption_notice(
+        applicant_id: applicant_id,
+        recruiting_id: entry_recruiting_id
+      )
+    end
   end
 
   after_destroy do
     decrease_participants_numbers_and_update_status if approved?
+    create_delete_entry_notice(delete_reason) if self.delete_reason
   end
+
+
 
   belongs_to :entry_recruiting, class_name: "Recruiting"
   belongs_to :applicant, class_name: "User"
@@ -36,7 +57,7 @@ class ApplicantEntryRecruiting < ApplicationRecord
   private
 
   def recruiting_open?
-    errors.add(:entry_recruiting, 'その募集は既に閉じられています') if entry_recruiting.close?
+    errors.add(:entry_recruiting, 'その募集には応募できません') unless entry_recruiting.open?
   end
 
 
@@ -83,5 +104,56 @@ class ApplicantEntryRecruiting < ApplicationRecord
     #FIX ME!!!!
     #現状ここで更新失敗することはないが、いつかに備えてエラーハンドリングは必要。
     entry_recruiting.save
+  end
+
+
+  def create_application_notice(owner_id:, applicant_id:, recruiting_id:, content:)
+    notice = ApplicationNotice.new(
+        type: 'ApplicationNotice',
+        title: '参加申請のお知らせ',
+        user_id: owner_id,
+        applicant_id: applicant_id,
+        recruiting_id: recruiting_id,
+        content: content
+      )
+
+    if notice.save
+      return true
+    else
+      return false
+    end
+  end
+
+
+  def create_adoption_notice(applicant_id:, recruiting_id:)
+    notice = AdoptionNotice.new(
+        type: 'AdoptionNotice',
+        title: '参加承認のお知らせ',
+        user_id: applicant_id,
+        recruiting_id: recruiting_id
+      )
+
+    if notice.save
+      return true
+    else
+      return false
+    end
+  end
+
+
+  def create_delete_entry_notice(reason)
+    
+    notice = DeleteEntryNotice.create_for_reason(
+      reason: delete_reason,
+      recruiting_id: entry_recruiting_id,
+      owner_id: entry_recruiting.user_id,
+      applicant_id: applicant_id
+    )
+
+    if notice
+      return true
+    else
+      return false
+    end
   end
 end

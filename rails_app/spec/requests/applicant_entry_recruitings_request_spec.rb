@@ -104,7 +104,7 @@ RSpec.describe "ApplicantEntryRecruitings", type: :request do
 
         it_behaves_like "return http", 409
         it_behaves_like "Failing to create Model", ApplicantEntryRecruiting
-        it_behaves_like "include error message", 'その募集は既に閉じられています'
+        it_behaves_like "include error message", 'その募集には応募できません'
       end
 
     end
@@ -182,6 +182,7 @@ RSpec.describe "ApplicantEntryRecruitings", type: :request do
     let(:params) { 
       { 
         recruiting_id: recruiting.id,
+        delete_reason: 'refusal'
       }
     }
 
@@ -199,6 +200,8 @@ RSpec.describe "ApplicantEntryRecruitings", type: :request do
         subject
         expect(recruiting.reload.applicants.include?(decliner)).to eq false
       end
+
+      it_behaves_like "create Model", DeleteEntryNotice, 1
     end
 
     context 'case of another_user Logged in' do
