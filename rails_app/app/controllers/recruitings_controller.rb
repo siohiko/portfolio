@@ -63,7 +63,7 @@ class RecruitingsController < ApplicationController
 
   def show
     @user_position_for_recruiting = @user.position_in_the_recruiting(@recruiting)
-    
+    @comments = @recruiting.comments.page(params[:page]).per(15)
   end
 
 
@@ -88,7 +88,8 @@ class RecruitingsController < ApplicationController
 
 
   def set_recruiting
-    @recruiting = Recruiting.find(params[:id])
+    @recruiting = Recruiting.find_by(id: params[:id])
+    redirect_to root_path unless @recruiting
   end
 
 

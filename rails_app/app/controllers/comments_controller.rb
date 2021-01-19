@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
 
   def create
     comment = Comment.new(
-      content: comment_params[:comment],
+      content: comment_params[:content],
       recruiting_id: comment_params[:recruiting_id],
       user_id: @user.user_id,
     )

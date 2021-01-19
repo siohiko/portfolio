@@ -6,6 +6,9 @@
   <% if current_user %>
     <meta name="user_id" content="<%= current_user.user_id %>">
   <% end %>
+  <% if @recruiting %>
+    <meta name="recruiting_id" content="<%= @recruiting.id %>">
+  <% end %>
 
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 </head>

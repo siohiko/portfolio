@@ -286,22 +286,7 @@
       }
     }
     #{&}_paginate {
-      @at-root {
-        & .pagination {
-          @extend .flex_row_center;
-        }
-        & .page, & .next, & .prev, & .last, & .first {
-          display: block;
-          margin: 0px 10px;
-          @include sp {
-            margin: 0px 5px;
-            font-size: $f_size_pc_xs;
-          }
-        }
-        & a {
-          text-decoration: underline;
-        }
-      }     
+      @extend .common_pagination;
     }
   }
 }

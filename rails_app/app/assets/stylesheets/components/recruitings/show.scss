@@ -363,5 +363,111 @@
     #{&}_close_notice p {   
       text-align: center;
     }
+    #{&}_comments {
+      @extend .recruiting_show_common_section_layout;
+      background-color: $azure_blue;
+      padding: 15px 10px;
+      margin-bottom: $box_pc_mb_s;
+      border-radius: 10px;
+      border: 1px solid $white;
+      @at-root {
+        #{&}_ttl {
+          @include recruiting_show_common_section_ttl($f_size_pc_m, $f_size_sp_m);
+        }
+        #{&}_list {
+          margin-bottom: 20px;
+          @at-root {
+            & li {
+              margin-bottom: 10px;
+              padding-bottom: 10px;
+              border-bottom: 1px solid $light_gray;
+            }
+            #{&}_wrap {
+            }
+            #{&}_user {
+              @extend .flex_row;
+              align-items: center;
+              margin-bottom: 10px;
+              @at-root {
+                #{&}_link {
+                  &:hover {
+                    opacity: 0.7;
+                  }
+                }
+                #{&}_icon {
+                  display: block;
+                  width: 35px;
+                  height: 35px;
+                  margin-right: 10px;
+                  padding: 5px;
+                  border-radius: 50%;
+                  background-color: $white;
+                }
+                #{&}_name {
+                  display: block;
+                  text-align: center;
+                  font-size: $f_size_pc_s;
+                }
+                #{&}_date {
+                  display: block;
+                  flex-grow: 1;
+                  font-size: $f_size_pc_xs;
+                  text-align: right;
+                }
+              }
+            }
+            #{&}_content {
+              @at-root {
+                & p {
+                  font-size: $f_size_pc_s;
+                  word-wrap: break-word;
+                }
+              }
+            }
+          }
+        }
+        #{&}_pagenate {
+          @extend .common_pagination;
+          margin-bottom: 20px;
+        }
+        #{&}_form {
+          @at-root {
+            #{&}_btn {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              & span {
+                cursor: pointer;
+                display: block;
+                text-align: center;
+                width:80%;
+                border-radius: 5px;
+                line-height: 2.5em;
+                background: $emerald;
+                &:hover {
+                  opacity: 0.7;
+                }
+              }
+            }
+            & textarea {
+              border: 1px solid $gray;
+              background-color: $white;
+              font-size: $f_size_sp_s;
+              width: 100%;
+              height: 80px;
+              padding: 3px;
+              margin-bottom: 20px;
+            }
+            #{&}_error {
+              & p {
+                text-align: center;
+                padding: 10px;
+                color: $red;
+              }
+            }
+          }
+        }
+      }       
+    }
   }
 }

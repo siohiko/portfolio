@@ -2,6 +2,8 @@ class Comment < ApplicationRecord
   belongs_to :user
   belongs_to :recruiting
 
+  default_scope -> { order(created_at: :desc) }
+
   validate :valid_authenticated_user?
 
   private
