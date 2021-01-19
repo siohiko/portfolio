@@ -5,6 +5,9 @@
   margin: auto;
   @include sp {
     width: 98vw;
+    height: auto;
+    min-height: 100vh;
+    padding: 30px 0px;
   }
 
   @at-root {
@@ -53,7 +56,7 @@
           }
         }
         #{&}_register_btn {
-          margin: 0px 30px;
+          margin: 0px 30px 50px;
           @at-root {
             & a {
               @extend .rounded_corners_btn;
@@ -64,6 +67,32 @@
               @include sp {
                 width: 120px;
               }
+            }
+          }
+        }
+      }
+    }
+    #{&}_information {
+      border: 1px solid $white;
+      padding: 10px;
+      @at-root {
+        #{&}_ttl {
+          margin-bottom: 20px;
+          text-align: center;
+          font-size: $f_size_pc_l;
+          @include sp {
+            font-size: $f_size_sp_m;
+          }
+        }
+        #{&}_item {
+          @at-root {
+            #{&}_ttl {
+              margin-bottom: 10px;
+              font-size: $f_size_pc_m;
+            }
+            #{&}_content {
+              padding: 0px 20px;
+              font-size: $f_size_pc_s;
             }
           }
         }
