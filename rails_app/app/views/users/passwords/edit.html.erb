@@ -1,0 +1,38 @@
+<% content_for(:title, 'パスワード変更') %>
+<section class="password_edit_form_wrap">
+  <div class="password_edit_form">
+    <h1 class="password_edit_form_ttl">パスワード変更</h1>
+    <div class="password_edit_form_body">
+      <% if @user.errors.any? %>
+        <div class="password_edit_form_error">
+          <ul>
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <%= form_with(local: true, scope: :user_password, url: users_password_path, method: :put) do |f| %>
+
+        <div class="password_edit_form_field">
+          <%= f.password_field :password, class: 'password_edit_form_text_input', required: "required", placeholder: " " %>
+          <%= f.label :password, "新しいパスワード（８文字以上）", class: 'password_edit_form_text_input_label' %>
+        </div>
+
+        <div class="password_edit_form_field">
+          <%= f.password_field :password_confirmation, class: 'password_edit_form_text_input', required: "required", placeholder: " " %>
+          <%= f.label :password_confirmation, "新しいパスワード（確認用）", class: 'password_edit_form_text_input_label' %>
+        </div>
+
+        <div class="password_edit_form_field">
+          <%= f.password_field :current_password, class: 'password_edit_form_text_input', required: "required", placeholder: " " %>
+          <%= f.label :current_password, "現在のパスワード", class: 'password_edit_form_text_input_label' %>
+        </div>
+
+        <div class="password_edit_form_actions">
+          <%= f.submit "更新" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

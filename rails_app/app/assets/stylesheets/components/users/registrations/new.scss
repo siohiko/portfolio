@@ -1,0 +1,36 @@
+.registar_form_wrap {
+  @extend .base_form_wrap;
+}
+.registar_form {
+  @extend .base_form;
+  @at-root {
+    #{&}_ttl {
+      @extend .base_form_ttl;
+    }
+    #{&}_body {
+      @extend .base_form_body;
+    }
+    #{&}_field {
+      @extend .base_form_field;
+    }
+    #{&}_text_input {
+      @extend .base_form_text_input;
+    }
+    #{&}_text_input_label {
+      @extend .base_form_text_input_label;
+    }
+    #{&}_actions {
+      @extend .base_form_actions;
+    }
+    #{&}_remember_me_label {
+      font-size: $f_size_pc_s; 
+    }
+  }
+}
+.form_error {
+  @extend .base_form_error;
+}
+.mimum_password {
+  font-size: $f_size_pc_s; 
+  color: $light_gray;
+}

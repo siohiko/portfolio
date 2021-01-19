@@ -1,0 +1,186 @@
+.edit_user_icon_link {
+  @extend .flex_row;
+  align-items: center;
+  height: 24px;
+  font-size: $f_size_pc_s;
+  margin-left: 10px;
+  opacity: 0.7;
+  @include sp {
+    height: 18px;
+    font-size: $f_size_sp_xs;
+  }
+  @at-root {
+    & img {
+      display: block;
+      margin-right: 5px;
+      height: 100%;
+    }
+  }
+}
+.edit_user_icon_link:hover {
+  opacity: 1;
+}
+.user {
+  @extend .right_content_box;
+  @at-root {
+    #{&}_profile {
+      @extend .common_card_layout;
+      @at-root {
+        #{&}_header {
+          @extend .common_card_inner;
+          border-radius: 10px 10px 0px 0px;
+          background-color: $profile_header_color;
+          @at-root {
+            #{&}_icon {
+              margin-bottom: $box_pc_mb_s;
+              @at-root {
+                & img {
+                  display: block;
+                  background: #FFF;
+                  padding: 30px;
+                  width: 200px;
+                  height: 200px;
+                  border-radius: 50%;
+                  @include sp {
+                    width: 140px;
+                    height: 140px;
+                  }
+                }
+              }
+            }
+            #{&}_name {
+              @extend .roundish_font_family;
+              font-size: $f_size_pc_l;
+              font-weight: bold;
+              text-align: center;
+              @include sp {
+                font-size: $f_size_pc_l;
+              }
+            }
+            #{&}_id {
+              display: block;
+              margin-bottom: $box_pc_mb_s;
+              text-align: center;
+              font-size: $f_size_pc_s;
+              color: $white;
+              @include sp {
+                margin-bottom: $box_sp_mb_s;
+                font-size: $f_size_sp_xs;
+              }
+            }
+            #{&}_other {
+              @extend .flex_row_center;
+              @include sp {
+                font-size: $f_size_sp_s;
+              }
+              @at-root {
+                & span {
+                  margin: 0px 10px;
+                }
+              }
+            }
+          }
+        }
+        #{&}_body {
+          @extend .common_card_inner;
+          background-color: $profile_body_color;
+          border-radius: 0px 0px 10px 10px;
+          @at-root {
+            #{&}_description {
+              margin-bottom: $box_pc_mb_l;
+              @include sp {
+                margin-bottom: $box_sp_mb_l;
+              }
+              @at-root {
+                #{&}_text {
+                  font-size: $f_size_pc_s;
+                  @include sp {
+                    font-size: $f_size_sp_s;
+                  }
+                }
+              }
+            }
+            #{&}_ttl {
+              @extend .flex_row;
+              align-items: baseline;
+              @extend .roundish_font_family;
+              font-size: $f_size_pc_l;
+              margin-bottom: $box_pc_mb_s;
+              @include sp {
+                margin-bottom: $box_sp_mb_s;
+                font-size: $f_size_sp_l;
+              }
+            }
+            #{&}_apex_profile {
+              margin-bottom: $box_pc_mb_l;
+              @at-root {
+                #{&}_table {
+                  display: table;
+                  margin: auto;
+                  width: calc(100% - 40px);
+                  background: $profile_table_color;
+                  @include sp {
+                    width: 100%;
+                    padding: 5px;
+                  }
+                  @at-root {
+                    & th {
+                      box-sizing: border-box;
+                      width: 40%;
+                      border-right: $profile_body_color solid 4px;
+                      text-align: center;
+                      font-weight: normal;
+                      font-size: $f_size_pc_s;
+                      padding: 10px;
+                      @include sp {
+                        font-size: $f_size_sp_xs;
+                        padding: 10px 5px;
+                      }
+                    }
+                    & td {
+                      box-sizing: border-box;
+                      width: 60%;
+                      padding: 10px;
+                      text-align: center;
+                      font-size: $f_size_pc_s;
+                      @include sp {
+                        padding: 10px 5px;
+                        font-size: $f_size_sp_xs;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            #{&}_new_link {
+              @at-root {
+                #{&}_notes {
+                  font-size: $f_size_pc_s;
+                  color: $white;
+                  text-align: center;
+                  margin-bottom: $paragraph_pc_mb_s;
+                  @include sp {
+                    margin-bottom: $paragraph_sp_mb_s;
+                    font-size: $f_size_sp_xs;
+                  }
+                }
+                #{&}_anchor {
+                  @extend .circle_btn_frame;
+                  @extend .arrow_btn;
+                  width: 270px;
+                  color: $white;
+                  border: 1px solid $white;
+                  font-size: $f_size_pc_s;
+                  @include sp {
+                    width: 100%;
+                    font-size: $f_size_sp_xs;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

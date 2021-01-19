@@ -1,0 +1,49 @@
+<li class="<%= "unread" if notice.unread? %>">
+  <p class="notice_index_list_ttl"><%= notice.title %></p>
+  <div class="notice_index_list_content">
+    <% 
+      #通知種類が増えてきたらダックタイプでリファクタしてもよいかも（各々の部分テンプレートを作るだけ。ただディレクトリがその分増える。）
+      if notice.type == 'ApplicationNotice'
+    %>
+
+      <p>
+        あなたの募集に参加申請が届いています。<br>
+        <br>
+        <a href="/users/<%= notice.applicant_id %>"><%= notice.applicant_id %>さん</a><br>
+        <span class="notice_index_list_content_comment">「<%= notice.content %>」</span><br>
+        <br>
+        <a href="/recruitings/<%= notice.recruiting_id %>">こちらから確認してください>></a>
+      </p>
+
+    <% elsif notice.type == 'AdoptionNotice' %>
+
+      <p>
+        <a href="/recruitings/<%= notice.recruiting_id %>">こちらの募集</a>への参加が承認されました！<br>
+        募集ページより確認してください。
+      </p>
+
+    <% elsif notice.type == 'DeleteEntryNotice' && notice.reason_for_delete_entry == 'refusal'%>
+
+      <p>
+        <a href="/recruitings/<%= notice.recruiting_id %>">こちらの募集</a>への参加が拒否されました。<br>
+        他の募集に応募してみましょう！
+      </p>
+
+    <% elsif notice.type == 'DeleteEntryNotice' && notice.reason_for_delete_entry == 'decline'%>
+
+      <p>
+        <a href="/recruitings/<%= notice.recruiting_id %>">こちらの募集</a>から、<a href="/users/<%= notice.applicant_id %>"><%= notice.applicant_id %>さん</a>が離脱しました。
+      </p>
+
+
+    <% elsif notice.type == 'DeleteEntryNotice' && notice.reason_for_delete_entry == 'kick'%>
+
+      <p>
+        <a href="/recruitings/<%= notice.recruiting_id %>">こちらの募集</a>からキックされました。
+      </p>
+
+
+    <% end %>
+  </div>
+  <span class="notice_index_list_date"><%= l notice.created_at %></span>
+</li>

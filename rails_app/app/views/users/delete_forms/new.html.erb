@@ -1,0 +1,11 @@
+<% content_for(:title, '退会フォーム') %>
+<section class="user_delete_form_wrap">
+  <div class="user_delete_form">
+    <h1 class="user_delete_form_ttl">退会フォーム</h1>
+    <div class="user_delete_form_body">
+      <p class="user_delete_form_body_notes">退会した場合、登録したデータ等は削除されます。</p>
+      <%= button_to "退会する", user_registration_path, data: { confirm: "本当に退会しますか？" }, method: :delete, class: "user_delete_form_button" %>
+    </div>
+  </div>
+</section>
+

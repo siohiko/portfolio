@@ -1,0 +1,78 @@
+.notice_index {
+  @extend .right_content_box;
+  @at-root {
+    #{&}_inner {
+      @extend .common_card_layout;
+      @extend .common_card_inner;
+      border-radius: 10px;
+      background-color: $prussian_blue;
+    }
+    #{&}_ttl {
+      font-size: $f_size_pc_l;
+      font-weight: bold;
+      margin-bottom: $box_pc_mb_s;
+      @at-root {
+        #{&}_sub {
+          display: inline-block;
+          margin-left: 20px;
+          font-size: $f_size_pc_s;
+          font-weight: normal;
+        }
+      }
+    }
+    #{&}_list {
+      @at-root {
+        & li {
+          padding: 0px 10px 20px;
+          border-bottom: 1px solid $light_gray;
+          margin-bottom: 20px; 
+          opacity: 0.5;
+        }
+        & .unread {
+          position:relative;
+          opacity: 1;
+          &::before {
+            position:absolute;
+            top: -5px;
+            left: -5px;
+            content: '';
+            display: block;
+            background-color: $red;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+          }
+        }
+        #{&}_ttl {
+          font-size: $f_size_pc_m;
+          margin-bottom: 10px;
+          @include sp {
+            font-size: $f_size_sp_m;
+          }
+        }
+        #{&}_content {
+          font-size: $f_size_pc_s;
+          margin-bottom: 10px;
+          @include sp {
+            font-size: $f_size_sp_s;
+          }
+          & a {
+            color: $orange;
+            text-decoration: underline;
+          }
+        }
+        #{&}_date {
+          display: block;
+          text-align: right;
+          font-size: $f_size_pc_xs;
+          @include sp {
+            font-size: $f_size_sp_xs;
+          }
+        }
+        #{&}_paginate {
+          @extend .common_pagination;
+        }
+      }
+    }
+  }
+}

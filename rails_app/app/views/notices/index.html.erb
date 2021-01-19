@@ -1,0 +1,23 @@
+<% content_for(:title, '通知一覧') %>
+<% content_for :side_menu do %>
+  <%= javascript_pack_tag 'side_menu' %>
+<% end %>
+<section class="notice_index">
+  <div class="notice_index_inner">
+    <h1 class="notice_index_ttl">
+      通知一覧<span class="notice_index_ttl_sub">未読<%= @unread_count %>件</span>
+    </h1>
+    <div class="notice_index_list_wrap">
+      <% if @notices %>
+        <ul class="notice_index_list">
+          <%=  render partial: 'notices/notice', collection: @notices %>
+        </ul>
+      <div class="notice_index_list_paginate">
+        <%= paginate @notices %>
+      </div>
+      <% else %>
+        <p>通知はひとつもありません</p>
+      <% end %>
+    </div>
+  </div>
+</section>

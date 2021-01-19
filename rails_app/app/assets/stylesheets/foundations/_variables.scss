@@ -1,0 +1,61 @@
+/* colors */
+$midnight: #001D42;
+$white: #FFFFFF;
+$orange: #ffad56;
+$maldives_blues: #74c7f0;
+$indigo: #0f5779;
+$azure_blue: #18448e;
+$prussian_blue: #154577;
+$red: #ff3232;
+$pink: #ff7b7b;
+$emerald: #2ABCA7;
+$light_gray: #A9A9A9;
+$gray: #777777;
+$base_color: $midnight;
+$sidebar_color: $indigo;
+$recruiting_card_color: $prussian_blue;
+
+$profile_header_color: $azure_blue;
+$profile_body_color: $prussian_blue;
+$profile_table_color: $midnight;
+
+$login_btn_color: $maldives_blues;
+$register_btn_color: $orange;
+
+$base_font_color: $white;
+
+$sp_header_height: calc(60px + 4vw);
+
+/*font size*/
+$f_size_sp_2xl: 30px;
+$f_size_sp_xl: 26px;
+$f_size_sp_l: 22px;
+$f_size_sp_m: 18px;
+$f_size_sp_s: 14px;
+$f_size_sp_xs: 12px;
+
+$f_size_pc_3xl: 52px;
+$f_size_pc_2xl: 44px;
+$f_size_pc_xl: 36px;
+$f_size_pc_l: 28px;
+$f_size_pc_m: 20px;
+$f_size_pc_s: 16px;
+$f_size_pc_xs: 12px;
+
+
+/*margin size*/
+$box_pc_mb_l: 60px;
+$box_pc_mb_m: 40px;
+$box_pc_mb_s: 20px;
+
+$box_sp_mb_l: 30px;
+$box_sp_mb_m: 20px;
+$box_sp_mb_s: 10px;
+
+$paragraph_pc_mb_l: 50px;
+$paragraph_pc_mb_m: 30px;
+$paragraph_pc_mb_s: 10px;
+
+$paragraph_sp_mb_l: 30px;
+$paragraph_sp_mb_m: 20px;
+$paragraph_sp_mb_s: 10px;

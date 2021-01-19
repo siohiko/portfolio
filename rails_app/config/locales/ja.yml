@@ -1,0 +1,88 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー 
+      apex_profile: Apexプロフィール
+      apex_recruiting: Apexの野良募集
+    attributes:
+        user:
+          user_id: ID
+          name: 名前
+          sex: 性別
+          age: 年齢
+          introduce: 自己紹介
+          password: パスワード
+          password_confirmation: パスワード（確認用）
+        apex_profile:
+          apex_id: APEX_ID
+          level: レベル
+          rank: ランク
+          platform: プラットフォーム
+        recruiting:
+          type: 募集するゲーム
+          vc: VC
+          recruitment_numbers: 募集人数
+          play_style: プレイスタイル
+          comment: ひとこと
+          rank: ランク
+          game_mode: ゲームモード
+        apex_recruiting:
+          type: 募集するゲーム
+          vc: VC
+          recruitment_numbers: 募集人数
+          play_style: プレイスタイル
+          comment: コメント
+          rank: ランク
+          game_mode: ゲームモード
+    errors:
+      models:
+        user:
+          attributes:
+            user_id:
+              taken: "この%{attribute}は既に使われています"
+              blank: "を入力してください"
+              too_long: "は32文字以下にしてください"
+            password:
+              blank: "は8文字以上で入力してください"
+              too_short: "は8文字以上で入力してください"
+            current_password:
+              blank: "を入力してください"
+              invalid: "が間違っています"
+            password_confirmation:
+               confirmation: "が一致しません"
+               blank: "を入力してください"
+            name:
+              too_long: "は16文字以下にしてください"
+            introduce:
+              too_long: "は255文字以下にしてください"
+        apex_profile:
+          attributes:
+            apex_id:
+              too_long: "は32文字以下にしてください"
+            level:
+              less_than: "は500以下にしてください"
+        recruiting:
+          attributes:
+            play_style:
+              too_long: "は32文字以下にしてください"
+            comment:
+              too_long: "は255文字以下にしてください"
+            type:
+              blank: "を入力してください"
+        apex_recruiting:
+          attributes:
+            recruitment_numbers:
+              blank: "を入力してください"
+  attributes:
+    created_at: 作成日
+    updated_at: 更新日
+  views:
+    pagination:
+      first: "&laquo; 最初"
+      last: "最後 &raquo;"
+      previous: "&lsaquo; 前"
+      next: "次 &rsaquo;"
+      truncate: "..."
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M"

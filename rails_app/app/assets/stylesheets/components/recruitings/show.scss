@@ -1,0 +1,473 @@
+//common style in this file
+.recruiting_show_common_section_layout {
+  width: 500px;
+  margin: auto;
+  @include sp {
+    width: 100%;
+    display: block;
+  }
+}
+.recruiting_show_common_user_cards {
+  padding: 10px 15px;
+  border: 1px solid $white;
+  border-radius: 10px;
+  background-color: $azure_blue;
+}
+
+@mixin recruiting_show_common_section_ttl($font_size_pc, $font_size_sp) {
+  @extend .roundish_font_family;
+      font-size: $font_size_pc;
+      max-width: 500px;
+      margin: 0px auto 20px;
+      @include sp {
+        margin-bottom: $box_sp_mb_s;
+        font-size: $font_size_sp;
+      }
+}
+
+
+
+
+
+
+
+
+
+.recruiting_show {
+  @extend .right_content_box;
+  @at-root {
+    #{&}_inner {
+      @extend .common_card_layout;
+      @extend .common_card_inner;
+      border-radius: 10px;
+      background-color: $recruiting_card_color;
+    }
+    #{&}_ttl {
+      @include recruiting_show_common_section_ttl($f_size_pc_l, $f_size_sp_l);
+    }
+    #{&}_detail {
+      @extend .recruiting_show_common_section_layout;
+      @extend .flex_row;
+      flex-wrap: wrap;
+      background-color: $azure_blue;
+      padding: 15px 10px;
+      margin-bottom: $box_pc_mb_s;
+      border-radius: 10px;
+      border: 1px solid $white;
+      @at-root {
+        #{&}_user {
+          @extend .flex_column_center;
+          margin-bottom: $box_pc_mb_m;
+          width: 30%;
+          margin-right: 5%;
+          @include sp {
+            width: 100%;
+            margin-right: 0;
+          }
+          @at-root {
+            #{&}_link {
+              width: 100%;
+              @extend .flex_column_center;
+              &:hover {
+                opacity: 0.7;
+              }
+            }
+            #{&}_icon {
+              margin: 0px auto 5px;
+              width: 100px;
+              background-color: $white;
+              border-radius: 50%;
+              padding: 10px;
+            }
+            #{&}_name {
+              text-align: center;
+            }
+          }
+        }
+        #{&}_conditions {
+          margin-bottom: $box_pc_mb_m;
+          width: 65%;
+          @include sp {
+            width: 100%;
+          }
+          @at-root {
+            #{&}_table {
+              border-radius: 10px;
+              box-sizing: border-box;
+              width: 100%;
+              height: 100%;
+              background-color: $midnight;
+              & th {
+                width: 50%;
+                padding: 10px;
+                font-weight: normal;
+              }
+              & td {
+                width: 50%;
+                padding: 10px;
+              }
+            }
+          }
+        }
+        #{&}_play_style {
+          width: 100%;
+          @at-root {
+            #{&}_ttl {
+              @extend .roundish_font_family;
+              font-size: $f_size_pc_m;
+              margin-bottom: 10px;
+              @include sp {
+                font-size: $f_size_sp_m;
+              }
+            }
+            #{&}_p {
+              margin-bottom: $box_sp_mb_l;
+              padding: 0px 10px;
+              font-size: $f_size_pc_s;
+              @include sp {
+                font-size: $f_size_sp_s;
+              }
+            }
+          }
+        }
+        #{&}_comment {
+          width: 100%;
+          @at-root {
+            #{&}_ttl {
+              @extend .roundish_font_family;
+              font-size: $f_size_pc_m;
+              margin-bottom: 10px;
+              @include sp {
+                font-size: $f_size_sp_m;
+              }
+            }
+            #{&}_p {
+              margin-bottom: $box_sp_mb_l;
+              padding: 0px 10px;
+              font-size: $f_size_pc_s;
+              @include sp {
+                font-size: $f_size_sp_s;
+              }
+            }
+          }
+        }
+      }
+    }
+    #{&}_owner_section {
+      @extend .flex_row_space_ar;
+      width: 100%;
+      @at-root {
+        & .button_to {
+          @extend .flex_column_center;
+          font-size: $f_size_pc_s;
+          color: $white;
+          @include sp {
+            font-size: $f_size_sp_s;
+          }
+        }
+        #{&}_btn {
+          opacity: 0.7;
+          @extend .flex_row;
+          align-items: center;
+          margin: 0px 10px;
+          font-size: $f_size_pc_s;
+          & img {
+            display: block;
+            margin-right: 5px;
+            width: 30px;
+            @include sp {
+              width: 14px;
+            }
+          }
+          @include sp {
+            font-size: $f_size_sp_s;
+          }
+          @at-root {
+            #{&}_delete {
+              opacity: 0.7;
+              @extend .flex_row;
+              align-items: center;
+              & img {
+                display: block;
+                margin-right: 5px;
+                width: 30px;
+                @include sp {
+                  width: 14px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    #{&}_users {
+      @extend .recruiting_show_common_section_layout;
+      margin-bottom: $box_pc_mb_s;
+      @at-root {
+        #{&}_ttl {
+          @include recruiting_show_common_section_ttl($f_size_pc_m, $f_size_sp_m);
+        }
+        #{&}_list {
+          @at-root {
+            #{&}_left {
+              @at-root {
+                & a {
+                  display: block;
+                  &:hover {
+                    opacity: 0.7;
+                  }
+                }
+                #{&}_name {
+                  display: block;
+                  text-align: center;
+                  font-size: $f_size_pc_xs;
+                }
+                & img {
+                  margin: 0px auto 5px;
+                  width: 80px;
+                  background-color: $white;
+                  border-radius: 50%;
+                  padding: 10px;
+                }
+              }
+            }
+            #{&}_right {
+              flex-grow: 1;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              flex-wrap: wrap;
+            }
+            #{&}_btn_wrap {
+                width: 100%;
+              & span {
+                cursor: pointer;
+                display: block;
+                text-align: center;
+                width: 95%;
+                border-radius: 5px;
+                line-height: 2.5em;
+                margin: 0px auto;
+                font-size: $f_size_sp_s;
+                &:hover {
+                  opacity: 0.7;
+                }
+                &:nth-child(2) {
+                  margin-top: 20px;
+                }
+              }
+            }
+            #{&}_approve_btn {
+              background: $emerald;
+            }
+            #{&}_kick_btn {
+              background: $pink;
+            }
+            #{&}_error {
+              width: 100%;
+              @at-root {
+                & p {
+                  text-align: center;
+                  color: $red;
+                }
+              }
+            }
+            & li {
+              @extend .recruiting_show_common_user_cards;
+              @extend .flex_row;
+              margin-bottom: $box_pc_mb_s;
+            }
+          }
+        }
+      }
+    }
+    #{&}_application {
+      @extend .recruiting_show_common_section_layout;
+      margin-bottom: $box_pc_mb_s;
+      @at-root {
+        #{&}_error {
+          width: 100%;
+          @at-root {
+            & p {
+              text-align: center;
+              color: $red;
+            }
+          }
+        }
+        #{&}_text_form {
+          @at-root {
+            #{&}_wrap {
+              width: 100%;
+              margin: 0px auto 20px;
+              & textarea {
+                border: 1px solid $gray;
+                background-color: $white;
+                font-size: $f_size_sp_s;
+                width: 100%;
+                height: 80px;
+                padding: 3px;
+              }
+            }
+            #{&}_ttl {
+              display: block;
+              margin-bottom: 5px;
+            }
+          }
+        }
+        #{&}_btn {
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          & span {
+            cursor: pointer;
+            display: block;
+            text-align: center;
+            width:80%;
+            border: solid 1px $white;
+            border-radius: 5px;
+            line-height: 2.5em;
+            background: $emerald;
+            &:hover {
+              opacity: 0.7;
+            }
+          }
+        }
+        #{&}_revocation_btn {
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          & span {
+            cursor: pointer;
+            display: block;
+            text-align: center;
+            width:80%;
+            border: solid 1px $white;
+            border-radius: 5px;
+            line-height: 2.5em;
+            background: $pink;
+            &:hover {
+              opacity: 0.7;
+            }
+          }
+        }
+        #{&}_success p {
+          text-align: center;
+        }
+        #{&}_error p {
+          text-align: center;
+        }
+      }
+    }
+    #{&}_close_notice p {   
+      text-align: center;
+    }
+    #{&}_comments {
+      @extend .recruiting_show_common_section_layout;
+      background-color: $azure_blue;
+      padding: 15px 10px;
+      margin-bottom: $box_pc_mb_s;
+      border-radius: 10px;
+      border: 1px solid $white;
+      @at-root {
+        #{&}_ttl {
+          @include recruiting_show_common_section_ttl($f_size_pc_m, $f_size_sp_m);
+        }
+        #{&}_list {
+          margin-bottom: 20px;
+          @at-root {
+            & li {
+              margin-bottom: 10px;
+              padding-bottom: 10px;
+              border-bottom: 1px solid $light_gray;
+            }
+            #{&}_wrap {
+            }
+            #{&}_user {
+              @extend .flex_row;
+              align-items: center;
+              margin-bottom: 10px;
+              @at-root {
+                #{&}_link {
+                  &:hover {
+                    opacity: 0.7;
+                  }
+                }
+                #{&}_icon {
+                  display: block;
+                  width: 35px;
+                  height: 35px;
+                  margin-right: 10px;
+                  padding: 5px;
+                  border-radius: 50%;
+                  background-color: $white;
+                }
+                #{&}_name {
+                  display: block;
+                  text-align: center;
+                  font-size: $f_size_pc_s;
+                }
+                #{&}_date {
+                  display: block;
+                  flex-grow: 1;
+                  font-size: $f_size_pc_xs;
+                  text-align: right;
+                }
+              }
+            }
+            #{&}_content {
+              @at-root {
+                & p {
+                  font-size: $f_size_pc_s;
+                  word-wrap: break-word;
+                }
+              }
+            }
+          }
+        }
+        #{&}_pagenate {
+          @extend .common_pagination;
+          margin-bottom: 20px;
+        }
+        #{&}_form {
+          @at-root {
+            #{&}_btn {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              & span {
+                cursor: pointer;
+                display: block;
+                text-align: center;
+                width:80%;
+                border-radius: 5px;
+                line-height: 2.5em;
+                background: $emerald;
+                &:hover {
+                  opacity: 0.7;
+                }
+              }
+            }
+            & textarea {
+              border: 1px solid $gray;
+              background-color: $white;
+              font-size: $f_size_sp_s;
+              width: 100%;
+              height: 80px;
+              padding: 3px;
+              margin-bottom: 20px;
+            }
+            #{&}_error {
+              & p {
+                text-align: center;
+                padding: 10px;
+                color: $red;
+              }
+            }
+          }
+        }
+      }       
+    }
+  }
+}
