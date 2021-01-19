@@ -1,14 +1,4 @@
 require 'rails_helper'
-
-# Items to be verified
-# ・return the correct http status code
-# ・being redirected to the correct page.
-# ・contains a message that should be displayed in the view
-# ・data increase or decrease correctly.
-
-# Since it is the responsibility of the controller's internal implementation to ensure 
-# that the correct object is stored in the response template, we won't test it here
-
 RSpec.describe "Recruitings", type: :request do
 
   # ===================== #
@@ -38,6 +28,10 @@ RSpec.describe "Recruitings", type: :request do
     it { subject; expect(response).to redirect_to edit_recruiting_path(registered_user.recruiting.id) }
   end
 
+  shared_examples_for "redirect to root_path" do
+    it { subject; expect(response).to redirect_to root_path }
+  end
+
 
 
 
@@ -52,7 +46,6 @@ RSpec.describe "Recruitings", type: :request do
     it { expect{subject}.to_not change(model, :count) }
   end
 
-  # It's the model's responsibility to make sure the values are changed correctly, so we won't test it here.
   shared_examples_for "update Model" do |model|
     it { expect{subject}.to change{model.count}.by(0) }
   end
@@ -113,17 +106,17 @@ RSpec.describe "Recruitings", type: :request do
       context 'with invalid value of type' do
         let(:params) { attributes_for(:valid_recruiting, type: "no_game") }
 
-        it_behaves_like "return http", 200
+        it_behaves_like "return http", 302
+        it_behaves_like "redirect to root_path"
         it_behaves_like "Failing to create Model", Recruiting
-        it_behaves_like "include error message", '指定のゲームは募集できません'
       end
 
       context 'without type' do
         let(:params) { attributes_for(:valid_recruiting, type: nil) }
 
         it_behaves_like "return http", 200
+        it_behaves_like "include error message", '募集するゲーム を入力してください'
         it_behaves_like "Failing to create Model", Recruiting
-        it_behaves_like "include error message", '指定のゲームは募集できません'
       end
 
       context 'without recruitment_numbers' do
@@ -256,7 +249,7 @@ RSpec.describe "Recruitings", type: :request do
           let(:params) { attributes_for(:valid_recruiting, type: nil) }
   
           it_behaves_like "return http", 200
-          it_behaves_like "include error message", '指定のゲームは募集できません'
+          it_behaves_like "include error message", '募集するゲーム を入力してください'
         end
   
         context 'without recruitment_numbers' do

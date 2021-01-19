@@ -4,8 +4,7 @@ class ApplicantEntryRecruitingsController < ApplicationController
   before_action :is_user_owner?, only: [:index, :update]
   before_action :set_user_for_destroy, only: [:destroy]
 
-  #Return a list of participants.
-  #Accessible only to the owner of the recruitment. General users should use the search controller.
+  #参加メンバーと、応募者両方のリストを返す。
   def index
     participants = []
     applicants = []
@@ -96,7 +95,8 @@ class ApplicantEntryRecruitingsController < ApplicationController
     @recruiting = Recruiting.find_by(id: applicant_entry_recruiting_params[:recruiting_id])
   end
 
-  #Contact the recruiting class to confirm that they are the owner of the recruitment target.
+
+  #ユーザーがオーナーかどうか確認する
   def is_user_owner?
     if @recruiting
       @recruiting.owner?(current_user) ? true : response_unauthorized
@@ -104,6 +104,7 @@ class ApplicantEntryRecruitingsController < ApplicationController
       response_unauthorized
     end
   end
+
 
   #ユーザーがオーナーの時はパラメータよりユーザーをセット、それ以外の場合はアクセスしたユーザー本人をセット。
   def set_user_for_destroy

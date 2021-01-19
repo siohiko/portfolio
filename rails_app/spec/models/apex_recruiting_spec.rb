@@ -18,7 +18,6 @@
 #
 require 'rails_helper'
 
-#don't test recruiting class
 RSpec.describe ApexRecruiting, type: :model do
   # ===================== #
   #      examples_for     #

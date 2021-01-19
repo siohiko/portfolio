@@ -43,8 +43,6 @@ RSpec.describe ApexProfile, type: :model do
   # ============= #
   #    validate   #
   # ============= #
-  # notice: no test for enum.
-
   describe 'about validate' do
     
     context 'with valid params ' do
@@ -74,6 +72,12 @@ RSpec.describe ApexProfile, type: :model do
       it_behaves_like "include error message", 'は32文字以下にしてください', 'apex_id'.to_sym
     end
 
+    context 'with level more than 501' do
+      let(:verified_apex_profile) { build(:valid_apex_profile, level: 501) }
+      it_behaves_like "is invalid"
+      it_behaves_like "include error message", 'は500以下にしてください', 'level'.to_sym
+    end
+
 
   end
 
@@ -84,8 +88,7 @@ RSpec.describe ApexProfile, type: :model do
   # ============= #
 
   describe 'about relation' do
-    
-    #Legent models are not tested because they do not manipulate data.
+
     context 'edit favorite legends' do
       let(:verified_apex_profile) { create(:valid_apex_profile) }
       let(:valid_legend) { create(:wraith) }
