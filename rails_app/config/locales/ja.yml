@@ -67,6 +67,8 @@ ja:
               too_long: "は32文字以下にしてください"
             comment:
               too_long: "は255文字以下にしてください"
+            type:
+              blank: "を入力してください"
         apex_recruiting:
           attributes:
             recruitment_numbers:
