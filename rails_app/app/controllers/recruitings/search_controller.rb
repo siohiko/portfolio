@@ -5,7 +5,7 @@ class Recruitings::SearchController < ApplicationController
                 :set_applying_recruiting
 
 
-  # ApexRecruiting only for now.
+  #今のところはAPEXの募集専用のアクション
   def show
 
     if search_params.present?

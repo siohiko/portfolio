@@ -12,7 +12,7 @@ class RecruitingsController < ApplicationController
 
 
   def create
-    # if type is invalid, render new
+    # 対象外のゲームタイプが指定されていたらnewテンプレートをレンダー
     if Recruiting::GAMETYPENAMES.exclude?(recruiting_params[:type])
       @recruiting = Recruiting.new
       @recruiting.errors.add(:type, "：指定のゲームは募集できません")

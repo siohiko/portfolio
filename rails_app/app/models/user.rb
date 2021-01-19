@@ -51,22 +51,22 @@ class User < ApplicationRecord
   enum sex: { "男性": 0, "女性": 1}
 
 
-  #Don't use email. on divise
+  #emaiをdeviseで使わない設定
   def email_required?
     false
   end
 
-  #Don't use email. on divise
+  #emaiをdeviseで使わない設定
   def email_changed?
     false
   end
   
-  #monkey patch. Don't use email. on divise
+  #emaiをdeviseで使わない設定（モンキーパッチ）
   def will_save_change_to_email?
     false
   end
 
-  # Do not require current password for update
+  #アップデート時にはパスワードを使用しない
   def update_without_current_password(params, *options)
     params.delete(:current_password)
 
