@@ -1,6 +1,7 @@
+<% content_for(:title, '募集作成') %>
 <section class="recruiting_new_form_wrap">
   <div class="recruiting_new_form">
-    <h1 class="recruiting_new_form_ttl">野良募集作成</h1>
+    <h1 class="recruiting_new_form_ttl">募集作成</h1>
     <div class="recruiting_new_form_body">    
 
       <%= form_with model: @recruiting, url: recruitings_path, scope: :recruiting, local: true do |f| %>
