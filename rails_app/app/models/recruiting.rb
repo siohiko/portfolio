@@ -38,6 +38,9 @@ class Recruiting < ApplicationRecord
              class_name: "User",
              through: :applicant_entry_recruitings
 
+  has_many :comments,
+             dependent: :destroy
+
   validates :user_id, presence: true, uniqueness: true, length: { maximum: 32 }
   validates :type,  presence: true
   validates :recruitment_numbers,  presence: true

@@ -66,5 +66,39 @@
       <% end %>
     </div>
     <%= operation_display_for_position(@user_position_for_recruiting) %>
+    <% if @user_position_for_recruiting === :owner || @user_position_for_recruiting === :member %>
+      <section class="recruiting_show_comments">
+        <h2 class="recruiting_show_comments_ttl">チャット欄</h2>
+        <div class="recruiting_show_comments_list_wrap">
+          <ul class="recruiting_show_comments_list">
+            <% @comments.includes(:user).each do |comment| %>
+              <li>
+                <div class="recruiting_show_comments_list_user">
+                  <%= link_to user_path(comment.user), class: 'recruiting_show_comments_list_user_link' do%>
+                    <div class="recruiting_show_comments_list_user_icon">
+                      <%= image_tag 'users/show/user_ico.png', alt: '' %>
+                    </div>
+                  <% end %>
+                  <span class="recruiting_show_comments_list_user_name">
+                    <%= comment.user.name %>
+                  </span>
+                  <span class="recruiting_show_comments_list_user_date"><%= l comment.created_at %></span>
+                </div>
+                <div class="recruiting_show_comments_list_content">
+                  <p><%= comment.content %></p>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="recruiting_show_comments_pagenate">
+          <%= paginate @comments %>
+        </div>
+        <div id="recruiting_show_mounted_comment_form" class="recruiting_show_comment_form">
+          <%= js_pack_tag = javascript_pack_tag('recruiting/show/comment_form') %>
+        </div>
+      </section>
+    <% end %>
+    </div>
   </div>
 </section>
