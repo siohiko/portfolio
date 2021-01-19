@@ -29,6 +29,7 @@ class ApexProfile < ApplicationRecord
 
   validates :user_id, presence: true, uniqueness: true, length: { maximum: 32 }
   validates :apex_id, length: { maximum: 32 }
+  validates :level, :numericality => { :less_than => 501 }
 
   enum rank: { 
     "ブロンズ": 0,
