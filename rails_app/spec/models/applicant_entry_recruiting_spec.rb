@@ -41,8 +41,6 @@ RSpec.describe ApplicantEntryRecruiting, type: :model do
   # ============= #
   #    validate   #
   # ============= #
-  # notice: no test for enum.
-
   describe 'about validate' do
 
     context 'if the recruiting has already been closed' do

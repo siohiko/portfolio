@@ -1,14 +1,4 @@
 require 'rails_helper'
-
-# Items to be verified
-# ・return the correct http status code
-# ・being redirected to the correct page.
-# ・contains a message that should be displayed in the view
-# ・data increase or decrease correctly.
-
-# Since it is the responsibility of the controller's internal implementation to ensure 
-# that the correct object is stored in the response template, we won't test it here
-
 RSpec.describe "Recruitings", type: :request do
 
   # ===================== #
@@ -52,7 +42,6 @@ RSpec.describe "Recruitings", type: :request do
     it { expect{subject}.to_not change(model, :count) }
   end
 
-  # It's the model's responsibility to make sure the values are changed correctly, so we won't test it here.
   shared_examples_for "update Model" do |model|
     it { expect{subject}.to change{model.count}.by(0) }
   end

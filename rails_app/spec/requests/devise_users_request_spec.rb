@@ -1,14 +1,4 @@
 require 'rails_helper'
-
-# Items to be verified
-# ・return the correct http status code
-# ・being redirected to the correct page.
-# ・contains a message that should be displayed in the view
-# ・data increase or decrease correctly.
-
-# Since it is the responsibility of the controller's internal implementation to ensure 
-# that the correct object is stored in the response template, we won't test it here
-
 RSpec.describe "DeviseUsersController", type: :request do
 
   # ===================== #
@@ -166,8 +156,6 @@ RSpec.describe "DeviseUsersController", type: :request do
           subject
           registered_user.reload
           expect(registered_user.name).not_to eq params[:name]
-          # default of sex is male
-          #expect(registered_user.sex).not_to eq params[:sex]
           expect(registered_user.age).not_to eq params[:age]
         end
       end

@@ -43,8 +43,6 @@ RSpec.describe ApexProfile, type: :model do
   # ============= #
   #    validate   #
   # ============= #
-  # notice: no test for enum.
-
   describe 'about validate' do
     
     context 'with valid params ' do
@@ -90,8 +88,7 @@ RSpec.describe ApexProfile, type: :model do
   # ============= #
 
   describe 'about relation' do
-    
-    #Legent models are not tested because they do not manipulate data.
+
     context 'edit favorite legends' do
       let(:verified_apex_profile) { create(:valid_apex_profile) }
       let(:valid_legend) { create(:wraith) }
