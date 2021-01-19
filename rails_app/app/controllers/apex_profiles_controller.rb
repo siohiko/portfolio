@@ -1,5 +1,6 @@
 class ApexProfilesController < ApplicationController
   before_action :authenticate_user!, :set_user
+  before_action :set_apex_profile, only: [:edit, :update, :destroy]
 
   def new
     if @user.apex_profile
@@ -23,17 +24,10 @@ class ApexProfilesController < ApplicationController
 
 
   def edit
-    @apex_profile = @user.apex_profile
-    if @apex_profile.nil?
-      redirect_to new_apex_profile_path
-    end
-
   end
 
 
   def update
-    @apex_profile = @user.apex_profile
-    return redirect_to new_apex_profile_path if @apex_profile.nil?
 
     if @apex_profile.update(apex_profile_params)
       redirect_to user_path(@user.user_id)
@@ -45,9 +39,6 @@ class ApexProfilesController < ApplicationController
 
 
   def destroy
-    @apex_profile = @user.apex_profile
-    return redirect_to user_path(@user.user_id) if @apex_profile.nil?
-
     @apex_profile.destroy
     redirect_to user_path(@user.user_id)
   end
@@ -62,5 +53,10 @@ class ApexProfilesController < ApplicationController
 
   def set_user
     @user = current_user
+  end
+
+  def set_apex_profile
+    @apex_profile = @user.apex_profile
+    return redirect_to new_apex_profile_path if @apex_profile.nil?
   end
 end
