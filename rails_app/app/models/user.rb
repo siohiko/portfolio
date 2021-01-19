@@ -81,17 +81,19 @@ class User < ApplicationRecord
   end
 
 
-  # Return symbol of the user's position for the recruiting of argument.
+  #引数の募集オブジェクトに対して、ユーザーがどの役割を担っているかシンボルで返すメソッド
   def position_in_the_recruiting(recruiting)
     return false unless recruiting
 
+    applicants = recruiting.applicants
+
     if self.user_id == recruiting.user_id
       :owner
-    elsif recruiting.applicants.include?(self) && self.applicant_entry_recruiting.approved?
+    elsif applicants.include?(self) && self.applicant_entry_recruiting.approved?
       :member
-    elsif recruiting.applicants.include?(self)
+    elsif applicants.include?(self)
       :applicant
-    elsif recruiting.applicants.exclude?(self) && !self.entry_recruiting
+    elsif applicants.exclude?(self) && !self.entry_recruiting
       :free
     else
       :applicant_for_another_recruiting

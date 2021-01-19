@@ -29,5 +29,7 @@ Rails.application.routes.draw do
     resource :unread_notice_count, only: [:show]
   end
 
+  resources :comments, only: [:create]
+
   root "top#show"
 end

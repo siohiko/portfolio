@@ -38,12 +38,48 @@ RSpec.describe Comment, type: :model do
   #    validate   #
   # ============= #
   describe 'about validate' do
+    let(:recruiting) { create(:valid_recruitings) }
+    let(:owner) { recruiting.user }
+    let(:member) { create(:valid_users) }
+    let(:applicant) { create(:valid_users) }
+    let(:general_user) { create(:valid_users) }
+    before {
+      recruiting.applicants << member
+      recruiting.reload.applicant_entry_recruitings[0].approved!
+      recruiting.applicants << applicant
+    }
 
-    context 'make general user comment' do
-      let(:verified_comment) { build(:general_user_comment) }
+    context 'make owner of recruiting comment' do
+      let(:verified_comment) { build(:comment_mock, user_id: owner.user_id, recruiting_id: recruiting.id) }
       it_behaves_like "is valid"
     end
 
+    context 'make member of recruiting comment' do
+      let(:verified_comment) { build(:comment_mock, user_id: member.user_id, recruiting_id: recruiting.id) }
+      it_behaves_like "is valid"
+    end
+
+    context 'make applicant of recruiting comment' do
+      let(:verified_comment) { build(:comment_mock, user_id: applicant.user_id, recruiting_id: recruiting.id) }
+      it_behaves_like "is invalid"
+      it_behaves_like "include error message", 'コメント投稿の権限がありません', :authority
+    end
+
+    context 'make general user comment' do
+      let(:verified_comment) { build(:comment_mock, user_id: general_user.user_id, recruiting_id: recruiting.id) }
+      it_behaves_like "is invalid"
+      it_behaves_like "include error message", 'コメント投稿の権限がありません', :authority
+    end
+
+    context 'without recruiting_id' do
+      let(:verified_comment) { build(:comment_mock, user_id: owner.user_id) }
+      it_behaves_like "is invalid"
+    end
+
+    context 'without recruiting_id' do
+      let(:verified_comment) { build(:comment_mock, recruiting_id: recruiting.id) }
+      it_behaves_like "is invalid"
+    end
   end
 
 
@@ -52,9 +88,11 @@ RSpec.describe Comment, type: :model do
   #    relation   #
   # ============= #
   describe 'about relation' do
+    let(:recruiting) { create(:valid_recruitings) }
+    let(:owner) { recruiting.user }
 
     context 'when delete user' do
-      let(:comment) { create(:general_user_comment) }
+      let(:comment) { create(:comment_mock, user_id: owner.user_id, recruiting_id: recruiting.id) }
       before { comment }
 
       it 'delete notice too' do 
@@ -66,7 +104,7 @@ RSpec.describe Comment, type: :model do
 
 
     context 'when delete recruiting' do
-      let(:comment) { create(:general_user_comment) }
+      let(:comment) { create(:comment_mock, user_id: owner.user_id, recruiting_id: recruiting.id) }
       before { comment }
 
       it 'delete notice too' do 
