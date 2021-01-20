@@ -109,4 +109,9 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
+  #IPアドレスでアクセスできるように設定（ドメイン取得できたら外す）
+  config.host << ENV['HOST_IP_ADDRESS']
+  config.assets.compile = true
+  config.public_file_server.enabled = true
 end
