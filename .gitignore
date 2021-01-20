@@ -3,3 +3,5 @@
 *.swp
 .idea
 tmp/
+rails_app/.env
+.env
