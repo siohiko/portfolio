@@ -61,6 +61,7 @@ ja:
               too_long: "は32文字以下にしてください"
             level:
               less_than: "は500以下にしてください"
+              not_a_number: "は数値で入力してください"
         recruiting:
           attributes:
             play_style:

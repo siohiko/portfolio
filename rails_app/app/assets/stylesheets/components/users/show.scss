@@ -93,6 +93,7 @@
               }
               @at-root {
                 #{&}_text {
+                  word-wrap: break-word;
                   font-size: $f_size_pc_s;
                   @include sp {
                     font-size: $f_size_sp_s;

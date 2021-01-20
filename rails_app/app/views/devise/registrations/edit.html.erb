@@ -8,11 +8,6 @@
         <%= render "devise/shared/error_messages", resource: resource %>
 
         <div class="user_edit_form_field">
-          <%= f.text_field :user_id, autocomplete: "user_id", class: 'user_edit_form_text_input', required: "required", placeholder: " " %>
-          <%= f.label :user_id, class: 'user_edit_form_text_input_label' %>
-        </div>
-
-        <div class="user_edit_form_field">
           <%= f.text_field :name, class: 'user_edit_form_text_input', required: "required", placeholder: " " %>
           <%= f.label :name, class: 'user_edit_form_text_input_label' %>
         </div>

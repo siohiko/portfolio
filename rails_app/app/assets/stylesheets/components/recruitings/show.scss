@@ -16,13 +16,14 @@
 
 @mixin recruiting_show_common_section_ttl($font_size_pc, $font_size_sp) {
   @extend .roundish_font_family;
-      font-size: $font_size_pc;
-      max-width: 500px;
-      margin: 0px auto 20px;
-      @include sp {
-        margin-bottom: $box_sp_mb_s;
-        font-size: $font_size_sp;
-      }
+  word-wrap: break-word;
+  font-size: $font_size_pc;
+  max-width: 500px;
+  margin: 0px auto 20px;
+  @include sp {
+    margin-bottom: $box_sp_mb_s;
+    font-size: $font_size_sp;
+  }
 }
 
 
