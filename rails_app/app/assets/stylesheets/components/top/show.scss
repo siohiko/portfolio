@@ -1,16 +1,19 @@
 .top {
   @extend .flex_column_center;
   width: 750px;
-  height: 100vh;
   margin: auto;
+  padding-bottom: 30px;
   @include sp {
     width: 98vw;
     height: auto;
-    min-height: 100vh;
-    padding: 30px 0px;
   }
 
   @at-root {
+    #{&}_main_wrap {
+      height: 100vh;
+      padding: 30px 0px;
+      @extend .flex_column_center;
+    }
     #{&}_main_visual {
       text-align: center;
       @at-root {

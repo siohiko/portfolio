@@ -93,6 +93,7 @@
             }
             #{&}_name {
               font-size: $f_size_pc_s;
+              word-wrap: break-word;
               text-align: center;
               @at-root {
                 #{&}_sub {
@@ -233,6 +234,7 @@
             }
             #{&}_name {
               font-size: $f_size_pc_s;
+              word-wrap: break-word;
               text-align: center;
               @at-root {
                 #{&}_sub {
