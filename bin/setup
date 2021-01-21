@@ -1,7 +1,21 @@
 #!/bin/sh
 
-echo "\n=> docker-compose build"
-docker-compose build
+init () {
+  echo "\n=>yarn install" && \
+  ./bin/yarn install && \
+  echo "\n=>setup db"  && \
+  ./bin/rails db:create && \
+  ./bin/rails db:migrate && \
+  ./bin/rails db:seed Rails_ENV=development && \
+  echo "\n=> docker-compose build" && \
+  docker-compose build && \
+  echo "\n=> start" && \
+  docker-compose up
+}
 
-echo "\n=> start"
-docker-compose up 
+
+if [ "$1" = 'init' ]; then
+  init $2
+else
+  echo "\n=> [INVALID COMMAND ERROR] commands: start, restart, stop, log"
+fi
