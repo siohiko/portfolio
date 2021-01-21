@@ -28,7 +28,7 @@ services:
       BUNDLE_PATH: /bundle
     ports:
       - 8080:8080
-    command: bash -c "rm -f tmp/pids/server.pid && bundle install && bundle exec rails $SERVERCOMMAND -p 8080 -b '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && bundle install && bundle exec rails ${SERVERCOMMAND:-s} -p 8080 -b '0.0.0.0'"
     tty: true
     stdin_open: true
 
@@ -37,8 +37,8 @@ services:
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
     environment:
-        POSTGRES_USER: $DATABASE_USER
-        POSTGRES_PASSWORD: $DATABASE_PASS
+      POSTGRES_USER: ${DATABASE_USER:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASS:-pass}
 
 volumes:
   data-bundle:
